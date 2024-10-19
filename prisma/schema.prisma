@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Furniture {
+  id          Int      @id @default(autoincrement())
+  image       String
+  name        String
+  discription String
+  price       Int
+  size        String
+  color       String
+  category    String
+  tags        Tag[]    @relation("FurnitureTags")
+  reviews     Review[]
+}
+
+model Review {
+  id          Int       @id @default(autoincrement())
+  content     String
+  rating      Int // от 1 до 5
+  furnitureId Int
+  furniture   Furniture @relation(fields: [furnitureId], references: [id])
+}
+
+model Tag {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique
+  furnitures Furniture[] @relation("FurnitureTags")
+}
