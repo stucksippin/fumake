@@ -4,7 +4,10 @@ import bedroom from "./image/range/bedroom.png"
 import dinning from "./image/range/dinning.png"
 import living from "./image/range/living.png"
 import { Button } from "antd";
-export default function MainPage() {
+import BreefCatalog from "@/components/BreefCatalog";
+import getFurniture from "@/libs/getFurniture";
+export default async function MainPage() {
+  const furnitures = await getFurniture()
   return (
     <div className="mainPage">
 
@@ -40,6 +43,8 @@ export default function MainPage() {
         </div>
       </div>
 
+
+      <BreefCatalog furnitures={furnitures} />
     </div>
   );
 }
