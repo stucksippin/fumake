@@ -1,8 +1,8 @@
 import Image from "next/image";
-import welcome_pic from "./image/welcome_pic.png"
-import bedroom from "./image/range/bedroom.png"
-import dinning from "./image/range/dinning.png"
-import living from "./image/range/living.png"
+import welcome_pic from "../public/image/welcome_pic.png"
+import bedroom from "../public/image/range/bedroom.png"
+import dinning from "../public/image/range/dinning.png"
+import living from "../public/image/range/living.png"
 import { Button } from "antd";
 import BreefCatalog from "@/components/BreefCatalog";
 import getFurniture from "@/libs/getFurniture";

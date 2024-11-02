@@ -1,8 +1,8 @@
 import Image from "next/image";
-import user from "../app/image/header/user.png"
-import cart from "../app/image/header/cart.png"
-import like from "../app/image/header/like.png"
-import search from "../app/image/header/search.png"
+import user from "../public/image/header/user.png"
+import cart from "../public/image/header/cart.png"
+import like from "../public/image/header/like.png"
+import search from "../public/image/header/search.png"
 export default function Header() {
     return (
         <header className="header p-5">
