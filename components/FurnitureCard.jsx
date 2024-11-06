@@ -7,7 +7,7 @@ export default function FurnitureCard({ id, name, tags, price, image }) {
             {/* <Image width={285} height={300} src={image} alt='furniture' /> */}
             <img width={285} height={300} src={image} alt='furniture' />
 
-            <span>{name}</span>
+            <span className='font-bold text-[#484848] text-[]'>{name}</span>
             <span>{price} руб</span>
 
         </div>

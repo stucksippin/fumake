@@ -12,7 +12,7 @@ datasource db {
 
 model Furniture {
   id          Int      @id @default(autoincrement())
-  image       String
+  image       String   @unique
   name        String
   discription String
   price       Int
@@ -21,6 +21,14 @@ model Furniture {
   category    String
   tags        Tag[]    @relation("FurnitureTags")
   reviews     Review[]
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  initials String
+  email    String @unique
+  password String
+  role     String @default("user")
 }
 
 model Review {
