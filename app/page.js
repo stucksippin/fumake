@@ -5,9 +5,10 @@ import dinning from "../public/image/range/dinning.png"
 import living from "../public/image/range/living.png"
 import { Button } from "antd";
 import BreefCatalog from "@/components/BreefCatalog";
-import getFurniture from "@/libs/getFurniture";
+import getBreefFurniture from "@/libs/getBreefFurniture";
+
 export default async function MainPage() {
-    const furnitures = await getFurniture()
+    const furnitures = await getBreefFurniture()
     return (
         <div className="mainPage">
 

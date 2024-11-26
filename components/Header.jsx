@@ -16,7 +16,7 @@ export default async function Header() {
                 <span className="font-bold">FUCRAFT</span>
                 <ul className="flex gap-x-5">
                     <Link href={'/'}>Главная</Link>
-                    <Link href={'#'}>Каталог</Link>
+                    <Link href={'/catalog'}>Каталог</Link>
                     <Link href={'#'}>О нас</Link>
                     <Link href={'#'}>Контакты</Link>
                 </ul>

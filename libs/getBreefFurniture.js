@@ -1,11 +1,20 @@
 import prisma from "./prisma";
 
-export default async function getFurniture() {
+export default async function getBreefFurniture() {
     const furnitures = await prisma.furniture.findMany(
         {
+            take: 8,
             where: {
-                rating: 5
+                reviews: {
+                    some: {
+                        rating: 5
+                    }
+                }
+            },
+            include: {
+                reviews: true
             }
+
         }
     );
     return furnitures
