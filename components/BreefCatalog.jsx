@@ -1,4 +1,6 @@
+import { Button } from "antd";
 import FurnitureCard from "./FurnitureCard";
+import Link from "next/link";
 
 export default function BreefCatalog({ furnitures }) {
     return (
@@ -19,6 +21,7 @@ export default function BreefCatalog({ furnitures }) {
                         />
                     );
                 })}
+                <Link href={"/catalog"}><Button className="w-fit p-7 bg-[#BAA898] font-semibold">Смотреть больше</Button></Link>
             </div>
         </div>
     )

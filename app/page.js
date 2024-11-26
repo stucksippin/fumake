@@ -6,6 +6,7 @@ import living from "../public/image/range/living.png"
 import { Button } from "antd";
 import BreefCatalog from "@/components/BreefCatalog";
 import getBreefFurniture from "@/libs/getBreefFurniture";
+import Link from "next/link";
 
 export default async function MainPage() {
     const furnitures = await getBreefFurniture()
@@ -46,6 +47,7 @@ export default async function MainPage() {
 
 
             <BreefCatalog furnitures={furnitures} />
+
         </div>
     );
 }
