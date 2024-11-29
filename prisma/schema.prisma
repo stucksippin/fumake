@@ -11,16 +11,17 @@ datasource db {
 }
 
 model Furniture {
-  id          Int      @id @default(autoincrement())
-  image       String   @unique
+  id          Int                   @id @default(autoincrement())
+  image       String                @unique
   name        String
   discription String
   price       Int
   size        String
   color       String
   category    String
-  tags        Tag[]    @relation("FurnitureTags")
+  tags        Tag[]                 @relation("FurnitureTags")
   reviews     Review[]
+  variations  FurnitureVariations[]
 }
 
 model User {
@@ -43,4 +44,19 @@ model Tag {
   id         Int         @id @default(autoincrement())
   name       String      @unique
   furnitures Furniture[] @relation("FurnitureTags")
+}
+
+model Colors {
+  id                  Int                   @id @default(autoincrement())
+  name                String
+  code                String
+  FurnitureVariations FurnitureVariations[]
+}
+
+model FurnitureVariations {
+  id          Int        @id @default(autoincrement())
+  Furniture   Furniture? @relation(fields: [furnitureId], references: [id])
+  furnitureId Int?
+  color       Colors     @relation(fields: [colorsId], references: [id])
+  colorsId    Int
 }
