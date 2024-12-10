@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function BreefCatalog({ furnitures }) {
     return (
-        <div>
+        <div className="">
             <h2 className="title text-center mt-[5%] mb-[35px]">Наша продукция</h2>
 
             <div className="container flex flex-wrap gap-x-[40px] gap-y-[40px] justify-center">
@@ -21,7 +21,7 @@ export default function BreefCatalog({ furnitures }) {
                         />
                     );
                 })}
-                <Link href={"/catalog"}><Button className="w-fit p-7 bg-[#BAA898] font-semibold">Смотреть больше</Button></Link>
+
             </div>
         </div>
     )

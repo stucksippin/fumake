@@ -13,18 +13,18 @@ export default async function Header() {
         <header className="header p-5">
 
             <nav className="flex justify-around">
-                <span className="font-bold">FUCRAFT</span>
+                <Link href={"/"}><span className="font-bold">FUCRAFT</span></Link>
                 <ul className="flex gap-x-5">
-                    <Link href={'/'}>Главная</Link>
-                    <Link href={'/catalog'}>Каталог</Link>
-                    <Link href={'#'}>О нас</Link>
-                    <Link href={'#'}>Контакты</Link>
+                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" href={'/'}>Главная</Link>
+                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 " href={'/catalog'}>Каталог</Link>
+                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 " href={'#'}>О нас</Link>
+                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300 " href={'#'}>Контакты</Link>
                 </ul>
                 <ul className="flex gap-x-5">
-                    <Link href={'#'}> <Image src={user} width={23} alt="user ico" /> </Link>
-                    <Link href={'#'}><Image src={cart} width={23} alt="user ico" /></Link>
-                    <Link href={'#'}><Image src={like} width={23} alt="user ico" /></Link>
-                    <Link href={'#'}><Image src={search} width={23} alt="user ico" /></Link>
+                    <Link href={'/profile'}> <Image src={user} width={23} alt="user ico" /> </Link>
+                    <Link href={'#'}><Image src={cart} width={23} alt="cart ico" /></Link>
+                    <Link href={'#'}><Image src={like} width={23} alt="like ico" /></Link>
+                    <Link href={'#'}><Image src={search} width={23} alt="search ico" /></Link>
 
                 </ul>
             </nav>

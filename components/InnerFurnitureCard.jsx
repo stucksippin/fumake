@@ -1,6 +1,8 @@
-import { Rate } from 'antd';
+'use client'
+import { Button, Rate } from 'antd';
 import Image from 'next/image'
 import React from 'react'
+import Counter from './Counter';
 
 export default function InnerFurnitureCard({ image, name, discription, size, price, color, category, tags, reviews }) {
     const averageRating = reviews.length > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0;
@@ -10,11 +12,22 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
             {/* {arr.map((item, i) => (
                 <div key={i} className={`w-5 h-5 rounded-full`} style={{ backgroundColor: item }}></div>
             ))} */}
-            <div className='flex justify-around'>
-                <div>
-                    <Image src={image} width={285} height={300} />
+            <div className='flex justify-center mb-[5%]'>
+                <div className='flex mr-[10%]'>
+                    <div className='flex flex-col justify-between'>
+                        <Image src={image} width={65} height={50} />
+                        <Image src={image} width={65} height={50} />
+                        <Image src={image} width={65} height={50} />
+                        <Image src={image} width={65} height={50} />
+                        <Image src={image} width={65} height={50} />
+                    </div>
+                    <div className='ml-2'>
+                        <Image src={image} width={400} height={400} />
+                    </div>
+
+
                 </div>
-                <div className='flex flex-col'>
+                <div className='flex flex-col '>
                     <span className='text-3xl mb-2'>{name}</span>
                     <span className='text-2xl mb-2'>{price} руб.</span>
                     <div className='flex items-center'>
@@ -29,13 +42,16 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
 
                     <label className='text-gray-400'>Цвет</label>
                     <span>{color}</span>
-
+                    <div className='flex mt-5'>
+                        <Counter />
+                        <button type='default' className='px-5 text-[12px] border bg-white hover:bg-[#FFF3E3]  border-black ml-4 font-semibold  rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'>Добавить в корзину</button>
+                    </div>
 
 
                 </div>
             </div>
 
-            <div className='flex flex-col mt-[5%]'>
+            <div className='container flex flex-col'>
 
                 <span className='text-3xl text-center'>Отзывы</span>
                 <div className='flex gap-x-10 mt-5'>

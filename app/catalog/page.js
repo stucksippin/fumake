@@ -11,8 +11,8 @@ export default async function CatalogPage() {
     return (
         <div>
             <div className='container relative'>
-                <Image className='opacity-50' width={1440} height={316} src={catalog} />
-                <span className='absolute top-[45%] left-[45%] title'>Каталог</span>
+                <Image className='opacity-50 mx-auto' width={1536} height={316} src={catalog} />
+                <span className='absolute top-[45%] left-[46%] title'>Каталог</span>
             </div>
             <Filter />
             <MainCatalog furnitures={furnitures} />
