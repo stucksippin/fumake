@@ -7,6 +7,8 @@ import Counter from './Counter';
 export default function InnerFurnitureCard({ image, name, discription, size, price, color, category, tags, reviews }) {
     const averageRating = reviews.length > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0;
     // const arr = ['color', 'color']
+
+
     return (
         <div className='container mx-auto pt-5'>
             {/* {arr.map((item, i) => (
@@ -35,9 +37,9 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
                         <span className='ml-2'> Отзывов | {reviews.length}</span>
                     </div>
 
-                    <span>{discription}</span>
+                    <span className='mt-5 mb-5'>{discription}</span>
                     <label className='text-gray-400'>Размер</label>
-                    <span>{size}</span>
+                    <button className='border w-fit p-1 rounded-md'>{size}</button>
 
 
                     <label className='text-gray-400'>Цвет</label>

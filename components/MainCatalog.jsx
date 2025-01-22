@@ -1,5 +1,5 @@
 'use client'
-import { Pagination } from "antd";
+import { ConfigProvider, Pagination } from "antd";
 import FurnitureCard from "./FurnitureCard";
 import { useState } from "react";
 
@@ -16,22 +16,30 @@ export default function MainCatalog({ furnitures }) {
     };
 
     return (
-        <div>
-            <h2 className="title text-center mt-[5%] mb-[35px]">Наша продукция</h2>
-
+        <div className="mt-[5%]">
             <div className="container flex flex-wrap gap-x-[40px] gap-y-[40px] justify-center">
                 {currentItems.map((furniture) => {
                     const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.png`;
+                    console.log(furniture.variations)
                     return (
-                        <FurnitureCard
-                            key={furniture.id}
-                            id={furniture.id}
-                            image={imagePath}
-                            name={furniture.name}
-                            tags={furniture.tags}
-                            price={furniture.price}
-                        />
-                    );
+                        <>
+                            {
+                                furniture.variations.length > 0 && (
+                                    <FurnitureCard
+                                        key={furniture.id}
+                                        id={furniture.id}
+                                        image={imagePath}
+                                        name={furniture.name}
+                                        tags={furniture.tags}
+                                        price={furniture.price}
+                                    />
+
+                                )
+                            }
+                        </>
+                    )
+
+
                 })}
             </div>
 
@@ -42,6 +50,7 @@ export default function MainCatalog({ furnitures }) {
                     pageSize={pageSize}
                     total={furnitures.length}
                     onChange={handlePageChange}
+
                 />
             </div>
         </div>

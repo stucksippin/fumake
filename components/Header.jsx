@@ -10,7 +10,7 @@ import { NextAuthOptions } from "@/config";
 export default async function Header() {
 
     return (
-        <header className="header p-5">
+        <header className="header p-5 sticky top-[0.5px] z-50 bg-white">
 
             <nav className="flex justify-around">
                 <Link href={"/"}><span className="font-bold">FUCRAFT</span></Link>
@@ -22,9 +22,8 @@ export default async function Header() {
                 </ul>
                 <ul className="flex gap-x-5">
                     <Link href={'/profile'}> <Image src={user} width={23} alt="user ico" /> </Link>
-                    <Link href={'#'}><Image src={cart} width={23} alt="cart ico" /></Link>
+                    <Link href={'/cart'}><Image src={cart} width={23} alt="cart ico" /></Link>
                     <Link href={'#'}><Image src={like} width={23} alt="like ico" /></Link>
-                    <Link href={'#'}><Image src={search} width={23} alt="search ico" /></Link>
 
                 </ul>
             </nav>

@@ -12,3 +12,11 @@
     font-weight: 700;
     color: #333333;
 }
+
+.cart_table{
+    width: calc(65%);
+}
+
+.cart_menu{
+    width: calc(30%);
+}

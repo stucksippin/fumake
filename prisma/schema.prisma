@@ -16,8 +16,6 @@ model Furniture {
   name        String
   discription String
   price       Int
-  size        String
-  color       String
   category    String
   tags        Tag[]                 @relation("FurnitureTags")
   reviews     Review[]
@@ -55,8 +53,9 @@ model Colors {
 
 model FurnitureVariations {
   id          Int        @id @default(autoincrement())
-  Furniture   Furniture? @relation(fields: [furnitureId], references: [id])
   furnitureId Int?
+  size        String
   color       Colors     @relation(fields: [colorsId], references: [id])
   colorsId    Int
+  Furniture   Furniture? @relation(fields: [furnitureId], references: [id])
 }
