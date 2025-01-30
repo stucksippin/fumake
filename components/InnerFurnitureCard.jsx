@@ -38,12 +38,28 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
                     </div>
 
                     <span className='mt-5 mb-5'>{discription}</span>
-                    <label className='text-gray-400'>Размер</label>
-                    <button className='border w-fit p-1 rounded-md'>{size}</button>
+
+                    <label className='text-gray-400 mb-2'>Размер</label>
+                    <div className="flex">
+                        {size.length > 0 && (
+                            size.map((size, index) => (
+                                <button key={index} className="border border-gray-400 p-1 rounded-md mr-2 mb-2">
+                                    {size}
+                                </button>
+                            ))
+                        )}
+                    </div>
+
+                    <label className='text-gray-400 mb-2'>Цвет</label>
+                    <div className='flex'>
+                        {color.length > 0 && (
+                            color.map((color, index) => (
+                                <button key={index} className='border border-gray-400 rounded-[50%] w-[30px] h-[30px] mr-2'>{color}</button>
+                            ))
+                        )}
+                    </div>
 
 
-                    <label className='text-gray-400'>Цвет</label>
-                    <span>{color}</span>
                     <div className='flex mt-5'>
                         <Counter />
                         <button type='default' className='px-5 text-[12px] border bg-white hover:bg-[#FFF3E3]  border-black ml-4 font-semibold  rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'>Добавить в корзину</button>

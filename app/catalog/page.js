@@ -2,14 +2,16 @@ import Image from 'next/image'
 import React from 'react'
 import catalog from '/public/image/catalogBanner.png'
 import Filter from '@/components/Filter'
-
+import useFilterStore from '../store/useFilterStore'
 import getFurniture from '@/libs/getFurniture'
 import MainCatalog from '@/components/MainCatalog'
 import { Breadcrumb } from 'antd'
 import Link from 'next/link'
 
 export default async function CatalogPage() {
-    const furnitures = await getFurniture()
+    const { category, color, priceMin, priceMax, orderBy } = useFilterStore.getState();
+    const furnitures = await getFurniture({ category, color, priceMin, priceMax, orderBy });
+
     const breadcrumbItems = [
         {
             title: <Link href={"/"}>Главная</Link>,
@@ -18,6 +20,7 @@ export default async function CatalogPage() {
             title: 'Каталог'
         },
     ]
+
     return (
         <div>
 

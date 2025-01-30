@@ -33,7 +33,7 @@ model User {
 model Review {
   id          Int       @id @default(autoincrement())
   content     String
-  rating      Int // от 1 до 5
+  rating      Int
   furnitureId Int
   furniture   Furniture @relation(fields: [furnitureId], references: [id])
 }

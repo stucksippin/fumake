@@ -5,7 +5,6 @@ import Link from "next/link";
 
 export default async function InnerCardPage({ params: { id } }) {
     const furniture = await getFurnitureById(id)
-    console.log(furniture.variations);
 
     const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.png`;
     const breadcrumbItems = [
@@ -36,8 +35,8 @@ export default async function InnerCardPage({ params: { id } }) {
                 name={furniture.name}
                 discription={furniture.discription}
                 price={furniture.price}
-                size={furniture.size}
-                color={furniture.color}
+                size={furniture.variations.map(v => v.size)}
+                color={furniture.variations.map(v => v.colorsId)}
                 category={furniture.category}
                 tags={furniture.tags}
                 reviews={furniture.reviews}

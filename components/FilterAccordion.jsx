@@ -1,77 +1,87 @@
-'use client'
-import Image from "next/image"
-import filter from "../public/image/filtering.png"
-import { useState } from "react"
-import { InputNumber, Select } from "antd"
+"use client";
+import { useEffect } from "react";
+import Image from "next/image";
+import filter from "../public/image/filtering.png";
+import { InputNumber, Select } from "antd";
+import useFilterStore from "@/app/store/useFilterStore";
+
 export default function FilterAccordion() {
-    const [animating, SetAnimating] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
-    const toggleAccordion = () => {
-        if (isOpen) {
-            SetAnimating(true);
-            setTimeout(() => {
-                setIsOpen(false);
-                SetAnimating(false);
-            }, 600);
-        } else {
-            setIsOpen(true);
-        }
-    };
+    const {
+        category, color, priceMin, priceMax,
+        setCategory, setColor, setPriceRange,
+        fetchPriceRange
+    } = useFilterStore();
+
+    useEffect(() => {
+        fetchPriceRange();
+    }, []);
+
     const optionsCategory = [
-        { value: '1', label: 'Диваны' },
-        { value: '2', label: 'Столы' },
-        { value: '3', label: 'Стулья' },
-        { value: '4', label: 'Шкафы' },
-        { value: '5', label: 'Лампы' },
-        { value: '6', label: 'Кровати' },
-    ]
+        { value: "table", label: "Столы" },
+        { value: "sofa", label: "Диваны" },
+        { value: "lamp", label: "Лампы" },
+        { value: "chair", label: "Стулья" },
+        { value: "cabinet", label: "Шкафы" },
+        { value: "bed", label: "Кровати" },
+    ];
 
     const optionsColor = [
-        { value: '1', label: 'Серый' },
-        { value: '2', label: 'Коричневый' },
-        { value: '3', label: 'Бежевый' },
-        { value: '4', label: 'Черный' },
-        { value: '5', label: 'Белый' },
-        { value: '6', label: 'Синий' },
-        { value: '7', label: 'Розовый' },
-        { value: '8', label: 'Голубой' },
-        { value: '9', label: 'Дуб' },
-    ]
+        { value: "gray", label: "Серый" },
+        { value: "brown", label: "Коричневый" },
+        { value: "beige", label: "Бежевый" },
+        { value: "black", label: "Черный" },
+        { value: "white", label: "Белый" },
+        { value: "blue", label: "Синий" },
+        { value: "pink", label: "Розовый" },
+        { value: "lightblue", label: "Голубой" },
+        { value: "oak", label: "Дуб" },
+    ];
 
-    const onChange = (value) => {
-        console.log('changed', value);
-    };
     return (
         <div className="flex">
-            <button onClick={toggleAccordion} className="flex items-center hover:bg-white ">
+            <button className="flex items-center hover:bg-white">
                 <div>
                     <Image src={filter} width={19} alt="filter ico" />
                 </div>
-
                 <span className="text-[18px] ml-1">Фильтр</span>
             </button>
-            <div className={`flex gap-x-5 ml-10 ${isOpen ? "flex" : "hidden"}`}>
-
+            <div className="flex gap-x-5 ml-10">
                 <Select
-                    className={`w-[180px] text-center ${isOpen && !animating ? "animate-slide-in" : "animate-slide-out"}`}
+                    className="w-[180px] text-center"
                     placeholder="Категории"
                     options={optionsCategory}
+                    value={category}
+                    onChange={(value) => setCategory(value)}
                 />
-
                 <Select
-                    className={`w-[180px] text-center ${isOpen && !animating ? "animate-slide-in delay-[200ms]" : "animate-slide-out delay-[200ms]"}`}
+                    className="w-[180px] text-center"
                     placeholder="Цвет"
                     options={optionsColor}
+                    value={color}
+                    onChange={(value) => setColor(value)}
                 />
-                <div className={`flex items-center ${isOpen && !animating ? "animate-slide-in delay-[400ms]" : "animate-slide-out delay-[400ms]"}`}>
+                <div className="flex items-center">
                     <span className="mr-2">от</span>
-                    <InputNumber min={1000} max={100000} defaultValue={1000} onChange={onChange} step={500} />
+                    <InputNumber
+                        min={1000}
+                        max={100000}
+                        value={priceMin}
+                        onChange={(value) => setPriceRange(value, priceMax)}
+                        step={500}
+                    />
                     <span className="mr-2 ml-2">до</span>
-                    <InputNumber min={1000} max={100000} defaultValue={100000} onChange={onChange} step={500} />
+                    <InputNumber
+                        min={1000}
+                        max={100000}
+                        value={priceMax}
+                        onChange={(value) => setPriceRange(priceMin, value)}
+                        step={500}
+                    />
                 </div>
-
+                <button className="p-1 bg-white border border-gray-300 rounded-md" >
+                    Найти
+                </button>
             </div>
         </div>
-
-    )
+    );
 }
