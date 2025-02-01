@@ -22,7 +22,7 @@ export default async function MainPage() {
                 <div className="absolute left-[50%] bottom-[20%] flex flex-col bg-[#FFF3E3] p-8">
                     <span className="text-[45px] text-[#BAA898] font-semibold mb-5">Изучите Нашу <br /> Новую Коллекцию</span>
                     <span className="mb-5 text-[18px]">Magna ad nulla proident exercitation incididunt duis occaecat est cillum non eu amet sint. Duis officia </span>
-                    <button className="w-fit py-3 px-8 text-[12px] bg-[#BAA898] text-white hover:bg-[#FFF3E3] hover:text-black hover:border border-black font-semibold  rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" type="text">ПОСМОТРЕТЬ</button>
+                    <button className="w-fit py-3 px-8 text-[12px] bg-[#BAA898] text-white hover:bg-[#FFF3E3] hover:text-black hover:border border-black font-semibold  rounded-lg transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-100" type="text">ПОСМОТРЕТЬ</button>
                 </div>
             </div>
 
@@ -33,7 +33,7 @@ export default async function MainPage() {
                     <span>Lorem amet enim laboris est enim velit nostrud.</span>
                 </div>
 
-                <div className="range_category flex justify-around ">
+                {/* <div className="range_category flex justify-around ">
                     <div className="flex flex-col text-center mr-5">
                         <Image src={bedroom} width={380} alt="image of bedroom" />
                         <span className="text-[22px] pt-3">Кухня</span>
@@ -46,7 +46,7 @@ export default async function MainPage() {
                         <Image src={living} alt="image of living room" />
                         <span className="text-[22px] pt-3">Спальня</span>
                     </div>
-                </div>
+                </div> */}
                 <SliderInstance />
             </div>
 

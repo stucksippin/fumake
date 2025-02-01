@@ -3,6 +3,8 @@ import FurnitureCard from "./FurnitureCard";
 import Link from "next/link";
 
 export default function BreefCatalog({ furnitures }) {
+
+
     return (
         <div className="">
             <h2 className="title text-center mt-[5%] mb-[35px]">Наша продукция</h2>

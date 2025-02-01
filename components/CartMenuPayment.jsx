@@ -1,16 +1,17 @@
 import React from 'react'
 
 export default function CartMenuPayment() {
+    // const editPrice = String(price).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1.')
     return (
         <div className='cart_menu bg-[#F9F1E7] p-8 flex flex-col rounded-lg'>
             <span className='text-[24px] font-semibold text-center mb-5'>Корзина</span>
             <div className='flex justify-between mb-3'>
                 <span className='font-semibold'>К оплате</span>
-                <span>1000 руб.</span>
+                <span>1000 ₽</span>
             </div>
             <div className='flex justify-between mb-3'>
                 <span className='font-semibold'>Итого</span>
-                <span>1000 руб.</span>
+                <span>1000 ₽</span>
             </div>
             <div className=''>
                 <input className='w-full px-2 py-1 border border-black border-b-0 border-t-0 rounded-lg bg-[#fffaf4]' type="text" placeholder='Промокод' />

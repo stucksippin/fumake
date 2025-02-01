@@ -8,7 +8,11 @@ export default async function getFurnitureById(id) {
         include: {
             reviews: true,
             tags: true,
-            variations: true
+            variations: {
+                include: {
+                    color: true
+                }
+            }
         }
     }
     );

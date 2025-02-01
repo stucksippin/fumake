@@ -36,7 +36,7 @@ export default async function InnerCardPage({ params: { id } }) {
                 discription={furniture.discription}
                 price={furniture.price}
                 size={furniture.variations.map(v => v.size)}
-                color={furniture.variations.map(v => v.colorsId)}
+                color={furniture.variations.map(v => v.color.code)}
                 category={furniture.category}
                 tags={furniture.tags}
                 reviews={furniture.reviews}

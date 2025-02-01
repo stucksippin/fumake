@@ -6,14 +6,10 @@ import Counter from './Counter';
 
 export default function InnerFurnitureCard({ image, name, discription, size, price, color, category, tags, reviews }) {
     const averageRating = reviews.length > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0;
-    // const arr = ['color', 'color']
-
-
+    const editPrice = String(price).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1.')
     return (
         <div className='container mx-auto pt-5'>
-            {/* {arr.map((item, i) => (
-                <div key={i} className={`w-5 h-5 rounded-full`} style={{ backgroundColor: item }}></div>
-            ))} */}
+
             <div className='flex justify-center mb-[5%]'>
                 <div className='flex mr-[10%]'>
                     <div className='flex flex-col justify-between'>
@@ -31,7 +27,7 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
                 </div>
                 <div className='flex flex-col '>
                     <span className='text-3xl mb-2'>{name}</span>
-                    <span className='text-2xl mb-2'>{price} руб.</span>
+                    <span className='text-2xl mb-2'>{editPrice} ₽</span>
                     <div className='flex items-center'>
                         <Rate allowHalf value={averageRating} disabled />
                         <span className='ml-2'> Отзывов | {reviews.length}</span>
@@ -52,11 +48,13 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
 
                     <label className='text-gray-400 mb-2'>Цвет</label>
                     <div className='flex'>
-                        {color.length > 0 && (
-                            color.map((color, index) => (
-                                <button key={index} className='border border-gray-400 rounded-[50%] w-[30px] h-[30px] mr-2'>{color}</button>
-                            ))
-                        )}
+                        <div className='flex'>
+                            {color.length > 0 && (
+                                color.map((code, index) => (
+                                    <div key={index} className='border border-gray-400 rounded-full w-[30px] h-[30px] mr-2' style={{ backgroundColor: code }}></div>
+                                ))
+                            )}
+                        </div>
                     </div>
 
 
@@ -77,8 +75,8 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
                         reviews.map((review) => (
                             <div key={review.id} className="border rounded-lg p-5">
                                 <p className='text-right'>John Doe</p>
-                                <p className=''><Rate allowHalf value={review.rating} disabled /></p>
-                                <p>{review.content}</p>
+                                <span><Rate allowHalf value={review.rating} disabled /></span>
+                                <p className='mt-1'>{review.content}</p>
                             </div>
                         ))
                     ) : (

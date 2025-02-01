@@ -13,10 +13,15 @@
     color: #333333;
 }
 
-.cart_table{
+.cart_table {
     width: calc(65%);
 }
 
-.cart_menu{
+.cart_menu {
     width: calc(30%);
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #BAA898 !important;
+
 }

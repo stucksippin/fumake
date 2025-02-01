@@ -1,36 +1,45 @@
-import prisma from "@/libs/prisma";
-import { NextResponse } from "next/server";
+// import prisma from "@/libs/prisma";
+// import { NextResponse } from "next/server";
 
-// Обрабатываем GET-запрос
-export async function GET(req) {
-    try {
-        // Получаем параметры запроса
-        const { searchParams } = new URL(req.url);
-        const category = searchParams.get("category");
-        const color = searchParams.get("color");
-        const priceMin = searchParams.get("priceMin");
-        const priceMax = searchParams.get("priceMax");
+// export async function GET(req) {
+//     try {
+//         const { searchParams } = new URL(req.url)
+//         const category = searchParams.get("category")
+//         const color = searchParams.get("color")
+//         const priceMin = parseInt(searchParams.get(priceMin)) || 1000
+//         const priceMax = parseInt(searchParams.get(priceMax)) || 100000
 
-        const filters = {};
-        if (category) filters.category = category;
-        if (priceMin || priceMax) {
-            filters.price = {
-                gte: priceMin ? Number(priceMin) : undefined,
-                lte: priceMax ? Number(priceMax) : undefined,
-            };
-        }
+//         const condition = {
+//             AND: [
+//                 category ? { category } : {},
+//                 color ? {
+//                     variations: {
+//                         some: {
+//                             color: {
+//                                 name: color
+//                             }
+//                         }
+//                     }
+//                 } : {},
+//                 { price: { gte: priceMin, lte: priceMax } }
+//             ]
+//         };
 
-        const furnitures = await prisma.furniture.findMany({
-            where: {
-                ...filters,
-                variations: color ? { some: { colors: { name: color } } } : undefined
-            },
-            include: { variations: { include: { colors: true } } }
-        });
-
-        return NextResponse.json(furnitures, { status: 200 });
-    } catch (error) {
-        console.error("Ошибка загрузки мебели:", error);
-        return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
-    }
-}
+//         const furnitures = await prisma.findMany({
+//             where: condition,
+//             include: {
+//                 variations: true
+//             }
+//         });
+//         return NextResponse.json(furnitures)
+//     } catch (error) {
+//         console.error("Ошибка подгрузки мебели", error);
+//         return NextResponse.json({
+//             error: "Ошибка при подгрузке мебели"
+//         },
+//             {
+//                 status: 500
+//             }
+//         )
+//     }
+// }
