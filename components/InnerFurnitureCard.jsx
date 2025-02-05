@@ -10,8 +10,8 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
     return (
         <div className='container mx-auto pt-5'>
 
-            <div className='flex justify-center mb-[5%]'>
-                <div className='flex mr-[10%]'>
+            <div className='flex px-24 justify-around mb-[5%]'>
+                <div className='flex'>
                     <div className='flex flex-col justify-between'>
                         <Image src={image} width={65} height={50} />
                         <Image src={image} width={65} height={50} />
@@ -22,9 +22,9 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
                     <div className='ml-2'>
                         <Image src={image} width={400} height={400} />
                     </div>
-
-
                 </div>
+
+
                 <div className='flex flex-col '>
                     <span className='text-3xl mb-2'>{name}</span>
                     <span className='text-2xl mb-2'>{editPrice} ₽</span>
@@ -51,7 +51,7 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
                         <div className='flex'>
                             {color.length > 0 && (
                                 color.map((code, index) => (
-                                    <div key={index} className='border border-gray-400 rounded-full w-[30px] h-[30px] mr-2' style={{ backgroundColor: code }}></div>
+                                    <button key={index} className='border border-gray-400 rounded-full w-[30px] h-[30px] mr-2' style={{ backgroundColor: code }}></button>
                                 ))
                             )}
                         </div>
@@ -67,13 +67,15 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
                 </div>
             </div>
 
-            <div className='container flex flex-col'>
+            {/* отзывы */}
+            <div className='container flex flex-col pt-10'>
 
-                <span className='text-3xl text-center'>Отзывы</span>
-                <div className='flex gap-x-10 mt-5'>
+                <span className='text-3xl text-center mb-5'>Отзывы</span>
+
+                <div className='flex flex-wrap gap-10 justify-center'>
                     {reviews.length > 0 ? (
                         reviews.map((review) => (
-                            <div key={review.id} className="border rounded-lg p-5">
+                            <div key={review.id} className="w-[250px] border rounded-lg p-5 ">
                                 <p className='text-right'>John Doe</p>
                                 <span><Rate allowHalf value={review.rating} disabled /></span>
                                 <p className='mt-1'>{review.content}</p>
@@ -83,6 +85,7 @@ export default function InnerFurnitureCard({ image, name, discription, size, pri
                         <p>Нет отзывов</p>
                     )}
                 </div>
+
             </div>
 
         </div>

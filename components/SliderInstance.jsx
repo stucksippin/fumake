@@ -52,7 +52,7 @@ export default function SliderInstance() {
             >
                 {sliderData.map((data, index) => (
                     <SwiperSlide key={index} className="flex flex-col items-center justify-center text-center ">
-                        <Image src={data.image} width={350} alt="image of rooms" />
+                        <Image className="rounded-lg" src={data.image} width={350} alt="image of rooms" />
                         <span className="text-[22px] pt-3 block">{data.name}</span>
                     </SwiperSlide>
                 ))}
