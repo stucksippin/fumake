@@ -18,6 +18,11 @@ export default function InnerFurnitureCard({ id, image, name, discription, size,
         console.log("Обновленное состояние корзины:", useCartStore.getState().items);
     }, [useCartStore().items]);
 
+    message.config({
+        top: 60,
+        duration: 3,
+    });
+
     const handleAddToCart = () => {
         if (!selectedSize || !selectedColor) {
             message.warning("Выберите цвет и размер!");
@@ -32,7 +37,10 @@ export default function InnerFurnitureCard({ id, image, name, discription, size,
             selectedColor,
         };
         addItem(product);
-        message.success(`${name} добавлен в корзину!`);
+        message.success('Товар добавлен в корзину ');
+
+
+
     };
 
 
@@ -94,10 +102,10 @@ export default function InnerFurnitureCard({ id, image, name, discription, size,
                     </div>
 
                     <div className='flex mt-5'>
-                        <Counter />
+                        {/* <Counter /> */}
                         <button
                             type='default'
-                            className='px-5 text-[12px] border bg-white hover:bg-[#FFF3E3] border-black ml-4 font-semibold rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
+                            className='px-5 py-3 text-[12px] border bg-white hover:bg-[#FFF3E3] border-black font-semibold rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
                             onClick={handleAddToCart}
                         >
                             Добавить в корзину

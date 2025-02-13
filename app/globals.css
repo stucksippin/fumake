@@ -25,3 +25,39 @@
     background-color: #BAA898 !important;
 
 }
+
+/* Пример для позиционирования сообщений */
+.ant-message-topLeft {
+    position: absolute !important;
+    top: 80px !important;
+}
+
+.transformCard {
+    transition: transform 200ms ease-in-out 150ms;
+}
+
+.transformCard:hover {
+    transform: translateY(-1px) scale(1.1);
+}
+
+.qw {
+    transition: background-color 200ms ease-in-out;
+    /* Плавное изменение фона */
+}
+
+.heart-icon {
+    color: black;
+    /* Начальный цвет сердца (черный) */
+    transition: color 200ms ease-in-out;
+    /* Плавное изменение цвета */
+}
+
+.qw:hover {
+    background-color: #C44B4B;
+    /* Красный фон при наведении */
+}
+
+.qw:hover .heart-icon {
+    color: white;
+    /* Белый цвет сердца при наведении */
+}

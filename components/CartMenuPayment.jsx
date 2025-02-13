@@ -1,13 +1,31 @@
 'use client'
 import useCartStore from '@/app/store/useCartStore'
+import { message } from 'antd';
 import React, { useEffect, useState } from 'react'
 
 export default function CartMenuPayment() {
-
-    const { items } = useCartStore()
+    const { items, discountedPrice, updateDiscountedPrice, setPromoCodeUsed } = useCartStore()
     const [hydrated, setHydrated] = useState(false);
-    const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    const editPrice = String(totalPrice).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1.')
+    const [promoCode, setPromoCode] = useState('');
+
+    const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const secretWord = 'qwerty';
+    const perOfDiscount = 15;
+
+    function handleApplyPromoCode() {
+        if (promoCode === secretWord) {
+            const newPrice = totalPrice - (totalPrice * (perOfDiscount / 100));
+            setPromoCodeUsed(true);  // Устанавливаем, что промокод был применён
+            updateDiscountedPrice(newPrice);  // Обновляем скидочную цену
+            message.success("Промокод успешно активирован");
+        } else {
+            setPromoCodeUsed(false);  // Промокод не применён
+            updateDiscountedPrice(totalPrice);  // Сбрасываем цену до обычной
+            message.error("Промокод неверен!");
+        }
+    }
+
+    const formatPrice = (price) => String(price).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1.');
 
     useEffect(() => {
         setHydrated(true);
@@ -15,24 +33,33 @@ export default function CartMenuPayment() {
 
     if (!hydrated) return null;
 
-    const secretWord = 'qwerty'
     return (
-        <div className='cart_menu  bg-[#F9F1E7] p-8 flex flex-col h-[400px] justify-evenly rounded-lg'>
-            <span className='text-[24px] font-semibold text-center mb-5'>Корзина</span>
+        <div className='cart_menu bg-[#F9F1E7] p-8 flex flex-col h-[400px] justify-evenly rounded-lg'>
+            <span className='text-[24px] font-semibold text-center mb-5'>Сумма заказа</span>
             <div className='flex justify-between mb-3'>
                 <span className='font-semibold'>К оплате</span>
-                <span>{editPrice} ₽</span>
+                <span>{formatPrice(totalPrice)} ₽</span>
             </div>
             <div className='flex justify-between mb-3'>
                 <span className='font-semibold'>Итого</span>
-                <span>{editPrice} ₽</span>
+                <span>{formatPrice(discountedPrice)} ₽</span>
             </div>
             <div className='flex flex-col items-end'>
-                <input className='w-full px-2 py-1 border border-black border-b-0 border-t-0 rounded-lg bg-[#fffaf4]' type="text" placeholder='Промокод' />
-                <button className='mt-3 p-1 text-[12px] border border-black rounded-lg'>Применить</button>
+                <input
+                    className='w-full px-2 py-1 border border-black border-b-0 border-t-0 rounded-lg bg-[#fffaf4]'
+                    type="text"
+                    placeholder='Промокод'
+                    value={promoCode}
+                    onChange={(e) => setPromoCode(e.target.value)}
+                />
+                <button
+                    onClick={handleApplyPromoCode}
+                    className='mt-3 p-1 text-[12px] border border-black rounded-lg'>
+                    Применить
+                </button>
             </div>
             <div className='flex justify-center mt-8'>
-                <button className="w-fit py-3 px-8 text-[12px] border border-black font-semibold  rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" type="text">ОПЛАТИТЬ</button>
+                <button className="w-fit py-3 px-8 text-[12px] border border-black font-semibold rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" type="text">ОПЛАТИТЬ</button>
             </div>
         </div>
     )
