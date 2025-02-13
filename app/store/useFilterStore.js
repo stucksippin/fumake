@@ -14,8 +14,8 @@ const useFilterStore = create((set) => ({
     resetFilters: () => set({
         category: null,
         color: null,
-        priceMin: 1000,
-        priceMax: 100000,
+        priceMin: 1000, //
+        priceMax: 100000, //
     }),
 
     fetchPriceRange: async () => {

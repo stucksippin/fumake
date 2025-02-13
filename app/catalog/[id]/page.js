@@ -29,7 +29,7 @@ export default async function InnerCardPage({ params: { id } }) {
                 />
             </div>
 
-            <InnerFurnitureCard
+            <InnerFurnitureCard //разбить карту и отзывы на отдельные компоненты
                 id={furniture.id}
                 image={imagePath}
                 name={furniture.name}

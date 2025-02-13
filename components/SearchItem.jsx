@@ -10,7 +10,7 @@ export default function SearchItem() {
             <div>
                 <Image className='' src={lens} width={19} alt='lens' />
             </div>
-            <Input className='ml-2 border border-black rounded-lg px-2 h-[30px] w-[300px]' type="text" />
+            <Input placeholder='Что ищем?' className='ml-2 border border-black rounded-lg px-2 h-[30px] w-[300px]' type="text" />
 
         </div>
     )

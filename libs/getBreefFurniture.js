@@ -11,9 +11,9 @@ export default async function getBreefFurniture() {
                     }
                 }
             },
-            include: {
-                reviews: true
-            }
+            // include: {
+            //     reviews: true
+            // }
 
         }
     );

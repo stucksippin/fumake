@@ -32,21 +32,6 @@ export default async function MainPage() {
                     <h2 className="title">Ассортимент мебели для всех уголков </h2>
                     <span>Lorem amet enim laboris est enim velit nostrud.</span>
                 </div>
-
-                {/* <div className="range_category flex justify-around ">
-                    <div className="flex flex-col text-center mr-5">
-                        <Image src={bedroom} width={380} alt="image of bedroom" />
-                        <span className="text-[22px] pt-3">Кухня</span>
-                    </div>
-                    <div className="flex flex-col text-center mr-5">
-                        <Image src={dinning} alt="image of dinning room" />
-                        <span className="text-[22px] pt-3">Гостиная</span>
-                    </div>
-                    <div className="flex flex-col text-center mr-5">
-                        <Image src={living} alt="image of living room" />
-                        <span className="text-[22px] pt-3">Спальня</span>
-                    </div>
-                </div> */}
                 <SliderInstance />
             </div>
 
