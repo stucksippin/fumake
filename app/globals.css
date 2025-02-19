@@ -61,3 +61,10 @@
     color: white;
     /* Белый цвет сердца при наведении */
 }
+
+.formFields {
+    border: 0.5px solid;
+    border-radius: 5px;
+    padding: 20px 0px;
+    width: 400px;
+}
