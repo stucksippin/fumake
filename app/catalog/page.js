@@ -8,9 +8,10 @@ import MainCatalog from '@/components/MainCatalog'
 import { Breadcrumb } from 'antd'
 import Link from 'next/link'
 
-export default async function CatalogPage() {
+export default async function CatalogPage({ searchParams }) {
     const { category, color, priceMin, priceMax, orderBy } = useFilterStore.getState();
-    const furnitures = await getFurniture({ category, color, priceMin, priceMax, orderBy });
+    const furnitures = await getFurniture(searchParams);
+    console.log(searchParams);
 
     const breadcrumbItems = [
         {
