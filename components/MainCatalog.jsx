@@ -2,31 +2,17 @@
 import { Pagination } from "antd";
 import FurnitureCard from "./FurnitureCard";
 import { useState } from "react";
-import useFilterStore from "@/app/store/useFilterStore";
+
 
 export default function MainCatalog({ furnitures }) {
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 8;
 
-    // Достаем фильтры из Zustand
-    const { category, color, priceMin, priceMax } = useFilterStore();
 
-    // Фильтруем товары перед пагинацией
-    const filteredFurnitures = furnitures.filter(furniture => {
-        const matchesCategory = category ? furniture.category === category : true;
-        const matchesColor = color
-            ? furniture.variations.some(variation => variation.color?.name === color)
-            : true;
 
-        const matchesPrice = furniture.price >= priceMin && furniture.price <= priceMax;
-
-        return matchesCategory && matchesColor && matchesPrice;
-    });
-
-    // Пагинация
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
-    const currentItems = filteredFurnitures.slice(startIndex, endIndex);
+    const currentItems = furnitures.slice(startIndex, endIndex);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -50,7 +36,7 @@ export default function MainCatalog({ furnitures }) {
                         );
                     })
                 ) : (
-                    <p className="text-center text-gray-500">Ничего не найдено</p>
+                    <span className="text-center p-4 rounded-lg mb-10 text-gray-500 border">Подходящих товаров по этим фильтрам не найдено</span>
                 )}
             </div>
 
@@ -58,7 +44,7 @@ export default function MainCatalog({ furnitures }) {
                 <Pagination
                     current={currentPage}
                     pageSize={pageSize}
-                    total={filteredFurnitures.length}
+                    total={furnitures.length}
                     onChange={handlePageChange}
                     showSizeChanger={false}
                 />

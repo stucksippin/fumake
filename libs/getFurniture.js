@@ -1,8 +1,8 @@
+'use server'
 import prisma from "@/libs/prisma";
 
 
 export default async function getFurniture(searchParams) {
-    console.log('параметры в призме', parseInt(searchParams.priceMin))
     try {
         const furnitures = await prisma.furniture.findMany({
             where: {
@@ -18,9 +18,19 @@ export default async function getFurniture(searchParams) {
                             lte: parseInt(searchParams.priceMax)
                         }
                     } : {},
-                    searchParams.query ? {
+                    searchParams.name ? {
                         name: {
-                            contains: searchParams.query
+                            contains: searchParams.name,
+                            // mode: 'insensitive',
+                        }
+                    } : {},
+                    searchParams.color ? {
+                        variations: {
+                            some: {
+                                color: {
+                                    name: searchParams.color
+                                }
+                            }
                         }
                     } : {},
                 ]
@@ -34,9 +44,6 @@ export default async function getFurniture(searchParams) {
                 }
             }
         });
-        console.log('мебель', furnitures);
-
-
         return furnitures;
     } catch (error) {
         console.error("Ошибка загрузки мебели:", error);

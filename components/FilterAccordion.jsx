@@ -1,23 +1,15 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import filter from "../public/image/filtering.png";
 import { InputNumber, Select } from "antd";
-import useFilterStore from "@/app/store/useFilterStore";
+
+import { useRouter } from "next/navigation";
 
 export default function FilterAccordion() {
-    const {
-        category, color, priceMin, priceMax,
-        setCategory, setColor, setPriceRange, resetFilters, fetchPriceRange
-    } = useFilterStore();
-
-    useEffect(() => {
-        fetchPriceRange()
-    }, [])
-
     const optionsCategory = [
-        { value: null, label: "Все категории" },
-        { value: "table", label: "Столы" },
+        { value: 'all', label: "Все категории" },
+        { value: 'table', label: "Столы" },
         { value: "sofa", label: "Диваны" },
         { value: "lamp", label: "Лампы" },
         { value: "chair", label: "Стулья" },
@@ -25,31 +17,50 @@ export default function FilterAccordion() {
         { value: "bed", label: "Кровати" },
     ];
     const optionsColor = [
-        { value: null, label: "Все цвета" },
-        { value: "Серый", label: "Серый" },
-        { value: "Темно-коричневый", label: "Темно-коричневый" },
-        { value: "Бежевый", label: "Бежевый" },
-        { value: "Черный", label: "Черный" },
-        { value: "Белый", label: "Белый" },
-        { value: "Коричневый", label: "Коричневый" },
-        { value: "Синий", label: "Синий" },
-        { value: "Темно-синий", label: "Темно-синий" },
-        { value: "Зеленый", label: "Зеленый" },
-        { value: "Орех", label: "Орех" },
-        { value: "Желтый", label: "Желтый" },
-        { value: "Светло-серый", label: "Светло-серый" },
-        { value: "Розовый", label: "Розовый" },
-        { value: "Дуб", label: "Дуб" },
+        { value: 'all', label: "Все цвета" },
+        { value: "grey", label: "Серый" },
+        { value: "dark-brown", label: "Темно-коричневый" },
+        { value: "beige", label: "Бежевый" },
+        { value: "black", label: "Черный" },
+        { value: "white", label: "Белый" },
+        { value: "brown", label: "Коричневый" },
+        { value: "blue", label: "Синий" },
+        { value: "dark-blue", label: "Темно-синий" },
+        { value: "green", label: "Зеленый" },
+        { value: "walnut", label: "Орех" },
+        { value: "yellow", label: "Желтый" },
+        { value: "light-grey", label: "Светло-серый" },
+        { value: "pink", label: "Розовый" },
+        { value: "oak", label: "Дуб" },
     ];
+    const [category, setCategory] = useState(optionsCategory[0])
+    const [color, setColor] = useState(optionsColor[0])
+    const [priceMin, setPriceMin] = useState(1000)
+    const [priceMax, setPriceMax] = useState(100000)
+    const router = useRouter()
+    const params = new URLSearchParams()
+    function applyFilters() {
 
+        category !== "all" ? params.set("category", category) : params.delete("category")
+        color.value !== 'all' ? params.set("color", color) : params.delete("color")
+        if (priceMin) params.set("priceMin", String(priceMin))
+        if (priceMax) params.set("priceMax", String(priceMax))
+        console.log('category: ', category);
+        console.log('color: ', color.value);
+        router.push(`?${params.toString()}`, { scroll: false });
+        console.log(params);
+    }
+
+    function resetFilters() {
+        setCategory(optionsCategory[0])
+        setColor(optionsColor[0])
+        setPriceMin(1000)
+        setPriceMax(100000)
+        router.push("/catalog")
+    }
     return (
-        <div className="flex">
-            <div className="flex items-center">
-                <div>
-                    <Image src={filter} width={19} alt="filter ico" />
-                </div>
-                <span className="text-[18px] ml-1">Фильтр</span>
-            </div>
+        <div className="flex ">
+
             <div className="flex gap-x-5 ml-10">
                 <Select
                     className="w-[180px] text-center"
@@ -71,7 +82,7 @@ export default function FilterAccordion() {
                         min={1000}
                         max={100000}
                         value={priceMin}
-                        onChange={(value) => setPriceRange(value, priceMax)}
+                        onChange={(value) => setPriceMin(value)}
                         step={500}
                     />
                     <span className="mr-2 ml-2">до</span>
@@ -79,10 +90,11 @@ export default function FilterAccordion() {
                         min={1000}
                         max={100000}
                         value={priceMax}
-                        onChange={(value) => setPriceRange(priceMin, value)}
+                        onChange={(value) => setPriceMax(value)}
                         step={500}
                     />
                 </div>
+                <button className="border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={applyFilters}>Применить</button>
                 <button className="border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={resetFilters}>Сбросить</button>
             </div>
         </div>

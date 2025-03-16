@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import like from '../public/image/header/like.svg'
+
 export default function FurnitureCard({ id, name, tags, price, image }) {
 
 
