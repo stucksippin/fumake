@@ -16,7 +16,7 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "FUCRAFT",
+  title: "FUMAKE",
   description: "Магазин мебели",
 };
 

@@ -9,15 +9,15 @@ export default function Footer() {
                     <span className='footer_title font-semibold text-[24px]'>FUCRAFT</span>
                     <span>Do excepteur tempor veniam ipsum.</span>
                 </div>
-                <ul className='flex flex-col gap-y-5'>
-                    <span className='text-[#818181]'>Ссылки</span>
+                <ul className='flex flex-col gap-y-10 font-semibold'>
+                    <li className='text-[#818181]'>Ссылки</li>
                     <li>Главная</li>
                     <li>Каталог</li>
                     <li>О нас</li>
                     <li>Контакты</li>
                 </ul>
-                <ul className='flex flex-col gap-y-5'>
-                    <span className='text-[#818181]'>Помощь</span>
+                <ul className='flex flex-col gap-y-10 font-semibold'>
+                    <li className='text-[#818181]'>Помощь</li>
                     <li>Варианты оплаты</li>
                     <li>Возврат</li>
                     <li>Условия конфеденциальности</li>
