@@ -1,9 +1,13 @@
+'use client'
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
+import preload from "@/public/image/preload.png"
+import { Skeleton } from 'antd';
 
 export default function FurnitureCard({ id, name, tags, price, image }) {
     const editPrice = String(price).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1.');
+    const [active, setActive] = useState(false);
     return (
         <div className="flex transformCard flex-col">
             <div className="relative">
@@ -19,6 +23,7 @@ export default function FurnitureCard({ id, name, tags, price, image }) {
                     </svg>
                 </div>
             </div>
+
             <Link href={`/catalog/${id}`} className="flex flex-col">
                 <Image className="rounded-lg" width={285} height={300} src={image} alt="furniture" />
                 <span className="font-bold text-[#484848] text-[]">{name}</span>
@@ -27,3 +32,4 @@ export default function FurnitureCard({ id, name, tags, price, image }) {
         </div>
     );
 }
+

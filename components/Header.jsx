@@ -2,10 +2,7 @@ import Image from "next/image";
 import user from "../public/image/header/user.png"
 import cart from "../public/image/header/cart.png"
 import like from "../public/image/header/like.png"
-import search from "../public/image/header/search.png"
 import Link from "next/link";
-
-import { NextAuthOptions } from "@/config";
 
 export default async function Header() {
 

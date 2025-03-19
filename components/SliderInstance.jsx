@@ -1,8 +1,10 @@
 'use client'
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
+import { Navigation } from 'swiper/modules';
 import "swiper/css";
 import "swiper/css/pagination";
+import 'swiper/css/navigation';
 import bedroom from "../public/image/range/bedroom.png"
 import dinning from "../public/image/range/dinning.png"
 import living from "../public/image/range/living.png"
@@ -46,8 +48,9 @@ export default function SliderInstance() {
             <Swiper
                 spaceBetween={50}
                 slidesPerView={4}
+                navigation={true}
                 pagination={{ clickable: true }}
-                modules={[Pagination]}
+                modules={[Navigation, Pagination]}
                 className="!pb-10"
             >
                 {sliderData.map((data, index) => (

@@ -23,7 +23,7 @@ export default function MainCatalog({ furnitures }) {
             <div className="container flex flex-wrap gap-x-[40px] gap-y-[40px] justify-center">
                 {currentItems.length > 0 ? (
                     currentItems.map((furniture) => {
-                        const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.png`;
+                        const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;
                         return (
                             <FurnitureCard
                                 key={furniture.id}

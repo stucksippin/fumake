@@ -1,9 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import filter from "../public/image/filtering.png";
+import { useState } from "react";
 import { InputNumber, Select } from "antd";
-
 import { useRouter } from "next/navigation";
 
 export default function FilterAccordion() {

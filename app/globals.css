@@ -119,3 +119,10 @@
         transform: rotate(360deg);
     }
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: red !important;
+    fill: red !important;
+    stroke: red !important;
+}

@@ -6,7 +6,7 @@ import Link from "next/link";
 export default async function InnerCardPage({ params: { id } }) {
     const furniture = await getFurnitureById(id)
 
-    const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.png`;
+    const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;
     const breadcrumbItems = [
         {
             title: <Link href={"/"}>Главная</Link>,
