@@ -30,20 +30,20 @@ export default function FilterAccordion() {
         { value: "pink", label: "Розовый" },
         { value: "oak", label: "Дуб" },
     ];
-    const [category, setCategory] = useState(optionsCategory[0])
-    const [color, setColor] = useState(optionsColor[0])
+    const [category, setCategory] = useState('all')
+    const [color, setColor] = useState('all')
     const [priceMin, setPriceMin] = useState(1000)
     const [priceMax, setPriceMax] = useState(100000)
     const router = useRouter()
-    const params = new URLSearchParams()
-    function applyFilters() {
 
-        category !== "all" ? params.set("category", category) : params.delete("category")
-        color.value !== 'all' ? params.set("color", color) : params.delete("color")
+    function applyFilters() {
+        const params = new URLSearchParams()
+        category !== 'all' ? params.set("category", category) : params.delete("category")
+        color !== 'all' ? params.set("color", color) : params.delete("color")
         if (priceMin) params.set("priceMin", String(priceMin))
         if (priceMax) params.set("priceMax", String(priceMax))
         console.log('category: ', category);
-        console.log('color: ', color.value);
+        console.log('color: ', color);
         router.push(`?${params.toString()}`, { scroll: false });
         console.log(params);
     }

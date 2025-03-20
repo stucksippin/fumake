@@ -1,3 +1,6 @@
+export const dynamic = 'auto'
+export const revalidate = 60
+
 import InnerFurnitureCard from "@/components/InnerFurnitureCard";
 import getFurnitureById from "@/libs/getFurnitureById";
 import { Breadcrumb } from "antd";

@@ -1,3 +1,6 @@
+export const dynamic = 'auto'
+export const revalidate = 60
+
 import Image from 'next/image'
 import React from 'react'
 import catalog from '/public/image/catalogBanner.png'
