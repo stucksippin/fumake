@@ -49,8 +49,8 @@ export default function FilterAccordion() {
     }
 
     function resetFilters() {
-        setCategory(optionsCategory[0])
-        setColor(optionsColor[0])
+        setCategory('all')
+        setColor('all')
         setPriceMin(1000)
         setPriceMax(100000)
         router.push("/catalog")

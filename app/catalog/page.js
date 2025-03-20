@@ -1,5 +1,5 @@
-export const dynamic = 'auto'
-export const revalidate = 60
+export const dynamic = 'force-dynamic' // разобраться 
+
 
 import Image from 'next/image'
 import React from 'react'
