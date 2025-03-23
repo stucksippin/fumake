@@ -1,17 +1,17 @@
+export const dynamic = 'force-dynamic' // разобраться 
+
+
 import Image from 'next/image'
 import React from 'react'
 import catalog from '/public/image/catalogBanner.png'
 import Filter from '@/components/Filter'
-import useFilterStore from '../store/useFilterStore'
 import getFurniture from '@/libs/getFurniture'
 import MainCatalog from '@/components/MainCatalog'
 import { Breadcrumb } from 'antd'
 import Link from 'next/link'
 
 export default async function CatalogPage({ searchParams }) {
-    const { category, color, priceMin, priceMax, orderBy } = useFilterStore.getState();
     const furnitures = await getFurniture(searchParams);
-    console.log(searchParams);
 
     const breadcrumbItems = [
         {
@@ -33,7 +33,7 @@ export default async function CatalogPage({ searchParams }) {
                 <Image className='opacity-50 mx-auto' width={1536} height={316} src={catalog} alt='catalog banner' />
                 <span className='absolute top-[45%] left-[46%] title'>Каталог</span>
             </div>
-            <Filter />
+            <Filter searchParams={searchParams} />
             <MainCatalog furnitures={furnitures} />
         </div>
     )

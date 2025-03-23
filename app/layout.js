@@ -1,8 +1,10 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-
+import Header from "@/components/UI/Header";
+import Footer from "@/components/UI/Footer";
+import { Suspense } from "react";
+import Loading from "./loading";
+import AdminCheck from "@/components/CheckAdmin";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -16,18 +18,22 @@ const geistMono = localFont({
 });
 
 export const metadata = {
-  title: "FUCRAFT",
+  title: "FUMAKE",
   description: "Магазин мебели",
 };
 
 export default function RootLayout({ children }) {
+  
   return (
     <html lang="en">
 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <Header />
+        <AdminCheck><Header/></AdminCheck>
+        <Suspense fallback={<Loading/>}>
         <main>{children}</main>
-        <Footer />
+        </Suspense>
+        <AdminCheck><Footer /></AdminCheck>
+         
       </body>
     </html>
   );
