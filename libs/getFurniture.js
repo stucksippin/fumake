@@ -21,7 +21,7 @@ export default async function getFurniture(searchParams) {
                     searchParams.name ? {
                         name: {
                             contains: searchParams.name,
-                            // mode: 'insensitive',
+                            // mode: 'insensitive', 
                         }
                     } : {},
                     searchParams.color ? {

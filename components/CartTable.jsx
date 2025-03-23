@@ -1,6 +1,7 @@
 'use client'
 import useCartStore from '@/app/store/useCartStore';
 import { Button, InputNumber, Table, message } from 'antd';
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 
 export default function CartTable() {
@@ -25,6 +26,7 @@ export default function CartTable() {
 
 
     console.log("Товары в корзине:", items);
+
     const columns = [
         {
             title: 'Продукт',
@@ -32,7 +34,7 @@ export default function CartTable() {
             key: 'name',
             render: (text, record) => (
                 <div className="flex items-center gap-3">
-                    <img src={record.image} alt={text} className="w-16 h-16 object-cover rounded" />
+                    <Image width={100} height={100} src={record.image} alt={text} className="w-16 h-16 object-cover rounded" />
                     <span>{text}</span>
                 </div>
             ),

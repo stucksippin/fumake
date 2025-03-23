@@ -2,12 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* body {
     -ms-user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
     user-select: none;
-}
+} */
 
 .container {
     width: 80%;

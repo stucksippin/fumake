@@ -5,6 +5,7 @@ import getBreefFurniture from "@/libs/getBreefFurniture";
 import Link from "next/link";
 import SliderInstance from "@/components/SliderInstance";
 import Loader from "@/components/Loader";
+import FavouriteModal from "@/components/FavouriteModal";
 
 export default async function MainPage() {
     const furnitures = await getBreefFurniture()

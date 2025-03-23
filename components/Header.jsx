@@ -1,10 +1,19 @@
+'use client'
 import Image from "next/image";
 import user from "../public/image/header/user.png"
 import cart from "../public/image/header/cart.png"
 import like from "../public/image/header/like.png"
 import Link from "next/link";
+import { useState } from "react";
+import FavouriteModal from "./FavouriteModal";
 
-export default async function Header() {
+
+export default function Header() {
+    const [modal, setModal] = useState()
+
+    function handleToggle() {
+        setModal(!modal)
+    }
 
     return (
         <header className="header  py-4 sticky top-[0.5px] z-50 bg-white border-b-2 ">
@@ -20,10 +29,10 @@ export default async function Header() {
                 <ul className="flex gap-x-5">
                     <Link className="hover:scale-110 duration-300" href={'/profile'}> <Image src={user} width={23} alt="user ico" /> </Link>
                     <Link className="hover:scale-110 duration-300" href={'/cart'}><Image src={cart} width={23} alt="cart ico" /></Link>
-                    <Link className="hover:scale-110 duration-300" href={'#'}><Image src={like} width={23} alt="like ico" /></Link>
+                    <button onClick={handleToggle} className="hover:scale-110 duration-300"><Image src={like} width={23} alt="like ico" /></button>
                 </ul>
             </nav>
-
+            {modal && <FavouriteModal onClose={handleToggle} />}
         </header>
     )
 }
