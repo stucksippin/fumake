@@ -1,8 +1,7 @@
 'use client'
-import { Button, Rate, message } from 'antd';
+import {Rate, message } from 'antd';
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import Counter from './Counter';
 import useCartStore from '@/app/store/useCartStore';
 
 
@@ -38,9 +37,6 @@ export default function InnerFurnitureCard({ id, image, name, discription, size,
         };
         addItem(product);
         message.success('Товар добавлен в корзину ');
-
-
-
     };
 
 
@@ -102,7 +98,6 @@ export default function InnerFurnitureCard({ id, image, name, discription, size,
                     </div>
 
                     <div className='flex mt-5'>
-                        {/* <Counter /> */}
                         <button
                             type='default'
                             className='px-5 py-3 text-[12px] border bg-white hover:bg-[#FFF3E3] border-black font-semibold rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'

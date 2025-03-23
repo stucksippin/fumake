@@ -1,14 +1,18 @@
 export const dynamic = 'auto'
 export const revalidate = 60
 
+import { notFound } from 'next/navigation';
 import InnerFurnitureCard from "@/components/InnerFurnitureCard";
 import getFurnitureById from "@/libs/getFurnitureById";
 import { Breadcrumb } from "antd";
 import Link from "next/link";
 
+
 export default async function InnerCardPage({ params: { id } }) {
     const furniture = await getFurnitureById(id)
-
+if(!furniture){
+   notFound()
+}
     const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;
     const breadcrumbItems = [
         {
@@ -20,6 +24,7 @@ export default async function InnerCardPage({ params: { id } }) {
         {
             title: ':name',
         },]
+        
     return (
         <div>
             <div className="container mx-auto">
@@ -32,7 +37,7 @@ export default async function InnerCardPage({ params: { id } }) {
                 />
             </div>
 
-            <InnerFurnitureCard //разбить карту и отзывы на отдельные компоненты
+            <InnerFurnitureCard 
                 id={furniture.id}
                 image={imagePath}
                 name={furniture.name}

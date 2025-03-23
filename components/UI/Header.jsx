@@ -1,11 +1,11 @@
 'use client'
 import Image from "next/image";
-import user from "../public/image/header/user.png"
-import cart from "../public/image/header/cart.png"
-import like from "../public/image/header/like.png"
+import user from "@/public/image/header/user.png"
+import cart from "@/public/image/header/cart.png"
+import like from "@/public/image/header/like.png"
 import Link from "next/link";
 import { useState } from "react";
-import FavouriteModal from "./FavouriteModal";
+import FavouriteModal from "../FavouriteModal";
 
 
 export default function Header() {

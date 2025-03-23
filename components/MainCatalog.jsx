@@ -8,8 +8,6 @@ export default function MainCatalog({ furnitures }) {
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 8;
 
-
-
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     const currentItems = furnitures.slice(startIndex, endIndex);

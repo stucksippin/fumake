@@ -3,12 +3,16 @@ import useFavoritesStore from '@/app/store/useFavoriteStore';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
+import { message } from 'antd';
 
 
 export default function FurnitureCard({ id, name, tags, price, image }) {
     const editPrice = String(price).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1.');
     const [active, setActive] = useState(false);
-
+  message.config({
+        top: 60,
+        duration: 3,
+    });
 
     const { favorites, addToFavorites, removeFromFavorites, isInFavorites } = useFavoritesStore();
 
@@ -21,16 +25,19 @@ export default function FurnitureCard({ id, name, tags, price, image }) {
     const handleClick = () => {
         if (active) {
             removeFromFavorites(id);
+            message.error('Товар убран из избранного ');
         } else {
             addToFavorites({ id, name, tags, price, image });
+            message.success('Товар добавлен в избранное ');
         }
         setActive(!active);
+        
     };
 
     return (
         <div className="flex transformCard flex-col">
             <button className="relative" onClick={handleClick}>
-                <div className={`qw absolute top-5 right-5 bg-white p-2 rounded-3xl ${active ? 'bg-[#C44B4B]' : ''}`}>
+                <div className={`qw absolute top-5 right-5 bg-white p-2 rounded-3xl ${active ? 'bg-red-500' : ''}`}>
                     <svg
                         className="heart-icon"
                         width="23"

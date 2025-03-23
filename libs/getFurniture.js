@@ -35,6 +35,9 @@ export default async function getFurniture(searchParams) {
                     } : {},
                 ]
             },
+            orderBy: searchParams.priceSort === 'asc' ? { price: 'asc' } : 
+            searchParams.priceSort === 'desc' ? { price: 'desc' } : 
+            undefined,
 
             include: {
                 variations: {
@@ -42,11 +45,11 @@ export default async function getFurniture(searchParams) {
                         color: true,
                     }
                 }
-            }
+            },
+            
         });
         return furnitures;
     } catch (error) {
         console.error("Ошибка загрузки мебели:", error);
-        // throw new Error("Ошибка при загрузке мебели.");
     }
 }

@@ -2,36 +2,11 @@
 import { useState } from "react";
 import { InputNumber, Select } from "antd";
 import { useRouter } from "next/navigation";
-
+import {optionsCategory,optionsColor,optionsPrice} from '@/utils/constants'
 export default function FilterAccordion() {
-    const optionsCategory = [
-        { value: 'all', label: "Все категории" },
-        { value: 'table', label: "Столы" },
-        { value: "sofa", label: "Диваны" },
-        { value: "lamp", label: "Лампы" },
-        { value: "chair", label: "Стулья" },
-        { value: "cabinet", label: "Шкафы" },
-        { value: "bed", label: "Кровати" },
-    ];
-    const optionsColor = [
-        { value: 'all', label: "Все цвета" },
-        { value: "grey", label: "Серый" },
-        { value: "dark-brown", label: "Темно-коричневый" },
-        { value: "beige", label: "Бежевый" },
-        { value: "black", label: "Черный" },
-        { value: "white", label: "Белый" },
-        { value: "brown", label: "Коричневый" },
-        { value: "blue", label: "Синий" },
-        { value: "dark-blue", label: "Темно-синий" },
-        { value: "green", label: "Зеленый" },
-        { value: "walnut", label: "Орех" },
-        { value: "yellow", label: "Желтый" },
-        { value: "light-grey", label: "Светло-серый" },
-        { value: "pink", label: "Розовый" },
-        { value: "oak", label: "Дуб" },
-    ];
     const [category, setCategory] = useState('all')
     const [color, setColor] = useState('all')
+    const [priceSort, setPriceSort] = useState('all')
     const [priceMin, setPriceMin] = useState(1000)
     const [priceMax, setPriceMax] = useState(100000)
     const router = useRouter()
@@ -40,6 +15,7 @@ export default function FilterAccordion() {
         const params = new URLSearchParams()
         category !== 'all' ? params.set("category", category) : params.delete("category")
         color !== 'all' ? params.set("color", color) : params.delete("color")
+        priceSort !== 'all' ? params.set("priceSort", priceSort) : params.delete("priceSort")
         if (priceMin) params.set("priceMin", String(priceMin))
         if (priceMax) params.set("priceMax", String(priceMax))
         console.log('category: ', category);
@@ -53,25 +29,29 @@ export default function FilterAccordion() {
         setColor('all')
         setPriceMin(1000)
         setPriceMax(100000)
+        setPriceSort('all')
         router.push("/catalog")
     }
     return (
-        <div className="flex ">
-
-            <div className="flex gap-x-5 ml-10">
+        <div className="flex">
+            <div className="flex flex-wrap gap-x-5 gap-y-5 ml-5">
                 <Select
-                    className="w-[180px] text-center"
-                    placeholder="Категории"
+                    className="w-[150px] text-center"
                     options={optionsCategory}
                     value={category}
                     onChange={(value) => setCategory(value)}
                 />
                 <Select
-                    className="w-[180px] text-center"
-                    placeholder="Цвет"
+                    className="w-[150px] text-center"
                     options={optionsColor}
                     value={color}
                     onChange={(value) => setColor(value)}
+                />
+                 <Select
+                    className="w-[150px] text-center"
+                    options={optionsPrice}
+                    value={priceSort}
+                    onChange={(value) => setPriceSort(value)}
                 />
                 <div className="flex items-center">
                     <span className="mr-2">от</span>

@@ -2,7 +2,7 @@ import { Breadcrumb, Descriptions } from "antd"
 import Link from "next/link"
 import banner from '@/public/image/catalogBanner.png'
 import Image from "next/image"
-import CallbackForm from "@/components/CallbackForm"
+
 // icons
 import award from "@/public/image/icons/award.png"
 import clock from "@/public/image/icons/clock.png"
@@ -12,6 +12,7 @@ import phone from "@/public/image/icons/phone.png"
 import warrently from "@/public/image/icons/warrently.png"
 import support from "@/public/image/icons/support.png"
 import Title from "antd/es/skeleton/Title"
+import CallbackForm from "@/components/UI/CallbackForm"
 
 export default function ContactPage() {
     const breadcrumbItems = [

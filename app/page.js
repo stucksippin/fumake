@@ -3,8 +3,8 @@ import welcome_pic from "../public/image/welcome_pic.png"
 import BreefCatalog from "@/components/BreefCatalog";
 import getBreefFurniture from "@/libs/getBreefFurniture";
 import Link from "next/link";
-import SliderInstance from "@/components/SliderInstance";
-import Loader from "@/components/Loader";
+import SliderInstance from "@/components/UI/SliderInstance";
+import Loader from "@/components/UI/Loader";
 import FavouriteModal from "@/components/FavouriteModal";
 
 export default async function MainPage() {
@@ -31,7 +31,7 @@ export default async function MainPage() {
 
 
             <BreefCatalog furnitures={furnitures} />
-            <Link className="flex justify-center mt-10" href={"/catalog"}><button className="w-fit py-3 px-8 text-[12px] border border-black  font-semibold hover:bg-[#FFF3E3] rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" type="text">БОЛЬШЕ</button></Link>
+            <Link className="flex justify-center mt-10" href={"/catalog"}><button className="button button:hover" type="text">БОЛЬШЕ</button></Link>
         </div>
     );
 }

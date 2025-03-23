@@ -1,29 +1,17 @@
 'use client'
 import useCartStore from '@/app/store/useCartStore';
-import { Button, InputNumber, Table, message } from 'antd';
+import { InputNumber, Table } from 'antd';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react'
 
 export default function CartTable() {
-
-
-
     const { items, removeItem, updateQuantity, clearCart } = useCartStore()
-
-
     const [hydrated, setHydrated] = useState(false);
 
     useEffect(() => {
-        setHydrated(true); // Ждем, пока компонент загрузится на клиенте
+        setHydrated(true);
     }, []);
-
-    if (!hydrated) return null; // Пока клиент не загрузился, ничего не рендерим
-
-    function handleMessage() {
-        message.success('Корзина очищена')
-    }
-
-
+    if (!hydrated) return null;
 
     console.log("Товары в корзине:", items);
 
@@ -87,7 +75,7 @@ export default function CartTable() {
         <div className='cart_table'>
             <Table className='w-full' columns={columns} dataSource={data} rowKey="id" pagination={false} />
             {items.length > 0 &&
-                <button onClick={clearCart} handleMessage className='border border-black p-2 rounded-lg text-[10px] mt-10'>Очистить корзину</button>
+                <button onClick={clearCart} className='border border-black p-2 rounded-lg text-[10px] mt-10'>Очистить корзину</button>
             }
 
         </div>

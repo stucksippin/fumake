@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import lens from '../public/image/header/search.png'
+import lens from '@/public/image/header/search.png'
 import Input from 'antd/es/input/Input'
 import { useRouter } from 'next/navigation'
 
@@ -19,7 +19,7 @@ export default function SearchItem() {
 
     return (
 
-        <div className='flex items-center ml-[5%]'>
+        <div className='flex items-center'>
 
             <Input
                 placeholder='Что ищем?'

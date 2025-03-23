@@ -5,12 +5,12 @@ import { Navigation } from 'swiper/modules';
 import "swiper/css";
 import "swiper/css/pagination";
 import 'swiper/css/navigation';
-import bedroom from "../public/image/range/bedroom.png"
-import dinning from "../public/image/range/dinning.png"
-import living from "../public/image/range/living.png"
-import bathroom from "../public/image/range/bathroom.png"
-import kidsroom from "../public/image/range/kidsroom.png"
-import hall from "../public/image/range/hall.png"
+import bedroom from "@/public/image/range/bedroom.png"
+import dinning from "@/public/image/range/dinning.png"
+import living from "@/public/image/range/living.png"
+import bathroom from "@/public/image/range/bathroom.png"
+import kidsroom from "@/public/image/range/kidsroom.png"
+import hall from "@/public/image/range/hall.png"
 import Image from "next/image";
 
 
