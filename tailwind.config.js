@@ -1,10 +1,18 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",],
+  safelist: [
+    '!bg-darkRed'
+  ],
   theme: {
+
     extend: {
+      colors: {
+        darkRed: '#C44B4B'
+      },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",
         "slide-in": "slideIn 0.5s ease-out forwards",

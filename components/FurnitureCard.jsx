@@ -9,7 +9,7 @@ import { message } from 'antd';
 export default function FurnitureCard({ id, name, tags, price, image }) {
     const editPrice = String(price).replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1.');
     const [active, setActive] = useState(false);
-  message.config({
+    message.config({
         top: 60,
         duration: 3,
     });
@@ -31,13 +31,13 @@ export default function FurnitureCard({ id, name, tags, price, image }) {
             message.success('Товар добавлен в избранное ');
         }
         setActive(!active);
-        
+
     };
 
     return (
         <div className="flex transformCard flex-col">
             <button className="relative" onClick={handleClick}>
-                <div className={`qw absolute top-5 right-5 bg-white p-2 rounded-3xl ${active ? 'bg-red-500' : ''}`}>
+                <div className={`qw absolute top-5 right-5 bg-white p-2 rounded-3xl ${active ? '!bg-darkRed' : ''}`}>
                     <svg
                         className="heart-icon"
                         width="23"
