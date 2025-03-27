@@ -10,10 +10,10 @@ export default async function getFurnitureAdmin() {
                     }
                 },
                 tags: true,
-                reviews: true
+                reviews: true,
             },
         });
-        console.log(furnitures);
+
 
         return furnitures;
 
