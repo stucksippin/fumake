@@ -1,26 +1,23 @@
-import React from 'react';
-import { Table, Tag } from 'antd';
+import React, { useState } from 'react';
+import { Table, Tag, Button } from 'antd';
+import dynamic from 'next/dynamic';
 
+const ChangeModal = dynamic(() => import('./ChangeModal'), { ssr: false });
 
-export default async function TableFurniture({ furnitures }) {
+export default function TableFurniture({ furnitures }) {
+    const [selectedFurniture, setSelectedFurniture] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const data = furnitures.map((item) => ({
         key: item.id,
         ...item
     }));
 
-
     const columns = [
         {
             title: 'Продукт',
             dataIndex: 'name',
             key: 'name',
-            render: (text, record) => (
-                <div className="flex items-center gap-3">
-
-                    <span>{text}</span>
-                </div>
-            ),
         },
         {
             title: 'Цена',
@@ -35,51 +32,73 @@ export default async function TableFurniture({ furnitures }) {
         },
         {
             title: 'Рейтинг',
-            dataIndex: 'rate',
+            dataIndex: 'reviews',
             key: 'rate',
             render: (reviews) => {
-                if (!reviews || reviews.length === 0) {
-                    return <span>Нет оценки</span>;
-                }
-                const averageRating = reviews.length > 0 ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length : 0;
-
-
-                return <span>{averageRating} ★</span>;
+                if (!reviews || reviews.length === 0) return <span>Нет оценки</span>;
+                const averageRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
+                return <span>{averageRating.toFixed(1)} ★</span>;
             }
         },
         {
             title: 'Теги',
             dataIndex: 'tags',
             key: 'tags',
-            width: '350px',
+            width: '250px',
             render: (tags) => (
                 <div>
-                    {tags && tags.length > 0 ? (
-                        tags.map((tag, index) => (
-                            <Tag key={index}>{tag.name}</Tag>
-                        ))
-                    ) : (
-                        <span>Нет тегов</span>
-                    )}
+                    {tags?.length ? tags.map((tag, index) => <Tag key={index}>{tag.name}</Tag>) : <span>Нет тегов</span>}
                 </div>
             ),
         },
-
+        {
+            title: 'Цвета',
+            dataIndex: 'variations',
+            key: 'colors',
+            width: '200px',
+            render: (variations) => (
+                <div>
+                    {variations?.length ? variations.map((variation, index) => <Tag key={index}>{variation.color.name}</Tag>) : <span>Нет цветов</span>}
+                </div>
+            ),
+        },
+        {
+            title: 'Размеры',
+            dataIndex: 'variations',
+            key: 'size',
+            width: '200px',
+            render: (variations) => (
+                <div>
+                    {variations?.length ? variations.map((variation, index) => <Tag key={index}>{variation.size}</Tag>) : <span>Нет размеров</span>}
+                </div>
+            ),
+        },
         {
             title: 'Действие',
             key: 'action',
-            render: () => (
-                <div className='border w-fit p-1 rounded-md'>
-                    <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 30 30">
-                        <path d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"></path>
-                    </svg>
-                </div>
-            )
+            render: (_, record) => (
+                <Button
+                    onClick={() => {
+                        setSelectedFurniture(record);
+                        setIsModalOpen(true);
+                    }}
+                >
+                    ✏️ Редактировать
+                </Button>
+            ),
         },
     ];
 
-
     return (
-        <Table pagination={{ pageSize: 12 }} columns={columns} dataSource={data} />
-    )
+        <>
+            <Table pagination={{ pageSize: 12 }} columns={columns} dataSource={data} />
+            {selectedFurniture && (
+                <ChangeModal
+                    furniture={selectedFurniture}
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                />
+            )}
+        </>
+    );
 }
