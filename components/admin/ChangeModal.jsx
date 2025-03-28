@@ -1,50 +1,74 @@
-import { Button, Input, Modal, Select } from 'antd';
-import React, { useState, useEffect } from 'react';
+import { editFurniture } from '@/serverActions';
+import { Input, Modal, Tag } from 'antd';
+import { useState, useEffect, useRef } from 'react';
 
-
-export default function ChangeModal() {
-    const [open, setOpen] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState('Content of the modal');
-
-
-    const showModal = () => {
-        setOpen(true);
-    };
+export default function ChangeModal({ furniture, isOpen, onClose }) {
+    const [name, setName] = useState('');
+    const [price, setPrice] = useState('');
+    const [category, setCategory] = useState('');
+    const [tags, setTags] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [sizes, setSizes] = useState([]);
+    useEffect(() => {
+        if (furniture) {
+            setName(furniture.name || '');
+            setPrice(furniture.price || '');
+            setCategory(furniture.category || '');
+            setTags(furniture.tags?.map(tag => tag.name) || []);
+            setColors(furniture.variations?.map(variation => variation.color.name) || []);
+            setSizes(furniture.variations?.map(variation => variation.size) || []);
+        }
+    }, [furniture]);
 
     const handleOk = () => {
-        setModalText('The modal will be closed after two seconds');
-        setConfirmLoading(true);
-        setTimeout(() => {
-            setOpen(false);
-            setConfirmLoading(false);
-        }, 2000);
+        console.log('Сохранение', { name, price });
+        onClose();
     };
 
-    const handleCancel = () => {
-        setOpen(false);
-    };
+
 
     return (
-        <>
-            <Button type="primary" onClick={showModal}>
-                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 30 30">
-                    <path d="M 22.828125 3 C 22.316375 3 21.804562 3.1954375 21.414062 3.5859375 L 19 6 L 24 11 L 26.414062 8.5859375 C 27.195062 7.8049375 27.195062 6.5388125 26.414062 5.7578125 L 24.242188 3.5859375 C 23.851688 3.1954375 23.339875 3 22.828125 3 z M 17 8 L 5.2597656 19.740234 C 5.2597656 19.740234 6.1775313 19.658 6.5195312 20 C 6.8615312 20.342 6.58 22.58 7 23 C 7.42 23.42 9.6438906 23.124359 9.9628906 23.443359 C 10.281891 23.762359 10.259766 24.740234 10.259766 24.740234 L 22 13 L 17 8 z M 4 23 L 3.0566406 25.671875 A 1 1 0 0 0 3 26 A 1 1 0 0 0 4 27 A 1 1 0 0 0 4.328125 26.943359 A 1 1 0 0 0 4.3378906 26.939453 L 4.3632812 26.931641 A 1 1 0 0 0 4.3691406 26.927734 L 7 26 L 5.5 24.5 L 4 23 z"></path>
-                </svg>
-            </Button>
-            <Modal
-                title="Редактирование товара"
-                open={open}
-                onOk={handleOk}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-            >
-                <form className='flex flex-col gap-y-5'>
-                    <Input className='h-[50px]' placeholder='Название товара' />
-                    <Input className='h-[50px]' placeholder='Цена товара' />
+        <Modal
+            title="Редактирование товара"
+            open={isOpen}
+            onOk={handleOk}
+            onCancel={onClose}
+        >
+            <form className='flex flex-col gap-y-5' action={editFurniture}>
+                <Input
+                    placeholder='Название товара'
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <Input
+                    placeholder='Цена товара'
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                />
+                <Input
+                    placeholder='Категория'
+                    value={category}
+                    onChange={(e) => setPrice(e.target.value)}
+                />
+                <Input
+                    placeholder='Тэги'
+                    value={tags.join(' | ')}
+                    onChange={(e) => setTags(e.target.value.split(',').map(tag => tag.trim()))}
+                />
+                <Input
+                    placeholder='Цвета'
+                    value={colors.join(' | ')}
+                    onChange={(e) => setTags(e.target.value.split(',').map(color => color.trim()))}
+                />
+                <Input
+                    placeholder='Размеры'
+                    value={sizes.join(' | ')}
+                    onChange={(e) => setTags(e.target.value.split(',').map(color => color.trim()))}
+                />
 
-                </form>
-            </Modal>
-        </>
+                <button className='button' type='submit'>Изменить</button>
+
+            </form>
+        </Modal>
     );
-};
+}

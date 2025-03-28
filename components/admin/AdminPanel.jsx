@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
 import TableFurniture from './TableFurniture';
+import CreateForm from './CreateModal';
 
 
 const { Content, Sider } = Layout;
@@ -32,7 +33,7 @@ export default function AdminPanel({ furnitures }) {
             case '1':
                 return <TableFurniture furnitures={furnitures} />
             case '2':
-                return <div>добавление товара</div>
+                return <CreateForm />
             default:
                 return <div>не может быть</div>
         }

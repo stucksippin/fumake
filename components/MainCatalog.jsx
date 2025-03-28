@@ -1,26 +1,21 @@
 'use client';
-import { Pagination } from "antd";
+
 import FurnitureCard from "./FurnitureCard";
 import { useState } from "react";
 
-
 export default function MainCatalog({ furnitures }) {
-    const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 8;
+    const [visibleCount, setVisibleCount] = useState(8); // Сколько товаров показываем
+    const itemsToShow = furnitures.slice(0, visibleCount); // Показываем только первые 10 товаров
 
-    const startIndex = (currentPage - 1) * pageSize;
-    const endIndex = startIndex + pageSize;
-    const currentItems = furnitures.slice(startIndex, endIndex);
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
+    const loadMore = () => {
+        setVisibleCount(prevCount => prevCount + 16); // Увеличиваем на 10 товаров
     };
 
     return (
         <div className="mt-[5%]">
             <div className="container flex flex-wrap gap-x-[40px] gap-y-[40px] justify-center">
-                {currentItems.length > 0 ? (
-                    currentItems.map((furniture) => {
+                {itemsToShow.length > 0 ? (
+                    itemsToShow.map((furniture) => {
                         const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;
                         return (
                             <FurnitureCard
@@ -38,15 +33,16 @@ export default function MainCatalog({ furnitures }) {
                 )}
             </div>
 
-            <div className="flex justify-center pagination-container text-center mt-4">
-                <Pagination
-                    current={currentPage}
-                    pageSize={pageSize}
-                    total={furnitures.length}
-                    onChange={handlePageChange}
-                    showSizeChanger={false}
-                />
-            </div>
+            {itemsToShow.length < furnitures.length && (
+                <div className="flex justify-center pagination-container text-center mt-4">
+                    <button
+                        onClick={loadMore}
+                        className="button"
+                    >
+                        Показать еще
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
