@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { InputNumber, Select } from "antd";
 import { useRouter } from "next/navigation";
-import {optionsCategory,optionsColor,optionsPrice} from '@/utils/constants'
+import { optionsCategory, optionsColor, optionsPrice } from '@/utils/constants'
 export default function FilterAccordion() {
     const [category, setCategory] = useState('all')
     const [color, setColor] = useState('all')
@@ -33,29 +33,31 @@ export default function FilterAccordion() {
         router.push("/catalog")
     }
     return (
-        <div className="flex">
-            <div className="flex flex-wrap gap-x-5 gap-y-5 ml-5">
+        <div className="filter_accordion flex">
+            <div className="filter_accordion-items flex flex-wrap gap-x-5 gap-y-5 ">
                 <Select
-                    className="w-[150px] text-center"
+                    className="filter_accordion-item w-[150px] text-center"
                     options={optionsCategory}
                     value={category}
                     onChange={(value) => setCategory(value)}
                 />
                 <Select
-                    className="w-[150px] text-center"
+                    className="filter_accordion-item w-[150px] text-center"
                     options={optionsColor}
                     value={color}
                     onChange={(value) => setColor(value)}
                 />
-                 <Select
-                    className="w-[150px] text-center"
+                <Select
+                    className="filter_accordion-item w-[150px] text-center"
                     options={optionsPrice}
                     value={priceSort}
+
                     onChange={(value) => setPriceSort(value)}
                 />
                 <div className="flex items-center">
                     <span className="mr-2">от</span>
                     <InputNumber
+                        className="filter_accordion-item "
                         min={1000}
                         max={100000}
                         value={priceMin}
@@ -64,6 +66,7 @@ export default function FilterAccordion() {
                     />
                     <span className="mr-2 ml-2">до</span>
                     <InputNumber
+                        className="filter_accordion-item "
                         min={1000}
                         max={100000}
                         value={priceMax}
@@ -71,8 +74,8 @@ export default function FilterAccordion() {
                         step={500}
                     />
                 </div>
-                <button className="border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={applyFilters}>Применить</button>
-                <button className="border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={resetFilters}>Сбросить</button>
+                <button className="filter_accordion-button border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={applyFilters}>Применить</button>
+                <button className="filter_accordion-button border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={resetFilters}>Сбросить</button>
             </div>
         </div>
     );

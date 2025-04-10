@@ -49,19 +49,20 @@ export default function ContactPage() {
         <div>
             <div className='container'>
                 <div className='relative'>
-                    <Breadcrumb className='mb-5 text-[18px] absolute top-[60%] left-[45.5%] z-40' items={breadcrumbItems}
+                    <Breadcrumb className='breadcrumb mb-5 text-[18px] absolute top-[60%] left-[45.5%] z-40' items={breadcrumbItems}
                     />
                     <Image className='opacity-50 mx-auto' width={1536} height={316} src={banner} alt='banner' />
-                    <span className='absolute top-[45%] left-[46%] title'>Контакты</span>
+                    <span className='breadcrumb_title breadcrumb_title_contact absolute top-[45%] left-[46%] title'>Контакты</span>
                 </div>
                 <section className="section">
                     <div className="flex flex-col text-center mb-[5%]">
-                        <span className="text-3xl font-bold mb-2 ">Свяжитесь с нами </span>
-                        <span className="font-thin mt-2">Для получения дополнительной информации о наших продуктах и услугах. Пожалуйста, не стесняйтесь, <br /> пишите нам по электронной почте. Наши сотрудники всегда готовы помочь вам. Не стесняйтесь!</span>
+                        <span className="title">Свяжитесь с нами </span>
+                        <span className="contact_subtitle font-thin mt-2">Для получения дополнительной информации о наших продуктах и услугах. Пожалуйста, не стесняйтесь, <br /> пишите нам по электронной почте. Наши сотрудники всегда готовы помочь вам. Не стесняйтесь!</span>
                     </div>
 
-                    <div className="flex justify-around">
-                        <div className="flex flex-col">
+                    <div className="contact_block flex justify-around">
+
+                        <div className="contact_block-info flex flex-col">
                             <div className="flex mb-5">
                                 <div className="flex">
                                     <div className="flex flex-col justify-center mr-5">
@@ -100,22 +101,23 @@ export default function ContactPage() {
 
                             </div>
                         </div>
+
                         <CallbackForm />
                     </div>
 
 
                 </section>
             </div>
-            <div className="p-[5%] flex justify-between bg-[#FAF3EA]">
+            <div className="contact_banner p-[5%] flex justify-between bg-[#FAF3EA]">
                 {
                     dataForBanner.map((item) => (
-                        <ul className="flex" key={item.title}>
-                            <li className="flex flex-col justify-center mr-3">
+                        <ul className="contact_banner-item  border-black flex" key={item.title}>
+                            <li className="contact_banner-image flex flex-col justify-center mr-3">
                                 <Image className="" src={item.image} width={50} alt="banner icon award, warrantly, shipping, support" />
                             </li>
                             <li className="flex flex-col">
-                                <span className="font-semibold text-[25px]">{item.title}</span>
-                                <span className="text-[20px]">{item.description}</span>
+                                <span className="contact_banner-title font-semibold text-[25px]">{item.title}</span>
+                                <span className="contact_banner-text text-[20px]">{item.description}</span>
                             </li>
                         </ul>
                     ))

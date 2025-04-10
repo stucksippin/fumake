@@ -1,55 +1,74 @@
 'use server'
 import prisma from "./libs/prisma"
-export async function editFurniture(formData) {
+export async function editFurniture(data) {
 
-    const Variations = prisma.furnitureVariations.findMany({
+    console.log('ddadsadasdadadiffghdsjkgjkdhgksfjgdjkshs', data)
+
+    await prisma.furnitureVariations.deleteMany({
         where: {
-            furnitureId: 6
+            colorsId: {
+                notIn: data.colors.map(color => color.value)
+            }
         }
     })
 
-    const resp = prisma.furniture.update({
+
+    const variations = await prisma.furnitureVariations.findMany({
         where: {
-            id: formData.get('id')
+            size: {
+                in: data.sizes.map(size => size)
+            },
+            colorsId: {
+                in: data.colors.map(color => color.value)
+            }
+        }
+    })
+    variations.forEach((variation) => {
+        data.colors.forEach(color => {
+            data.sizes.forEach(async Size => {
+                await prisma.furnitureVariations.upsert({
+                    where: { id: variation.id },
+                    update: {
+                        furnitureId: data.id,
+                        colorsId: color.value,
+                        size: Size,
+                    },
+                    create: {
+                        furnitureId: data.id,
+                        colorsId: color.value,
+                        size: Size,
+                    }
+                })
+            })
+        })
+    })
+
+
+    const resp = await prisma.furniture.update({
+        where: {
+            id: data.id
         },
         data: {
-            name: formData.get('name'),
-            price: formData.get('price'),
-            category: formData.get('category'),
-            variations: {
-                update: {
-                    where: {
-                        furnitureId: formData.get('id')
-                    },
-                    data: {
-                        size: formData.get('size'),
-                        color: {
-                            update: {
-
-                            }
-                        }
-
-                    }
-                }
-            }
-
-        }
-    })
-
-    const Delete = prisma.furnitureVariations.delete({
-        where: {
-            furnitureId: formData.get('id'),
-            colorsId: {
-                notIn: [1, 6, 9] // Тут должны быть те которые остались - хорошие!
+            name: data.title,
+            category: data.category,
+            price: Number(data.price),
+            tags: {
+                connect: data.tags.map(tag => ({ id: tag }))
             }
         }
-    })
+    });
+}
 
-    const variations = prisma.furnitureVariations.create({
-        data: {
-            colorsId: {
+export async function getColorsOptions() {
+    const tags = await prisma.colors.findMany()
+    return tags
+}
+export async function getSizesOptions() {
+    const sizes = await prisma.furnitureVariations.findMany()
+    return sizes
 
-            }
-        }
-    })
+}
+export async function getTagsOptions() {
+    const tags = await prisma.tag.findMany()
+    return tags
 }

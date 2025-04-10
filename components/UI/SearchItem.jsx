@@ -19,11 +19,11 @@ export default function SearchItem() {
 
     return (
 
-        <div className='flex items-center'>
+        <div className='flex items-center mr-5'>
 
             <Input
                 placeholder='Что ищем?'
-                className='ml-2 border border-black rounded-lg px-2 h-[30px] w-[300px]'
+                className=' border border-black rounded-lg px-2 h-[30px] w-[300px]'
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}

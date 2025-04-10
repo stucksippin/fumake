@@ -9,6 +9,7 @@
     user-select: none;
 } */
 
+
 .container {
     width: 80%;
     margin: 0 auto;
@@ -134,17 +135,950 @@
     stroke: red !important;
 }
 
-.button{
-    width: fit-content; /* w-fit */
-    padding: 0.75rem 2rem; /* py-3 px-8 */
-    font-size: 12px; /* text-[12px] */
-    border: 1px solid black; /* border border-black */
-    font-weight: 600; /* font-semibold */
-    border-radius: 0.5rem; /* rounded-lg */
-    transition: all 0.3s ease-in-out; /* transition ease-in-out */
-    cursor: pointer; /* Добавлено для интерактивности */
+.button {
+    width: fit-content;
+    /* w-fit */
+    padding: 0.75rem 2rem;
+    /* py-3 px-8 */
+    font-size: 12px;
+    /* text-[12px] */
+    border: 1px solid black;
+    /* border border-black */
+    font-weight: 600;
+    /* font-semibold */
+    border-radius: 0.5rem;
+    /* rounded-lg */
+    transition: all 0.3s ease-in-out;
+    /* transition ease-in-out */
+    cursor: pointer;
+    /* Добавлено для интерактивности */
 }
-.button:hover{
-    background-color: #FFF3E3; /* hover:bg-[#FFF3E3] */
-    transform: translateY(-1px) scale(1.1); /* hover:-translate-y-1 hover:scale-110 */
+
+.button:hover {
+    background-color: #FFF3E3;
+    /* hover:bg-[#FFF3E3] */
+    transform: translateY(-1px) scale(1.1);
+    /* hover:-translate-y-1 hover:scale-110 */
+}
+
+/* adaptive */
+@media screen and (max-width: 1920px) {}
+
+@media screen and (max-width: 1440px) {
+
+    /* breadcrumbs */
+    .breadcrumb {
+        font-size: 16px;
+        left: 53vh;
+    }
+
+    .breadcrumb_cart {
+        left: 47vh;
+    }
+
+    .breadcrumb_title {
+        font-size: 26px;
+    }
+
+    .breadcrumb_title_contact {
+        left: 54vh;
+    }
+
+    .breadcrumb_title_cart {
+        left: 54vh;
+    }
+
+    /* favorite modal */
+
+    .favorite_modal {
+        width: 350px;
+    }
+
+    /* welcome-block */
+    .welcome_block-text {
+        font-size: 16px;
+    }
+
+    .welcome_block-title {
+        font-size: 33px;
+        margin-bottom: 5px;
+    }
+
+    /* cards */
+    .furniture_card-image {
+        width: 225px;
+    }
+
+    /* filter */
+    .filter_accordion {
+        margin-top: 10px;
+
+    }
+
+    .filter_accordion-items {
+        justify-content: end;
+    }
+
+
+
+    /* contact */
+    .formFields {
+        border: 0.5px solid;
+        border-radius: 5px;
+        padding: 10px 15px;
+        width: 400px;
+        margin-top: 10px;
+        margin-bottom: 25px;
+    }
+
+    .contact_banner-image {
+        width: 45px;
+    }
+
+    .contact_banner-title {
+        font-size: 22px;
+    }
+
+    .contact_banner-text {
+        font-size: 18px;
+    }
+
+    /* footer */
+    .footer_infoblock {
+        font-size: 14px;
+    }
+
+    .footer_title {
+        font-size: 20px;
+    }
+
+    .footer-col {
+        gap: 20px 0px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .title {
+        font-size: 25px;
+    }
+
+    /* breadcrumbs */
+    .breadcrumb {
+        font-size: 14px;
+        left: 52vh;
+    }
+
+    .breadcrumb_title {
+        font-size: 22px;
+    }
+
+    .breadcrumb_cart {
+        left: 47vh;
+    }
+
+    .breadcrumb_title_catalog {
+        left: 54vh;
+    }
+
+    .breadcrumb_title_contact {
+        left: 54vh;
+    }
+
+    .breadcrumb_title_cart {
+        left: 54vh;
+    }
+
+
+    /* button */
+    .button {
+        width: fit-content;
+
+        padding: 8px 20px;
+        /* py-3 px-8 */
+        font-size: 10px;
+        /* text-[12px] */
+        border: 1px solid black;
+        /* border border-black */
+        font-weight: 600;
+        /* font-semibold */
+        border-radius: 0.5rem;
+        /* rounded-lg */
+        transition: all 0.3s ease-in-out;
+        /* transition ease-in-out */
+        cursor: pointer;
+        /* Добавлено для интерактивности */
+    }
+
+    /* favorite modal */
+
+    .favorite_modal {
+        width: 300px;
+    }
+
+    .favorite_modal_table {}
+
+    /* header */
+    .header {
+        padding: 10px 0;
+    }
+
+    .header-links {
+        font-size: 14px;
+    }
+
+    .header-logo {
+        font-size: 14px;
+    }
+
+    .header-icons {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* welcome-block */
+    .welcome_block-text {
+        font-size: 14px;
+    }
+
+    .welcome_block-title {
+        font-size: 28px;
+        margin-bottom: 5px;
+    }
+
+    .welcome_block-button {
+        font-size: 10px;
+    }
+
+    /* swiper */
+    .swiper-title {
+        font-size: 18px;
+    }
+
+    .swiper-image {
+        border-radius: 5px;
+    }
+
+    /* cards */
+    .furniture_card-image {
+        width: 170px;
+        border-radius: 5px;
+    }
+
+    .furniture_card-title {
+        font-size: 12px;
+        max-width: 170px;
+
+    }
+
+    .furniture_card-price {
+        font-size: 11px;
+    }
+
+    .qw {
+        top: 5px;
+        right: 5px;
+        padding: 7px;
+    }
+
+    .heart-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* filter */
+    .filter_accordion {
+        margin-top: 10px;
+    }
+
+    .filter_accordion-items {
+        justify-content: flex-start;
+    }
+
+    .filter_accordion-item {}
+
+    /* contact*/
+    .contact_subtitle {
+        font-size: 14px;
+    }
+
+    .contact_infoblock_title {
+        font-size: 18px;
+    }
+
+    .contact_infoblock_text {
+        font-size: 14px;
+    }
+
+    .formFields {
+        border: 0.5px solid;
+        border-radius: 5px;
+        padding: 6px 15px;
+        width: 300px;
+        margin-top: 5px;
+        margin-bottom: 25px;
+        font-size: 14px;
+    }
+
+    .callback_form-label {
+        font-size: 14px;
+    }
+
+    .callback_form-btn {
+        padding: 8px 20px;
+        font-size: 10px;
+    }
+
+    .contact_banner-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .contact_banner-title {
+        font-size: 16px;
+    }
+
+    .contact_banner-text {
+        font-size: 12px;
+    }
+
+    /* cart */
+
+    .cart_table-title {
+        font-size: 12px;
+    }
+
+    .cart_item-text {
+        font-size: 12px;
+    }
+
+    .cart_item-input {
+        width: 50px;
+    }
+
+    .cart_item-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .cart_menu {
+        height: 325px;
+    }
+
+    .payment_window-title {
+        font-size: 16px;
+    }
+
+    .payment_window-text {
+        font-size: 12px;
+    }
+
+    .payment_window-input {
+        font-size: 10px;
+    }
+
+    .payment_window-confirm {
+        font-size: 10px;
+    }
+
+    .payment_window-btn {
+        font-size: 10px;
+        padding: 5px 30px;
+    }
+
+    /* footer */
+    .footer_infoblock {
+        font-size: 14px;
+    }
+
+    .footer_title {
+        font-size: 20px;
+    }
+
+    .footer-col {
+        gap: 20px 0px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .title {
+        font-size: 25px;
+    }
+
+    /* breadcrumbs */
+    .breadcrumb {
+        font-size: 10px;
+        left: 40vh;
+    }
+
+    .breadcrumb_title {
+        font-size: 16px;
+    }
+
+    .breadcrumb_cart {
+        left: 36vh;
+    }
+
+    .breadcrumb_title_catalog {
+        left: 42vh;
+    }
+
+    .breadcrumb_title_contact {
+        left: 42vh;
+    }
+
+    .breadcrumb_title_cart {
+        left: 42vh;
+    }
+
+
+    /* button */
+    .button {
+        width: fit-content;
+
+        padding: 8px 20px;
+        /* py-3 px-8 */
+        font-size: 10px;
+        /* text-[12px] */
+        border: 1px solid black;
+        /* border border-black */
+        font-weight: 600;
+        /* font-semibold */
+        border-radius: 0.5rem;
+        /* rounded-lg */
+        transition: all 0.3s ease-in-out;
+        /* transition ease-in-out */
+        cursor: pointer;
+        /* Добавлено для интерактивности */
+    }
+
+    /* favorite modal */
+    .favorite_table-title {
+        font-size: 12px;
+    }
+
+    .favorite_modal {
+        width: 300px;
+    }
+
+    .favorite_table-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .favorite_table-text {
+        font-size: 12px;
+    }
+
+    /* header */
+    .header {
+        padding: 10px 0;
+    }
+
+    .header-links {
+        font-size: 10px;
+    }
+
+    .header-logo {
+        font-size: 12px;
+    }
+
+    .header-icons {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* welcome-block */
+    .welcome_block-text {
+        font-size: 10px;
+    }
+
+    .welcome_block-title {
+        font-size: 18px;
+        margin-bottom: 5px;
+    }
+
+    .welcome_block-button {
+        font-size: 8px;
+        padding: 8px 30px;
+    }
+
+    /* swiper */
+    .swiper-title {
+        font-size: 12px;
+    }
+
+    .swiper-image {
+        border-radius: 5px;
+    }
+
+    /* cards */
+    .furniture_card-image {
+        width: 170px;
+        border-radius: 2px;
+    }
+
+    .furniture_card-title {
+        font-size: 12px;
+        max-width: 170px;
+
+    }
+
+    .furniture_card-price {
+        font-size: 11px;
+    }
+
+    .qw {
+        top: 5px;
+        right: 5px;
+        padding: 7px;
+    }
+
+    .heart-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* filter */
+    .filter_accordion {
+        margin-top: 10px;
+    }
+
+    .filter_accordion-items {
+        justify-content: flex-start;
+    }
+
+    .filter_accordion-item {}
+
+    /* contact*/
+    .contact_subtitle {
+        font-size: 10px;
+    }
+
+    .contact_infoblock_title {
+        font-size: 14px;
+    }
+
+    .contact_infoblock_text {
+        font-size: 10px;
+    }
+
+    .formFields {
+        border: 0.5px solid;
+        border-radius: 5px;
+        padding: 5px 15px;
+        width: 200px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        font-size: 10px;
+    }
+
+    .callback_form-label {
+        font-size: 10px;
+    }
+
+    .callback_form-btn {
+        padding: 6px 20px;
+        font-size: 10px;
+    }
+
+    .contact_banner-image {
+        width: 30px;
+        height: 30px;
+    }
+
+    .contact_banner-title {
+        font-size: 12px;
+    }
+
+    .contact_banner-text {
+        font-size: 10px;
+    }
+
+    /* cart */
+
+    .cart_table-title {
+        font-size: 8px;
+    }
+
+    .cart_item-text {
+        font-size: 8px;
+    }
+
+    .cart_item-input {
+        width: 28px;
+        font-size: 8px;
+    }
+
+    .cart_item-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .cart_item-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .cart_table-clear-btn {
+        font-size: 8px;
+        padding: 3px 15px;
+    }
+
+    .cart_menu {
+        height: 300px;
+    }
+
+    .payment_window-title {
+        font-size: 14px;
+    }
+
+    .payment_window-text {
+        font-size: 10px;
+    }
+
+    .payment_window-input {
+        font-size: 8px;
+    }
+
+    .payment_window-confirm {
+        font-size: 8px;
+        padding: 1px 8px;
+    }
+
+    .payment_window-block {
+        margin-bottom: 2px;
+    }
+
+    .payment_window-btn {
+        font-size: 8px;
+        padding: 3px 15px;
+    }
+
+
+    /* footer */
+    .footer_infoblock {
+        font-size: 10px;
+    }
+
+    .footer_title {
+        font-size: 12px;
+    }
+
+    .footer-col {
+        gap: 14px 0px;
+    }
+}
+
+@media screen and (max-width: 425px) {
+    .title {
+        font-size: 22px;
+    }
+
+    /* breadcrumbs */
+    .breadcrumb {
+        font-size: 10px;
+        left: 40vh;
+    }
+
+    .breadcrumb_title {
+        font-size: 16px;
+    }
+
+    .breadcrumb_cart {
+        left: 36vh;
+    }
+
+    .breadcrumb_title_catalog {
+        left: 42vh;
+    }
+
+    .breadcrumb_title_contact {
+        left: 42vh;
+    }
+
+    .breadcrumb_title_cart {
+        left: 42vh;
+    }
+
+
+    /* button */
+    .button {
+        width: fit-content;
+
+        padding: 8px 20px;
+        /* py-3 px-8 */
+        font-size: 10px;
+        /* text-[12px] */
+        border: 1px solid black;
+        /* border border-black */
+        font-weight: 600;
+        /* font-semibold */
+        border-radius: 0.5rem;
+        /* rounded-lg */
+        transition: all 0.3s ease-in-out;
+        /* transition ease-in-out */
+        cursor: pointer;
+        /* Добавлено для интерактивности */
+    }
+
+    /* favorite modal */
+    .favorite_table-title {
+        font-size: 12px;
+    }
+
+    .favorite_modal {
+        width: 300px;
+    }
+
+    .favorite_table-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .favorite_table-text {
+        font-size: 12px;
+    }
+
+    /* header */
+    .header {
+        padding: 10px 0;
+    }
+
+    .first-link {
+        padding-left: 0;
+    }
+
+    .header_container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .header_container-links {
+        font-size: 10px;
+        gap: 4px 0;
+
+    }
+
+    .header-logo {
+
+        font-size: 12px;
+        justify-content: flex-start;
+    }
+
+    .header-icons {
+        width: 14px;
+        height: 14px;
+    }
+
+    /* welcome-block */
+    .welcome_block-text {
+        font-size: 10px;
+        margin-bottom: 5px;
+    }
+
+    .welcome_block-title {
+        font-size: 14px;
+        margin-bottom: 3px;
+    }
+
+    .welcome_block-button {
+        font-size: 8px;
+        padding: 4px 20px;
+    }
+
+    .welcome_block-info {
+        height: 135px;
+        padding: 12px;
+        top: 6%;
+    }
+
+    /* swiper */
+    .swiper-title {
+        font-size: 12px;
+    }
+
+    .swiper-image {
+        border-radius: 5px;
+    }
+
+    /* cards */
+    .furniture_card-image {
+        width: 150px;
+        border-radius: 2px;
+    }
+
+    .furniture_card-title {
+        font-size: 12px;
+        max-width: 150px;
+
+    }
+
+    .furniture_card-price {
+        font-size: 11px;
+    }
+
+    .qw {
+        top: 5px;
+        right: 5px;
+        padding: 7px;
+    }
+
+    .heart-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* filter */
+    .filter_accordion {
+        margin-top: 10px;
+    }
+
+    .filter_accordion-items {
+        justify-content: flex-start;
+    }
+
+    .filter_accordion-item {}
+
+    /* contact*/
+    .contact_block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .contact_block-info {
+        margin-bottom: 20px;
+    }
+
+    .contact_subtitle {
+        font-size: 10px;
+    }
+
+    .contact_infoblock_title {
+        font-size: 14px;
+    }
+
+    .contact_infoblock_text {
+        font-size: 10px;
+    }
+
+    .formFields {
+        border: 0.5px solid;
+        border-radius: 5px;
+        padding: 5px 15px;
+        width: 200px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+        font-size: 10px;
+    }
+
+    .callback_form-label {
+        font-size: 10px;
+    }
+
+    .callback_form-btn {
+        padding: 6px 20px;
+        font-size: 10px;
+    }
+
+    .contact_banner {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px 0px;
+    }
+
+    .contact_banner-item {
+        width: 250px;
+
+        align-items: center;
+    }
+
+    .contact_banner-image {
+        width: 20px;
+        height: 20px;
+    }
+
+    .contact_banner-title {
+        font-size: 16px;
+    }
+
+    .contact_banner-text {
+        font-size: 12px;
+    }
+
+    /* cart */
+
+    .cart_table-title {
+        font-size: 8px;
+    }
+
+    .cart_item-text {
+        font-size: 8px;
+    }
+
+    .cart_item-input {
+        width: 28px;
+        font-size: 8px;
+    }
+
+    .cart_item-icon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .cart_item-image {
+        width: 40px;
+        height: 40px;
+    }
+
+    .cart_table-clear-btn {
+        font-size: 8px;
+        padding: 3px 15px;
+    }
+
+    .cart_menu {
+        height: 300px;
+    }
+
+    .payment_window-title {
+        font-size: 14px;
+    }
+
+    .payment_window-text {
+        font-size: 10px;
+    }
+
+    .payment_window-input {
+        font-size: 8px;
+    }
+
+    .payment_window-confirm {
+        font-size: 8px;
+        padding: 1px 8px;
+    }
+
+    .payment_window-block {
+        margin-bottom: 2px;
+    }
+
+    .payment_window-btn {
+        font-size: 8px;
+        padding: 3px 15px;
+    }
+
+
+    /* footer */
+    .footer_infoblock {
+        font-size: 10px;
+        gap: 0 25px;
+    }
+
+    .footer_title {
+        font-size: 12px;
+    }
+
+    .footer-col {
+        gap: 14px 0px;
+    }
 }

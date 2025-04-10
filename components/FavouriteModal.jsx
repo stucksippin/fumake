@@ -21,7 +21,7 @@ export default function FavouriteModal({ onClose }) {
 
     const columns = [
         {
-            title: 'Товар',
+            title: <div className='favorite_table-title'>Товар</div>,
             dataIndex: 'name',
             key: 'name',
             width: '80%',
@@ -32,9 +32,9 @@ export default function FavouriteModal({ onClose }) {
                         width={30}
                         height={30}
                         alt={text}
-                        className="w-16 h-16 object-cover rounded"
+                        className="favorite_table-image w-16 h-16 object-cover rounded"
                     />
-                    <span>{text}</span>
+                    <span className='favorite_table-text'>{text}</span>
                 </Link>
             ),
         },
@@ -75,13 +75,13 @@ export default function FavouriteModal({ onClose }) {
 
     return (
         <div className="sticky top-[7%] z-40">
-            <div className="absolute right-5 top-5 flex flex-col items-center w-[400px]  min-h-[350px] bg-[#FAFAFA] rounded-md border-slate-300 border-2">
+            <div className="favorite_modal absolute right-5 top-5 flex flex-col items-center w-[400px]  min-h-[350px] bg-[#FAFAFA] rounded-md border-slate-300 border-2">
                 <button onClick={onClose} className="absolute right-5 top-2 transition ease-in-out delay-100 hover:-translate-y-[2px] hover:scale-100 duration-100">
                     <CloseOutlined />
                 </button>
                 <span className="font-semibold mt-4 mb-2">Избранные товары</span>
                 <hr />
-                <Table className="w-full" locale={{ emptyText: 'Здесь пока пусто' }} dataSource={data} columns={columns} pagination={{ pageSize: 4 }} />
+                <Table className="favorite_modal_table w-full" locale={{ emptyText: 'Здесь пока пусто' }} dataSource={data} columns={columns} pagination={{ pageSize: 3 }} />
             </div>
         </div>
     );

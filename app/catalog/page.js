@@ -1,6 +1,5 @@
 export const dynamic = 'force-dynamic' // разобраться 
 
-
 import Image from 'next/image'
 import React from 'react'
 import catalog from '/public/image/catalogBanner.png'
@@ -27,11 +26,11 @@ export default async function CatalogPage({ searchParams }) {
 
             <div className='container relative'>
                 <Breadcrumb
-                    className='mb-5 text-[18px] absolute top-[60%] left-[45%] z-10'
+                    className='breadcrumb mb-5 text-[18px] absolute top-[60%] left-[45%] z-10'
                     items={breadcrumbItems}
                 />
                 <Image className='opacity-50 mx-auto' width={1536} height={316} src={catalog} alt='catalog banner' />
-                <span className='absolute top-[45%] left-[46%] title'>Каталог</span>
+                <span className='breadcrumb_title breadcrumb_title_catalog absolute top-[45%] left-[46%] title'>Каталог</span>
             </div>
             <Filter searchParams={searchParams} />
             <MainCatalog furnitures={furnitures} />

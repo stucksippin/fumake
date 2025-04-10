@@ -13,12 +13,15 @@ export default async function MainPage() {
         <div className="mainPage">
 
             <div className="mainPage_welcome_block relative" >
-                <Image className="mx-auto" src={welcome_pic} alt="welcome picture with furniture" />
-                <div className="absolute left-[50%] bottom-[20%] flex flex-col bg-[#FFF3E3] p-8">
-                    <span className="text-[45px] text-[#BAA898] font-semibold mb-5">Изучите Нашу <br /> Новую Коллекцию</span>
-                    <span className="mb-5 text-[18px]">Magna ad nulla proident exercitation incididunt duis occaecat est cillum non eu amet sint. Duis officia </span>
-                    <button className="w-fit py-3 px-8 text-[12px] bg-[#BAA898] text-white hover:bg-[#FFF3E3] hover:text-black hover:border border-black font-semibold  rounded-lg transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-100" type="text">ПОСМОТРЕТЬ</button>
+
+                <Image className="welcome_block-image mx-auto" src={welcome_pic} alt="welcome picture with furniture" />
+
+                <div className="welcome_block-info absolute left-[50%] bottom-[20%] flex flex-col bg-[#FFF3E3] p-8">
+                    <span className="welcome_block-title text-[45px] text-[#BAA898] font-semibold mb-5">Изучите Нашу <br /> Новую Коллекцию</span>
+                    <span className="welcome_block-text mb-5 text-[18px]">Magna ad nulla proident exercitation incididunt duis occaecat est cillum non eu amet sint. Duis officia </span>
+                    <button className="welcome_block-button w-fit py-3 px-8 text-[12px] bg-[#BAA898] text-white hover:bg-[#FFF3E3] hover:text-black hover:border border-black font-semibold  rounded-lg transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-100" type="text">ПОСМОТРЕТЬ</button>
                 </div>
+
             </div>
 
             <div className="mainPage_range container mt-[100px]">

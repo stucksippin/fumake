@@ -21,7 +21,7 @@ export default async function getFurniture(searchParams) {
                     searchParams.name ? {
                         name: {
                             contains: searchParams.name,
-                            // mode: 'insensitive', 
+                            // mode: 'insensitive',
                         }
                     } : {},
                     searchParams.color ? {
@@ -35,9 +35,9 @@ export default async function getFurniture(searchParams) {
                     } : {},
                 ]
             },
-            orderBy: searchParams.priceSort === 'asc' ? { price: 'asc' } : 
-            searchParams.priceSort === 'desc' ? { price: 'desc' } : 
-            undefined,
+            orderBy: searchParams.priceSort === 'asc' ? { price: 'asc' } :
+                searchParams.priceSort === 'desc' ? { price: 'desc' } :
+                    undefined,
 
             include: {
                 variations: {
@@ -46,7 +46,7 @@ export default async function getFurniture(searchParams) {
                     }
                 }
             },
-            
+
         });
         return furnitures;
     } catch (error) {

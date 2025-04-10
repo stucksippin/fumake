@@ -44,19 +44,30 @@ export default function SliderInstance() {
 
     ]
     return (
-        <div className="flex justify-center">
+        <div className="swiper flex justify-center">
             <Swiper
                 spaceBetween={50}
                 slidesPerView={4}
-                navigation={true}
                 pagination={{ clickable: true }}
-                modules={[Navigation, Pagination]}
+                modules={[Pagination]}
                 className="!pb-10"
+                breakpoints={{
+                    320: {
+                        slidesPerView: 2,
+                        spaceBetween: 20
+                    },
+                    600: {
+                        slidesPerView: 3
+                    },
+                    900: {
+                        slidesPerView: 4
+                    }
+                }}
             >
                 {sliderData.map((data, index) => (
                     <SwiperSlide key={index} className="flex flex-col items-center justify-center text-center ">
-                        <Image className="rounded-lg" src={data.image} width={350} alt="image of rooms" />
-                        <span className="text-[22px] pt-3 block">{data.name}</span>
+                        <Image className="swiper-image rounded-lg" src={data.image} width={350} alt="image of rooms" />
+                        <span className="swiper-title text-[22px] pt-3 block">{data.name}</span>
                     </SwiperSlide>
                 ))}
 

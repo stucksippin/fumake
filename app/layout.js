@@ -17,23 +17,24 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
+
 export const metadata = {
   title: "FUMAKE",
   description: "Магазин мебели",
 };
 
 export default function RootLayout({ children }) {
-  
+
   return (
     <html lang="en">
 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <AdminCheck><Header/></AdminCheck>
-        <Suspense fallback={<Loading/>}>
-        <main>{children}</main>
+        <AdminCheck><Header /></AdminCheck>
+        <Suspense fallback={<Loading />}>
+          <main>{children}</main>
         </Suspense>
         <AdminCheck><Footer /></AdminCheck>
-         
+
       </body>
     </html>
   );
