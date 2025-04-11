@@ -1,62 +1,65 @@
 'use server'
 import prisma from "./libs/prisma"
 export async function editFurniture(data) {
+    const { id, name, price, category, tags, colors, sizes } = data;
 
-    console.log('ddadsadasdadadiffghdsjkgjkdhgksfjgdjkshs', data)
-
-    await prisma.furnitureVariations.deleteMany({
-        where: {
-            colorsId: {
-                notIn: data.colors.map(color => color.value)
+    try {
+        // Собираем id тегов
+        const tagIds = tags.map(tag => ({ id: tag.value }));
+        // const colorIds = colors.map(color => color.value)
+        console.log(data)
+        // Удалим все старые вариации
+        await prisma.furnitureVariations.deleteMany({
+            where: {
+                furnitureId: Number(id)
             }
-        }
-    })
+        });
 
+        // Создаем новые вариации
+        const variations = colors.map(color => {
+            return sizes.map(size => ({
+                size: size.label || size, // вдруг просто строка
+                color: {
+                    connect: { id: color.value }
+                }
+            }));
+        }).flat();
 
-    const variations = await prisma.furnitureVariations.findMany({
-        where: {
-            size: {
-                in: data.sizes.map(size => size)
+        console.log('vars', variations)
+
+        // Обновление мебели
+        const updated = await prisma.furniture.update({
+            where: {
+                id: Number(id)
             },
-            colorsId: {
-                in: data.colors.map(color => color.value)
-            }
-        }
-    })
-    variations.forEach((variation) => {
-        data.colors.forEach(color => {
-            data.sizes.forEach(async Size => {
-                await prisma.furnitureVariations.upsert({
-                    where: { id: variation.id },
-                    update: {
-                        furnitureId: data.id,
-                        colorsId: color.value,
-                        size: Size,
-                    },
-                    create: {
-                        furnitureId: data.id,
-                        colorsId: color.value,
-                        size: Size,
+            data: {
+                name,
+                price: Number(price),
+                category,
+                tags: {
+                    set: [], // очищаем старые
+                    connect: tagIds
+                },
+                variations: {
+                    set: [],
+                    create: variations
+                }
+            },
+            include: {
+                tags: true,
+                variations: {
+                    include: {
+                        color: true
                     }
-                })
-            })
-        })
-    })
-
-
-    const resp = await prisma.furniture.update({
-        where: {
-            id: data.id
-        },
-        data: {
-            name: data.title,
-            category: data.category,
-            price: Number(data.price),
-            tags: {
-                connect: data.tags.map(tag => ({ id: tag }))
+                }
             }
-        }
-    });
+        });
+
+        return { success: true, data: updated };
+    } catch (error) {
+        console.error('Ошибка при обновлении мебели:', error);
+        return { success: false, error: error.message };
+    }
 }
 
 export async function getColorsOptions() {
@@ -65,7 +68,11 @@ export async function getColorsOptions() {
 }
 export async function getSizesOptions() {
     const sizes = await prisma.furnitureVariations.findMany()
-    return sizes
+    const res = [...new Map(sizes.map(item =>
+        [item['size'], item])).values()
+    ]
+    console.log(res)
+    return res
 
 }
 export async function getTagsOptions() {

@@ -14,7 +14,10 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
     const [colorsOptions, setColorsOptions] = useState([]);
     const [sizesOptions, setSizesOptions] = useState([]);
 
-
+    const uniqueColors =
+        console.log('--------------------')
+    console.log(furniture.variations)
+    console.log(uniqueColors)
 
     //хук для загрузки записи в модалку
     useEffect(() => {
@@ -23,8 +26,14 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
             setPrice(furniture.price || '');
             setCategory(furniture.category || '');
             setTags(furniture.tags?.map(tag => ({ value: tag.id, label: tag.name })) || []);
-            setColors(furniture.variations?.map(variation => ({ value: variation.color.id, label: variation.color.name })) || []);
-            setSizes(furniture.variations?.map(variation => variation.size) || []);
+
+            // Выводим только уникальные записи
+            setColors([...new Map(furniture.variations.map(item =>
+                [item.color.id, { value: item.color.id, label: item.color.name }])).values()
+            ]);
+            setSizes([...new Map(furniture.variations.map(item =>
+                [item['size'], item.size])).values()
+            ]);
         }
     }, [furniture]);
 
@@ -35,10 +44,10 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
                 const tagsData = await getTagsOptions();
                 const colorsData = await getColorsOptions();
                 const sizesData = await getSizesOptions();
-
+                console.log('dasdasdasdas', sizesData)
                 setTagsOptions(tagsData.map(tag => ({ value: tag.id, label: tag.name })));
                 setColorsOptions(colorsData.map(color => ({ value: color.id, label: color.name })));
-                setSizesOptions(sizesData.map(size => ({ value: size.id, label: size.size })));
+                setSizesOptions(sizesData.map(size => ({ value: size.size, label: size.size })));
 
             } catch (error) {
                 console.error("Ошибка загрузки данных:", error);
@@ -61,6 +70,9 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
         }
         console.log(newForm)
         const resp = await editFurniture(newForm)
+        console.log('------sizes')
+        console.log(sizes)
+        console.log(sizesOptions)
         // formData.append('id', furniture.id);
         // formData.append('name', name);
         // formData.append('price', price);
@@ -86,7 +98,7 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
                     style={{ width: '100%' }}
                     placeholder="Теги"
                     value={tags}
-                    onChange={setTags}
+                    onChange={(value, selectedObj) => setTags(selectedObj)}
                     options={tagsOptions}
                 />
 
@@ -96,17 +108,17 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
                     style={{ width: '100%' }}
                     placeholder="Цвет"
                     value={colors}
-                    onChange={setColors}
+                    onChange={(value, selectedObj) => setColors(selectedObj)}
                     options={colorsOptions}
                 />
 
                 <Select
                     name="sizes"
-                    mode="multiple"
+                    mode="tags"
                     style={{ width: '100%' }}
                     placeholder="Размер"
                     value={sizes}
-                    onChange={setSizes}
+                    onChange={(value) => setSizes(value)}
                     options={sizesOptions}
                 />
 
