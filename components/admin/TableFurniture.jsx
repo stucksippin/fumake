@@ -58,7 +58,9 @@ export default function TableFurniture({ furnitures }) {
             width: '200px',
             render: (variations) => (
                 <div>
-                    {variations?.length ? variations.map((variation, index) => <Tag key={index}>{variation.color.name}</Tag>) : <span>Нет цветов</span>}
+                    {variations?.length ? [...new Map(variations.map(v => [v.color.id, v.color])).values()].map((color, index) => (
+                        <Tag key={index}>{color.name}</Tag>
+                    )) : <span>Нет цветов</span>}
                 </div>
             ),
         },
@@ -69,7 +71,7 @@ export default function TableFurniture({ furnitures }) {
             width: '200px',
             render: (variations) => (
                 <div>
-                    {variations?.length ? variations.map((variation, index) => <Tag key={index}>{variation.size}</Tag>) : <span>Нет размеров</span>}
+                    {variations?.length ? [...new Set(variations.map(v => v.size))].map((size, index) => <Tag key={index}>{size}</Tag>) : <span>Нет размеров</span>}
                 </div>
             ),
         },

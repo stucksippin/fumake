@@ -4,28 +4,13 @@ export async function editFurniture(data) {
     const { id, name, price, category, tags, colors, sizes } = data;
 
     try {
-        // Собираем id тегов
-        const tagIds = tags.map(tag => ({ id: tag.value }));
-        // const colorIds = colors.map(color => color.value)
-        console.log(data)
+
         // Удалим все старые вариации
         await prisma.furnitureVariations.deleteMany({
             where: {
                 furnitureId: Number(id)
             }
         });
-
-        // Создаем новые вариации
-        const variations = colors.map(color => {
-            return sizes.map(size => ({
-                size: size.label || size, // вдруг просто строка
-                color: {
-                    connect: { id: color.value }
-                }
-            }));
-        }).flat();
-
-        console.log('vars', variations)
 
         // Обновление мебели
         const updated = await prisma.furniture.update({
@@ -38,11 +23,18 @@ export async function editFurniture(data) {
                 category,
                 tags: {
                     set: [], // очищаем старые
-                    connect: tagIds
+                    connect: tags.map(tag => ({ id: tag.value }))
                 },
                 variations: {
                     set: [],
-                    create: variations
+                    create: colors.map(color => {
+                        return sizes.map(size => ({
+                            size: size.label || size, // вдруг просто строка
+                            color: {
+                                connect: { id: color.value }
+                            }
+                        }));
+                    }).flat()
                 }
             },
             include: {

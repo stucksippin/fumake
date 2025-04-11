@@ -14,11 +14,6 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
     const [colorsOptions, setColorsOptions] = useState([]);
     const [sizesOptions, setSizesOptions] = useState([]);
 
-    const uniqueColors =
-        console.log('--------------------')
-    console.log(furniture.variations)
-    console.log(uniqueColors)
-
     //хук для загрузки записи в модалку
     useEffect(() => {
         if (furniture) {
@@ -44,7 +39,8 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
                 const tagsData = await getTagsOptions();
                 const colorsData = await getColorsOptions();
                 const sizesData = await getSizesOptions();
-                console.log('dasdasdasdas', sizesData)
+
+
                 setTagsOptions(tagsData.map(tag => ({ value: tag.id, label: tag.name })));
                 setColorsOptions(colorsData.map(color => ({ value: color.id, label: color.name })));
                 setSizesOptions(sizesData.map(size => ({ value: size.size, label: size.size })));
@@ -63,26 +59,15 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
         const formData = Object.fromEntries(new FormData(e.target));
         const newForm = {
             ...formData,
-            tags: tags,
-            colors: colors,
+            tags: tags.map(({ value, label }) => ({ value, label })),
+            colors: colors.map(({ value, label }) => ({ value, label })),
             sizes: sizes,
             id: furniture.id
         }
-        console.log(newForm)
-        const resp = await editFurniture(newForm)
-        console.log('------sizes')
-        console.log(sizes)
-        console.log(sizesOptions)
-        // formData.append('id', furniture.id);
-        // formData.append('name', name);
-        // formData.append('price', price);
-        // formData.append('category', category);
-        // formData.append('tags', JSON.stringify(tags));
-        // formData.append('colors', JSON.stringify(colors));
-        // formData.append('sizes', JSON.stringify(sizes));
 
-        // await editFurniture(formData);
-        // onClose();
+        const resp = await editFurniture(newForm)
+
+
     };
 
     return (
