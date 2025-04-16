@@ -54,6 +54,43 @@ export async function editFurniture(data) {
     }
 }
 
+export async function createFurniture(data) {
+    const { name, price, category, tags, colors, sizes, image, discription } = data;
+
+    try {
+        const created = await prisma.furniture.create({
+            data: {
+                name,
+                price: Number(price),
+                category,
+                image,
+                discription, // добавили
+                tags: {
+                    connect: tags.map(tag => ({ id: tag.value }))
+                },
+                variations: {
+                    create: colors.map(color =>
+                        sizes.map(size => ({
+                            size: size.label || size,
+                            color: {
+                                connect: { id: color.value }
+                            }
+                        }))
+                    ).flat()
+                }
+            }
+        });
+
+        return { success: true, data: created };
+    } catch (error) {
+        console.error('Ошибка при создании товара:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+
+
+
 export async function getColorsOptions() {
     const tags = await prisma.colors.findMany()
     return tags
