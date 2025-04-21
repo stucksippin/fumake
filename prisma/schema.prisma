@@ -58,8 +58,7 @@ model FurnitureVariations {
   color       Colors     @relation(fields: [colorsId], references: [id])
   colorsId    Int
   Furniture   Furniture? @relation(fields: [furnitureId], references: [id])
-
-  images Images[]
+  images      Images[]
 }
 
 model Images {

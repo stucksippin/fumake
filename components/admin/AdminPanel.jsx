@@ -40,7 +40,7 @@ export default function AdminPanel({ furnitures }) {
     }
     return (
         <Layout style={{ minHeight: '100vh', }} >
-            <Sider width={300} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+            <Sider width={220} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <Menu theme="dark" mode="inline" items={items} onClick={(e) => setActiveKey(e.key)} />
             </Sider>
 

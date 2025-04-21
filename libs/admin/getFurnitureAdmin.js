@@ -7,10 +7,12 @@ export default async function getFurnitureAdmin() {
                 variations: {
                     include: {
                         color: true,
+                        images: true,
                     }
                 },
                 tags: true,
                 reviews: true,
+
             },
         });
 

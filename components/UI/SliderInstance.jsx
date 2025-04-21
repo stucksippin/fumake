@@ -12,6 +12,7 @@ import bathroom from "@/public/image/range/bathroom.png"
 import kidsroom from "@/public/image/range/kidsroom.png"
 import hall from "@/public/image/range/hall.png"
 import Image from "next/image";
+import Link from "next/link";
 
 
 export default function SliderInstance() {
@@ -20,26 +21,32 @@ export default function SliderInstance() {
         {
             name: "Кухня",
             image: dinning,
+            link: 'http://localhost:3000/catalog?tags=Кухня'
         },
         {
             name: "Гостиная",
             image: living,
+            link: 'http://localhost:3000/catalog?tags=Гостиная'
         },
         {
             name: "Спальня",
             image: bedroom,
+            link: 'http://localhost:3000/catalog?tags=Спальня'
         },
         {
             name: "Ванна",
             image: bathroom,
+            link: 'http://localhost:3000/catalog?tags=Ванна'
         },
         {
             name: "Детская",
             image: kidsroom,
+            link: 'http://localhost:3000/catalog?tags=Детская'
         },
         {
             name: "Холл",
             image: hall,
+            link: 'http://localhost:3000/catalog?tags=Холл'
         },
 
     ]
@@ -66,8 +73,10 @@ export default function SliderInstance() {
             >
                 {sliderData.map((data, index) => (
                     <SwiperSlide key={index} className="flex flex-col items-center justify-center text-center ">
-                        <Image className="swiper-image rounded-lg" src={data.image} width={350} alt="image of rooms" />
-                        <span className="swiper-title text-[22px] pt-3 block">{data.name}</span>
+                        <Link href={data.link}>
+                            <Image className="swiper-image rounded-lg" src={data.image} width={350} alt="image of rooms" />
+                            <span className="swiper-title text-[22px] pt-3 block">{data.name}</span>
+                        </Link>
                     </SwiperSlide>
                 ))}
 

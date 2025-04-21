@@ -19,13 +19,13 @@ export default function CartPage() {
         },
     ]
     return (
-        <div className='container'>
+        <div className='section_cart container'>
             <div className='relative'>
                 <Breadcrumb className='breadcrumb breadcrumb_cart mb-5 text-[18px] absolute top-[60%] left-[42%] z-10' items={breadcrumbItems} />
                 <Image className='opacity-50 mx-auto' width={1536} height={316} src={cart_image} alt='cart banner' />
                 <span className='breadcrumb_title breadcrumb_title_cart absolute top-[45%] left-[46%] title'>Корзина</span>
             </div>
-            <div className=' flex justify-between mt-10'>
+            <div className='cart_items flex justify-between mt-10'>
 
                 <CartTable />
                 <CartMenuPayment />

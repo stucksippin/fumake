@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-import { Table, Tag, Button } from 'antd';
+import { Table, Tag, Button, Badge, Space } from 'antd';
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 const ChangeModal = dynamic(() => import('./ChangeModal'), { ssr: false });
+const CreateVariation = dynamic(() => import('./CreateVariation'), { ssr: false });
+const EditVariation = dynamic(() => import('./EditVariation'), { ssr: false });
 
 export default function TableFurniture({ furnitures }) {
     const [selectedFurniture, setSelectedFurniture] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const [createTargetId, setCreateTargetId] = useState(null);
+
+    const [editVariation, setEditVariation] = useState(null);
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
     const data = furnitures.map((item) => ({
         key: item.id,
@@ -15,9 +24,21 @@ export default function TableFurniture({ furnitures }) {
 
     const columns = [
         {
-            title: 'Продукт',
+            title: <div className='cart_table-title'>Продукт</div>,
             dataIndex: 'name',
             key: 'name',
+            render: (_, record) => (
+                <div className="flex items-center gap-3">
+                    <Image
+                        width={100}
+                        height={100}
+                        src={`/image/furniture/${record.category}/${record.image}.webp`}
+                        alt={record.name}
+                        className="cart_item-image w-16 h-16 object-cover rounded"
+                    />
+                    <span className='cart_item-text'>{record.name}</span>
+                </div>
+            )
         },
         {
             title: 'Цена',
@@ -52,19 +73,6 @@ export default function TableFurniture({ furnitures }) {
             ),
         },
         {
-            title: 'Цвета',
-            dataIndex: 'variations',
-            key: 'colors',
-            width: '200px',
-            render: (variations) => (
-                <div>
-                    {variations?.length ? [...new Map(variations.map(v => [v.color.id, v.color])).values()].map((color, index) => (
-                        <Tag key={index}>{color.name}</Tag>
-                    )) : <span>Нет цветов</span>}
-                </div>
-            ),
-        },
-        {
             title: 'Размеры',
             dataIndex: 'variations',
             key: 'size',
@@ -76,29 +84,119 @@ export default function TableFurniture({ furnitures }) {
             ),
         },
         {
+            title: 'Количество вариаций',
+            dataIndex: 'variations',
+            key: 'variationsCount',
+            render: (variations) => <span>{variations?.length || 0}</span>,
+        },
+        {
             title: 'Действие',
             key: 'action',
             render: (_, record) => (
-                <Button
-                    onClick={() => {
-                        setSelectedFurniture(record);
-                        setIsModalOpen(true);
-                    }}
-                >
-                    ✏️ Редактировать
-                </Button>
+                <div>
+                    <Button
+                        className='mr-5'
+                        onClick={() => {
+                            setSelectedFurniture(record);
+                            setIsModalOpen(true);
+                        }}
+                    >
+                        Редактирование
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            setCreateTargetId(record.id);
+                            setIsCreateModalOpen(true);
+                        }}
+                    >
+                        Добавить вариацию
+                    </Button>
+                </div>
             ),
         },
     ];
 
+    const expandColumns = [
+        {
+            title: 'Цвет',
+            dataIndex: 'color',
+            key: 'color',
+            render: (color) => <Tag color={color.code}>{color.name}</Tag>
+        },
+        {
+            title: 'Размер',
+            dataIndex: 'size',
+            key: 'size'
+        },
+        {
+            title: 'Изображения',
+            key: 'images',
+            render: (_, record) => (
+                <span>{record.images?.length ?? 0} изображений</span>
+            )
+        },
+        {
+            title: 'Действие',
+            key: 'operation',
+            render: (_, record) => (
+                <Space size="middle">
+                    <Button
+                        size="small"
+                        onClick={() => {
+                            setEditVariation(record);
+                            setIsEditModalOpen(true);
+                        }}
+                    >
+                        Редактировать
+                    </Button>
+                    <Button size="small" danger>Удалить</Button>
+                </Space>
+            ),
+        },
+    ];
+
+    const expandedRowRender = (record) => {
+        return (
+            <Table
+                columns={expandColumns}
+                dataSource={record.variations}
+                pagination={false}
+                rowKey="id"
+            />
+        );
+    };
+
     return (
         <>
-            <Table pagination={{ pageSize: 12 }} columns={columns} dataSource={data} />
+            <Table
+                pagination={{ pageSize: 12 }}
+                columns={columns}
+                dataSource={data}
+                expandable={{
+                    expandedRowRender,
+                    rowExpandable: (record) => record.variations?.length > 0,
+                }}
+            />
             {selectedFurniture && (
                 <ChangeModal
                     furniture={selectedFurniture}
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
+                />
+            )}
+            {isCreateModalOpen && (
+                <CreateVariation
+                    isOpen={isCreateModalOpen}
+                    onClose={() => setIsCreateModalOpen(false)}
+                    onSubmit={() => { }}
+                    furnitureId={createTargetId}
+                />
+            )}
+            {isEditModalOpen && editVariation && (
+                <EditVariation
+                    isOpen={isEditModalOpen}
+                    onClose={() => setIsEditModalOpen(false)}
+                    variation={editVariation}
                 />
             )}
         </>

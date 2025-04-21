@@ -8,6 +8,13 @@ export default async function getFurniture(searchParams) {
             where: {
                 AND: [
                     searchParams.category ? { category: searchParams.category } : {},
+                    searchParams.tags ? {
+                        tags: {
+                            some: {
+                                name: searchParams.tags
+                            }
+                        }
+                    } : {},
                     searchParams.priceMin ? {
                         price: {
                             gte: parseInt(searchParams.priceMin)
@@ -40,6 +47,7 @@ export default async function getFurniture(searchParams) {
                     undefined,
 
             include: {
+                tags: true,
                 variations: {
                     include: {
                         color: true,

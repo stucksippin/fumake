@@ -1,9 +1,9 @@
 'use client';
 
-import { Rate, message } from 'antd';
-import Image from 'next/image';
+import { Rate, message } from 'antd';;
 import React, { useEffect, useState } from 'react';
 import useCartStore from '@/app/store/useCartStore';
+import ImageThumb from './UI/ImageThumb';
 
 export default function InnerFurnitureCard({ id, image, name, discription, price, variations, reviews }) {
     const sizes = Array.from(new Set(variations.map(v => v.size)));
@@ -50,16 +50,18 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
 
     return (
         <div className=' mx-auto pt-5'>
+
             <div className='flex px-24 justify-around mb-[5%]'>
                 <div className='flex'>
-                    <div className='flex flex-col justify-between'>
+                    {/* <div className='flex flex-col justify-between'>
                         {[...Array(5)].map((_, i) => (
                             <Image key={i} src={image} width={65} height={50} alt={`product-thumbnail-${i}`} />
                         ))}
                     </div>
                     <div className='ml-2'>
                         <Image src={image} width={400} height={400} alt='main product' />
-                    </div>
+                    </div> */}
+                    <ImageThumb image={image} />
                 </div>
 
                 <div className='flex flex-col'>

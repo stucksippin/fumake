@@ -1,5 +1,6 @@
-import { editFurniture, getTagsOptions, getColorsOptions, getSizesOptions } from '@/serverActions';
+import { editFurniture, getTagsOptions, getColorsOptions, getSizesOptions } from '@/libs/serverActions';
 import { Input, Modal, Select } from 'antd';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 export default function ChangeModal({ furniture, isOpen, onClose }) {
@@ -73,6 +74,18 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
     return (
         <Modal title="Редактирование товара" open={isOpen} onCancel={onClose} footer={null}>
             <form className="flex flex-col gap-y-5" onSubmit={handleSubmit}>
+                {furniture?.image && (
+                    <div className="flex justify-center mb-4">
+                        <Image
+                            width={160}
+                            height={160}
+                            src={`/image/furniture/${furniture.category}/${furniture.image}.webp`}
+                            alt={furniture.name}
+                            className="rounded object-cover"
+                        />
+                    </div>
+                )}
+
                 <Input name='title' placeholder="Название товара" value={name} onChange={(e) => setName(e.target.value)} />
                 <Input name='price' placeholder="Цена товара" value={price} onChange={(e) => setPrice(e.target.value)} />
                 <Input name='category' placeholder="Категория" value={category} onChange={(e) => setCategory(e.target.value)} />
@@ -86,17 +99,6 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
                     onChange={(value, selectedObj) => setTags(selectedObj)}
                     options={tagsOptions}
                 />
-
-                <Select
-                    name='colors'
-                    mode="multiple"
-                    style={{ width: '100%' }}
-                    placeholder="Цвет"
-                    value={colors}
-                    onChange={(value, selectedObj) => setColors(selectedObj)}
-                    options={colorsOptions}
-                />
-
                 <Select
                     name="sizes"
                     mode="tags"

@@ -20,6 +20,7 @@ export default function CartTable() {
             title: <div className='cart_table-title'>Продукт</div>,
             dataIndex: 'name',
             key: 'name',
+
             render: (text, record) => (
                 <div className="flex items-center gap-3">
                     <Image width={100} height={100} src={record.image} alt={text} className="cart_item-image w-16 h-16 object-cover rounded" />
