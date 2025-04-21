@@ -9,25 +9,34 @@ export const runtime = 'nodejs'; // обязательно
 export async function POST(req) {
     try {
         const data = await req.formData();
-        const size = data.get('size');
+        const sizeValue = data.get('size');
         const colorId = Number(data.get('colorId'));
         const furnitureId = Number(data.get('furnitureId'));
         const files = data.getAll('images');
 
-        if (!size || !colorId || !furnitureId || files.length === 0) {
+        if (!sizeValue || !colorId || !furnitureId || files.length === 0) {
             return NextResponse.json({ success: false, error: 'Неверные данные' }, { status: 400 });
         }
 
-        //бд
+        // Найти или создать размер
+        const sizeRecord = await prisma.sizes.upsert({
+            where: { size: sizeValue },
+            update: {},
+            create: { size: sizeValue },
+        });
+
+
+
+        // Создать вариацию
         const variation = await prisma.furnitureVariations.create({
             data: {
-                size,
+                sizeId: sizeRecord.id,
                 colorsId: colorId,
                 furnitureId,
             }
         });
 
-        //логика с картинками
+        // Загрузка изображений
         const uploadDir = path.join(process.cwd(), 'public', 'image', 'furniture', 'uploads');
         await mkdir(uploadDir, { recursive: true });
 
@@ -51,9 +60,7 @@ export async function POST(req) {
             });
         }
 
-        await prisma.images.createMany({
-            data: imageRecords,
-        });
+        await prisma.images.createMany({ data: imageRecords });
 
         return NextResponse.json({ success: true, variationId: variation.id });
     } catch (err) {
@@ -61,3 +68,4 @@ export async function POST(req) {
         return NextResponse.json({ success: false, error: 'Ошибка сервера' }, { status: 500 });
     }
 }
+

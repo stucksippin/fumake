@@ -6,7 +6,7 @@ import useCartStore from '@/app/store/useCartStore';
 import ImageThumb from './UI/ImageThumb';
 
 export default function InnerFurnitureCard({ id, image, name, discription, price, variations, reviews }) {
-    const sizes = Array.from(new Set(variations.map(v => v.size)));
+    const sizes = Array.from(new Set(variations.map(v => v.size.size)));
     const colors = Array.from(new Set(variations.map(v => v.color.code)));
 
     const [selectedSize, setSelectedSize] = useState(sizes[0] || null);
@@ -19,6 +19,51 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
         : 0;
 
     const editPrice = String(price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    useEffect(() => {
+        // Если нет вариации с текущими size + color, то пробуем поменять один из них
+        const variationExists = variations.some(
+            v => v.size.size === selectedSize && v.color.code === selectedColor
+        );
+
+        if (!variationExists) {
+            // Если текущий цвет не доступен для выбранного размера
+            const colorsForSize = variations
+                .filter(v => v.size.size === selectedSize)
+                .map(v => v.color.code);
+
+            if (!colorsForSize.includes(selectedColor)) {
+                setSelectedColor(colorsForSize[0]);
+                return;
+            }
+
+            // Если текущий размер не доступен для выбранного цвета
+            const sizesForColor = variations
+                .filter(v => v.color.code === selectedColor)
+                .map(v => v.size.size);
+
+            if (!sizesForColor.includes(selectedSize)) {
+                setSelectedSize(sizesForColor[0]);
+            }
+        }
+    }, [selectedSize, selectedColor, variations]);
+
+    // Найти вариацию по текущему выбору
+    const selectedVariation = variations.find(
+        v => v.size.size === selectedSize && v.color.code === selectedColor
+    );
+
+    // Найти доступные цвета для выбранного размера
+    const availableColors = variations
+        .filter(v => v.size.size === selectedSize)
+        .map(v => v.color.code);
+
+    // Найти доступные размеры для выбранного цвета
+    const availableSizes = variations
+        .filter(v => v.color.code === selectedColor)
+        .map(v => v.size.size);
+
+
+
 
     useEffect(() => {
         console.log("Обновленное состояние корзины:", useCartStore.getState().items);
@@ -44,6 +89,8 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
             selectedColor,
         };
 
+
+
         addItem(product);
         message.success('Товар добавлен в корзину');
     };
@@ -53,15 +100,9 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
 
             <div className='flex px-24 justify-around mb-[5%]'>
                 <div className='flex'>
-                    {/* <div className='flex flex-col justify-between'>
-                        {[...Array(5)].map((_, i) => (
-                            <Image key={i} src={image} width={65} height={50} alt={`product-thumbnail-${i}`} />
-                        ))}
-                    </div>
-                    <div className='ml-2'>
-                        <Image src={image} width={400} height={400} alt='main product' />
-                    </div> */}
-                    <ImageThumb image={image} />
+
+                    <ImageThumb images={selectedVariation?.images || []} />
+
                 </div>
 
                 <div className='flex flex-col'>
@@ -86,18 +127,25 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
                                 {sizeOption}
                             </button>
                         ))}
+
                     </div>
 
                     <label className='text-gray-400 mb-2'>Цвет</label>
                     <div className='flex flex-wrap'>
-                        {colors.map((code, index) => (
-                            <button
-                                key={index}
-                                className={`border rounded-full w-[30px] h-[30px] mr-2 mb-2 ${selectedColor === code ? 'border-orange-400 border-[2.5px]' : 'border-gray-400'}`}
-                                style={{ backgroundColor: code }}
-                                onClick={() => setSelectedColor(code)}
-                            />
-                        ))}
+                        {colors.map((code, index) => {
+                            const isAvailable = availableColors.includes(code);
+                            return (
+                                <button
+                                    key={index}
+                                    disabled={!isAvailable}
+                                    className={`border rounded-full w-[30px] h-[30px] mr-2 mb-2 ${selectedColor === code ? 'border-orange-400 border-[2.5px]' : 'border-gray-400'
+                                        } ${!isAvailable ? 'opacity-30 cursor-not-allowed' : ''}`}
+                                    style={{ backgroundColor: code }}
+                                    onClick={() => isAvailable && setSelectedColor(code)}
+                                />
+                            );
+                        })}
+
                     </div>
 
                     <div className='flex mt-5'>

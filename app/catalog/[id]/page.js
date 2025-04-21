@@ -16,6 +16,9 @@ export default async function InnerCardPage({ params: { id } }) {
     }
 
     const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;
+    console.log(imagePath);
+
+
 
     const breadcrumbItems = [
         { title: <Link href="/">Главная</Link> },
@@ -40,3 +43,5 @@ export default async function InnerCardPage({ params: { id } }) {
         </div>
     );
 }
+
+

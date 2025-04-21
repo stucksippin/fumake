@@ -55,8 +55,6 @@ export default function CreateForm() {
             price,
             category,
             tags,
-            colors,
-            sizes,
             image: imageName,
             discription,
         };
@@ -76,13 +74,6 @@ export default function CreateForm() {
             <Input placeholder="Название товара" value={name} onChange={(e) => setName(e.target.value)} />
             <Input placeholder="Цена товара" value={price} onChange={(e) => setPrice(e.target.value)} />
             <Input placeholder="Категория" value={category} onChange={(e) => setCategory(e.target.value)} />
-            <Input.TextArea
-                placeholder="Описание товара"
-                value={discription}
-                onChange={(e) => setDiscription(e.target.value)}
-                autoSize={{ minRows: 3, maxRows: 6 }}
-            />
-
             <Select
                 mode="multiple"
                 placeholder="Теги"
@@ -91,22 +82,13 @@ export default function CreateForm() {
                 options={tagsOptions}
                 style={{ width: '100%' }}
             />
-            <Select
-                mode="multiple"
-                placeholder="Цвет"
-                value={colors}
-                onChange={(value, option) => setColors(option)}
-                options={colorsOptions}
-                style={{ width: '100%' }}
+            <Input.TextArea
+                placeholder="Описание товара"
+                value={discription}
+                onChange={(e) => setDiscription(e.target.value)}
+                autoSize={{ minRows: 3, maxRows: 6 }}
             />
-            <Select
-                mode="tags"
-                placeholder="Размер"
-                value={sizes}
-                onChange={(value) => setSizes(value)}
-                options={sizesOptions}
-                style={{ width: '100%' }}
-            />
+
 
             <label>Главное фото товара</label>
             <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />

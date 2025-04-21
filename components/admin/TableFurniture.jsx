@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Table, Tag, Button, Badge, Space } from 'antd';
+import { deleteVariation, deleteFurniture } from '@/libs/serverActions';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -73,17 +74,6 @@ export default function TableFurniture({ furnitures }) {
             ),
         },
         {
-            title: 'Размеры',
-            dataIndex: 'variations',
-            key: 'size',
-            width: '200px',
-            render: (variations) => (
-                <div>
-                    {variations?.length ? [...new Set(variations.map(v => v.size))].map((size, index) => <Tag key={index}>{size}</Tag>) : <span>Нет размеров</span>}
-                </div>
-            ),
-        },
-        {
             title: 'Количество вариаций',
             dataIndex: 'variations',
             key: 'variationsCount',
@@ -95,7 +85,7 @@ export default function TableFurniture({ furnitures }) {
             render: (_, record) => (
                 <div>
                     <Button
-                        className='mr-5'
+                        className='mr-2'
                         onClick={() => {
                             setSelectedFurniture(record);
                             setIsModalOpen(true);
@@ -104,6 +94,7 @@ export default function TableFurniture({ furnitures }) {
                         Редактирование
                     </Button>
                     <Button
+                        className='mr-2'
                         onClick={() => {
                             setCreateTargetId(record.id);
                             setIsCreateModalOpen(true);
@@ -111,6 +102,25 @@ export default function TableFurniture({ furnitures }) {
                     >
                         Добавить вариацию
                     </Button>
+
+                    <Button
+                        danger
+                        onClick={async () => {
+                            const confirmed = window.confirm("Удалить товар?");
+                            if (!confirmed) return;
+
+                            const resp = await deleteFurniture(record.id);
+                            if (resp.success) {
+                                location.reload();
+                            } else {
+                                console.error(resp.error);
+                                alert("Ошибка при удалении товара");
+                            }
+                        }}
+                    >
+                        Удалить
+                    </Button>
+
                 </div>
             ),
         },
@@ -125,8 +135,8 @@ export default function TableFurniture({ furnitures }) {
         },
         {
             title: 'Размер',
-            dataIndex: 'size',
-            key: 'size'
+            key: 'size',
+            render: (_, record) => record.size?.size || '—'
         },
         {
             title: 'Изображения',
@@ -149,10 +159,28 @@ export default function TableFurniture({ furnitures }) {
                     >
                         Редактировать
                     </Button>
-                    <Button size="small" danger>Удалить</Button>
+                    <Button
+                        size="small"
+                        danger
+                        onClick={async () => {
+                            const confirmed = window.confirm("Удалить эту вариацию?");
+                            if (!confirmed) return;
+
+                            const resp = await deleteVariation(record.id);
+                            if (resp.success) {
+                                // можно вызывать обновление, если нужно перерендерить
+                                location.reload(); // простейший способ обновить таблицу
+                            } else {
+                                console.error(resp.error);
+                                alert("Ошибка при удалении вариации");
+                            }
+                        }}
+                    >
+                        Удалить
+                    </Button>
                 </Space>
             ),
-        },
+        }
     ];
 
     const expandedRowRender = (record) => {

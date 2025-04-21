@@ -1,4 +1,4 @@
-import { Modal, Select, Upload, Button, message } from 'antd';
+import { Modal, Input, Select, Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { getColorsOptions, getSizesOptions } from '@/libs/serverActions';
@@ -15,21 +15,19 @@ export default function CreateVariationModal({ isOpen, onClose, onSubmit, furnit
         setImages(fileList);
     };
 
-    //загрузка options
-    useEffect(() => {
-        async function loadOptions() {
-            try {
+    const loadOptions = async () => {
+        try {
+            const colorsData = await getColorsOptions();
+            const sizesData = await getSizesOptions();
 
-                const colorsData = await getColorsOptions();
-                const sizesData = await getSizesOptions();
-
-                setColorsOptions(colorsData.map(color => ({ value: color.id, label: color.name })));
-                setSizesOptions(sizesData.map(size => ({ value: size.size, label: size.size })));
-
-            } catch (error) {
-                console.error("Ошибка загрузки данных:", error);
-            }
+            setColorsOptions(colorsData.map(color => ({ value: color.id, label: color.name })));
+            setSizesOptions(sizesData.map(size => ({ value: size.size, label: size.size })));
+        } catch (error) {
+            console.error("Ошибка загрузки данных:", error);
         }
+    };
+
+    useEffect(() => {
         loadOptions();
     }, []);
 
@@ -48,7 +46,6 @@ export default function CreateVariationModal({ isOpen, onClose, onSubmit, furnit
 
         images.forEach(fileWrapper => {
             formData.append('images', fileWrapper.originFileObj);
-            console.log(images);
         });
 
         try {
@@ -63,30 +60,22 @@ export default function CreateVariationModal({ isOpen, onClose, onSubmit, furnit
                 console.error('Ошибка от сервера:', data);
                 throw new Error('Ошибка при создании вариации');
             }
-
             message.success('Вариация создана');
-            onSubmit?.();
-            setSize('');
-            setColorId(null);
-            setImages([]);
             onClose();
+            location.reload();
         } catch (error) {
             console.error(error);
             message.error('Не удалось создать вариацию');
         }
-
     };
-
-
 
     return (
         <Modal title="Создание вариации" open={isOpen} onCancel={onClose} footer={null}>
             <form className="flex flex-col gap-y-5" onSubmit={handleSubmit}>
-                <Select
-                    placeholder="Выберите размер"
+                <Input
+                    placeholder="Введите размер"
                     value={size}
-                    onChange={(value) => setSize(value)}
-                    options={sizesOptions}
+                    onChange={(e) => setSize(e.target.value)}
                 />
 
                 <Select
@@ -98,7 +87,7 @@ export default function CreateVariationModal({ isOpen, onClose, onSubmit, furnit
 
                 <Upload
                     listType="picture"
-                    beforeUpload={() => false} // предотвращаем авто-загрузку
+                    beforeUpload={() => false}
                     onChange={handleFileChange}
                     multiple
                 >

@@ -54,9 +54,10 @@ model Colors {
 model FurnitureVariations {
   id          Int        @id @default(autoincrement())
   furnitureId Int?
-  size        String
+  sizeId      Int
   color       Colors     @relation(fields: [colorsId], references: [id])
   colorsId    Int
+  size        Sizes      @relation(fields: [sizeId], references: [id])
   Furniture   Furniture? @relation(fields: [furnitureId], references: [id])
   images      Images[]
 }
@@ -66,4 +67,10 @@ model Images {
   name                 String
   FurnitureVariation   FurnitureVariations? @relation(fields: [furnitureVariationId], references: [id])
   furnitureVariationId Int?
+}
+
+model Sizes {
+  id                  Int                   @id @default(autoincrement())
+  size                String                @unique
+  FurnitureVariations FurnitureVariations[]
 }

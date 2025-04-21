@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { editVariation, getColorsOptions, getSizesOptions } from '@/libs/serverActions';
 
 export default function EditVariationModal({ isOpen, onClose, variation }) {
-    const [size, setSize] = useState('');
+    const [sizeId, setSizeId] = useState(null); // Теперь храним ID размера
     const [colorId, setColorId] = useState(null);
     const [removedImageIds, setRemovedImageIds] = useState([]);
     const [newImages, setNewImages] = useState([]);
@@ -17,7 +17,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
 
     useEffect(() => {
         if (variation) {
-            setSize(variation.size);
+            setSizeId(variation.size?.id); // Теперь сохраняем ID размера
             setColorId(variation.color.id);
             setExistingImages(variation.images || []);
             setRemovedImageIds([]);
@@ -31,8 +31,14 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                 const colorsData = await getColorsOptions();
                 const sizesData = await getSizesOptions();
 
-                setColorsOptions(colorsData.map(color => ({ value: color.id, label: color.name })));
-                setSizesOptions(sizesData.map(size => ({ value: size.size, label: size.size })));
+                setColorsOptions(colorsData.map(color => ({
+                    value: color.id,
+                    label: color.name
+                })));
+                setSizesOptions(sizesData.map(size => ({
+                    value: size.id, // Теперь используем ID размера как значение
+                    label: size.size
+                })));
             } catch (error) {
                 console.error("Ошибка загрузки данных:", error);
             }
@@ -52,7 +58,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!size || !colorId) {
+        if (!sizeId || !colorId) {
             message.error('Заполните все поля');
             return;
         }
@@ -68,7 +74,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                 }
             });
 
-            const res = await fetch('/api/variation-upload', {
+            const res = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData
             });
@@ -85,7 +91,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
 
         const res = await editVariation({
             id: variation.id,
-            size,
+            sizeId, // Теперь передаем ID размера
             colorId,
             deletedImages: removedImageIds,
             newImages: uploadedImageNames,
@@ -94,6 +100,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
         if (res.success) {
             message.success('Вариация обновлена');
             onClose();
+            location.reload();
         } else {
             message.error('Ошибка при обновлении вариации');
         }
@@ -104,8 +111,8 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
             <form className="flex flex-col gap-y-5" onSubmit={handleSubmit}>
                 <Select
                     placeholder="Выберите размер"
-                    value={size}
-                    onChange={(value) => setSize(value)}
+                    value={sizeId}
+                    onChange={(value) => setSizeId(value)}
                     options={sizesOptions}
                 />
                 <Select
@@ -141,7 +148,6 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                     </div>
                 )}
 
-                {/* Новые изображения */}
                 <Upload
                     listType="picture"
                     beforeUpload={() => false}

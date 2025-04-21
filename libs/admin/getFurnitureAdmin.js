@@ -8,6 +8,7 @@ export default async function getFurnitureAdmin() {
                     include: {
                         color: true,
                         images: true,
+                        size: true,
                     }
                 },
                 tags: true,

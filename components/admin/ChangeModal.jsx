@@ -1,5 +1,8 @@
-import { editFurniture, getTagsOptions, getColorsOptions, getSizesOptions } from '@/libs/serverActions';
-import { Input, Modal, Select } from 'antd';
+'use client';
+
+import { editFurniture, getTagsOptions, getColorsOptions } from '@/libs/serverActions';
+import { Input, message, Modal, Select, Upload, Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
@@ -9,13 +12,12 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
     const [category, setCategory] = useState('');
     const [tags, setTags] = useState([]);
     const [colors, setColors] = useState([]);
-    const [sizes, setSizes] = useState([]);
 
     const [tagsOptions, setTagsOptions] = useState([]);
     const [colorsOptions, setColorsOptions] = useState([]);
-    const [sizesOptions, setSizesOptions] = useState([]);
 
-    //хук для загрузки записи в модалку
+    const [newImage, setNewImage] = useState(null);
+
     useEffect(() => {
         if (furniture) {
             setName(furniture.name || '');
@@ -23,28 +25,20 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
             setCategory(furniture.category || '');
             setTags(furniture.tags?.map(tag => ({ value: tag.id, label: tag.name })) || []);
 
-            // Выводим только уникальные записи
             setColors([...new Map(furniture.variations.map(item =>
                 [item.color.id, { value: item.color.id, label: item.color.name }])).values()
-            ]);
-            setSizes([...new Map(furniture.variations.map(item =>
-                [item['size'], item.size])).values()
             ]);
         }
     }, [furniture]);
 
-    //хук для подгрузки options
     useEffect(() => {
         async function loadOptions() {
             try {
                 const tagsData = await getTagsOptions();
                 const colorsData = await getColorsOptions();
-                const sizesData = await getSizesOptions();
-
 
                 setTagsOptions(tagsData.map(tag => ({ value: tag.id, label: tag.name })));
                 setColorsOptions(colorsData.map(color => ({ value: color.id, label: color.name })));
-                setSizesOptions(sizesData.map(size => ({ value: size.size, label: size.size })));
 
             } catch (error) {
                 console.error("Ошибка загрузки данных:", error);
@@ -53,22 +47,52 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
         loadOptions();
     }, []);
 
+    const handleImageChange = ({ fileList }) => {
+        setNewImage(fileList[0]?.originFileObj || null);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = Object.fromEntries(new FormData(e.target));
-        const newForm = {
-            ...formData,
-            tags: tags.map(({ value, label }) => ({ value, label })),
-            colors: colors.map(({ value, label }) => ({ value, label })),
-            sizes: sizes,
-            id: furniture.id
+        let imageName = furniture.image; // по умолчанию старое изображение
+
+        if (newImage) {
+            const formData = new FormData();
+            formData.append('file', newImage);
+            formData.append('category', category);
+
+            const res = await fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await res.json();
+
+            if (result.success) {
+                imageName = result.filename;
+            } else {
+                message.error('Ошибка загрузки изображения');
+                return;
+            }
         }
 
-        const resp = await editFurniture(newForm)
+        const newForm = {
+            name,
+            price,
+            category,
+            tags: tags.map(({ value, label }) => ({ value, label })),
+            id: furniture.id,
+            image: imageName
+        };
 
-
+        const resp = await editFurniture(newForm);
+        if (resp.success) {
+            message.success('Товар изменен');
+            onClose();
+            location.reload();
+        } else {
+            message.error('Ошибка при сохранении');
+        }
     };
 
     return (
@@ -99,17 +123,19 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
                     onChange={(value, selectedObj) => setTags(selectedObj)}
                     options={tagsOptions}
                 />
-                <Select
-                    name="sizes"
-                    mode="tags"
-                    style={{ width: '100%' }}
-                    placeholder="Размер"
-                    value={sizes}
-                    onChange={(value) => setSizes(value)}
-                    options={sizesOptions}
-                />
 
-                <button className="w-[300px] border border-black p-1 hover:bg-slate-300 mx-auto" type="submit">Изменить</button>
+                <Upload
+                    listType="picture"
+                    beforeUpload={() => false}
+                    onChange={handleImageChange}
+                    maxCount={1}
+                >
+                    <Button icon={<UploadOutlined />}>Загрузить новое изображение</Button>
+                </Upload>
+
+                <button className="w-[300px] border border-black p-1 hover:bg-slate-300 mx-auto" type="submit">
+                    Изменить
+                </button>
             </form>
         </Modal>
     );

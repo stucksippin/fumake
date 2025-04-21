@@ -1,20 +1,27 @@
 import prisma from "./prisma";
 
 export default async function getFurnitureById(id) {
-    const furnitures = await prisma.furniture.findFirst({
+
+
+    const furniture = await prisma.furniture.findUnique({
+
         where: {
-            id: parseInt(id)
+            id: parseInt(id),
         },
         include: {
             reviews: true,
             tags: true,
             variations: {
                 include: {
-                    color: true
-                }
-            }
-        }
-    }
-    );
-    return furnitures
+                    color: true,
+                    size: true,
+                    images: true,
+                },
+            },
+        },
+
+    });
+
+    return furniture;
+
 }
