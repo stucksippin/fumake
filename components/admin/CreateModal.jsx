@@ -1,8 +1,9 @@
 'use client';
-import { Input, Select, message } from 'antd';
+import { Button, Input, Select, Upload, message } from 'antd';
 import { useState, useEffect } from 'react';
 import { uploadImage } from '@/utils/upload';
 import { getTagsOptions, getColorsOptions, getSizesOptions, createFurniture } from '@/libs/serverActions';
+import { UploadOutlined } from '@ant-design/icons';
 
 export default function CreateForm() {
     const [name, setName] = useState('');
@@ -90,19 +91,18 @@ export default function CreateForm() {
             />
 
 
-            <label>Главное фото товара</label>
-            <input type="file" accept="image/*" onChange={(e) => setFile(e.target.files[0])} />
-
-
-            {/* <Upload
-                listType="picture"
-                beforeUpload={() => false} // предотвращаем авто-загрузку
-                // onChange={handleFileChange}
-                multiple
+            <Upload
+                accept="image/*"
+                beforeUpload={(file) => {
+                    setFile(file);
+                    return false; // предотвратить авто-загрузку
+                }}
+                maxCount={1}
+                showUploadList={{ showRemoveIcon: true }}
             >
                 <Button icon={<UploadOutlined />}>Главное фото товара</Button>
             </Upload>
-           */}
+
 
             <button className="w-[300px] border border-black p-1 hover:bg-slate-300 mx-auto" type="submit">
                 Создать

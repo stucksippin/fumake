@@ -97,7 +97,7 @@ export async function deleteFurniture(id) {
 }
 
 export async function createFurniture(data) {
-    const { name, price, category, tags, colors, sizes, image, discription } = data;
+    const { name, price, category, tags, image, discription } = data;
 
     try {
         const created = await prisma.furniture.create({
@@ -106,20 +106,11 @@ export async function createFurniture(data) {
                 price: Number(price),
                 category,
                 image,
-                discription, // добавили
+                discription,
                 tags: {
                     connect: tags.map(tag => ({ id: tag.value }))
-                },
-                variations: {
-                    create: colors.map(color =>
-                        sizes.map(size => ({
-                            size: size.label || size,
-                            color: {
-                                connect: { id: color.value }
-                            }
-                        }))
-                    ).flat()
                 }
+                // variations больше не создаём
             }
         });
 
@@ -129,6 +120,7 @@ export async function createFurniture(data) {
         return { success: false, error: error.message };
     }
 }
+
 
 export async function editVariation({
     id,
