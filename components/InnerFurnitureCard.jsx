@@ -74,26 +74,6 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
         duration: 3,
     });
 
-    const handleAddToCart = () => {
-        if (!selectedSize || !selectedColor) {
-            message.warning("Выберите цвет и размер!");
-            return;
-        }
-
-        const product = {
-            id,
-            name,
-            price,
-            image,
-            selectedSize,
-            selectedColor,
-        };
-
-
-
-        addItem(product);
-        message.success('Товар добавлен в корзину');
-    };
 
     return (
         <div className=' mx-auto pt-5'>
@@ -108,11 +88,6 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
                 <div className='flex flex-col'>
                     <span className='text-3xl mb-2'>{name}</span>
                     <span className='text-2xl mb-2'>{editPrice} ₽</span>
-
-                    <div className='flex items-center'>
-                        <Rate allowHalf value={averageRating} disabled />
-                        <span className='ml-2'>Отзывов | {reviews.length}</span>
-                    </div>
 
                     <p className='mt-5 mb-5'>{discription}</p>
 
@@ -148,34 +123,11 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
 
                     </div>
 
-                    <div className='flex mt-5'>
-                        <button
-                            className='px-5 py-3 text-[12px] border bg-white hover:bg-[#FFF3E3] border-black font-semibold rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
-                            onClick={handleAddToCart}
-                        >
-                            Добавить в корзину
-                        </button>
-                    </div>
+
                 </div>
             </div>
 
-            {/* Отзывы */}
-            <div className='container flex flex-col pt-10'>
-                <span className='text-3xl text-center mb-5'>Отзывы</span>
-                <div className='flex flex-wrap gap-10 justify-center'>
-                    {reviews.length > 0 ? (
-                        reviews.map((review) => (
-                            <div key={review.id} className="w-[250px] border rounded-lg p-5">
-                                <p className='text-right'>John Doe</p>
-                                <Rate allowHalf value={review.rating} disabled />
-                                <p className='mt-1'>{review.content}</p>
-                            </div>
-                        ))
-                    ) : (
-                        <p>Нет отзывов</p>
-                    )}
-                </div>
-            </div>
+
         </div>
     );
 }

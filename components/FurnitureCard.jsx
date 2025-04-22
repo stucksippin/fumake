@@ -61,7 +61,6 @@ export default function FurnitureCard({ id, name, tags, price, image }) {
             <Link href={`/catalog/${id}`} className="furniture_card  flex flex-col">
                 <Image className="furniture_card-image rounded-lg" width={285} height={300} src={image} alt="furniture" />
                 <span className="furniture_card-title font-bold text-[#484848">{name}</span>
-                <span className="furniture_card-price">{editPrice} ₽</span>
             </Link>
         </div>
     );
