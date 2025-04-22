@@ -47,8 +47,33 @@ export default function FilterAccordion() {
                     value={color}
                     onChange={(value) => setColor(value)}
                 />
+                <Select
+                    className="filter_accordion-item w-[150px] text-center"
+                    options={optionsPrice}
+                    value={priceSort}
 
-
+                    onChange={(value) => setPriceSort(value)}
+                />
+                <div className="flex items-center">
+                    <span className="mr-2">от</span>
+                    <InputNumber
+                        className="filter_accordion-item "
+                        min={1000}
+                        max={100000}
+                        value={priceMin}
+                        onChange={(value) => setPriceMin(value)}
+                        step={500}
+                    />
+                    <span className="mr-2 ml-2">до</span>
+                    <InputNumber
+                        className="filter_accordion-item "
+                        min={1000}
+                        max={100000}
+                        value={priceMax}
+                        onChange={(value) => setPriceMax(value)}
+                        step={500}
+                    />
+                </div>
                 <button className="filter_accordion-button border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={applyFilters}>Применить</button>
                 <button className="filter_accordion-button border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={resetFilters}>Сбросить</button>
             </div>

@@ -24,9 +24,12 @@ export default function Header() {
                     <Link className="first-link hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150" href={'/'}>Главная</Link>
                     <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'/catalog'}>Каталог</Link>
                     <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'/contact'}>Контакты</Link>
-                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'/about-us'}>О нас</Link>
+                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'#'}>О нас</Link>
+                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'#'}>Конструктор мебели</Link>
                 </ul>
                 <ul className="header_container-icons flex gap-x-5">
+                    <Link className="hover:scale-110 duration-300" href={'/profile'}> <Image className="header-icons" src={user} width={23} alt="user ico" /> </Link>
+                    <Link className="hover:scale-110 duration-300" href={'/cart'}><Image className="header-icons" src={cart} width={23} alt="cart ico" /></Link>
                     <button onClick={handleToggle} className="hover:scale-110 duration-300"><Image className="header-icons" src={like} width={23} alt="like ico" /></button>
                 </ul>
             </nav>
