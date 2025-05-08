@@ -6,9 +6,13 @@ import useCartStore from '@/app/store/useCartStore';
 import ImageThumb from './UI/ImageThumb';
 
 export default function InnerFurnitureCard({ id, image, name, discription, price, variations, reviews }) {
+    // Группируем вариации по размерам
     const sizes = Array.from(new Set(variations.map(v => v.size.size)));
-    const colors = Array.from(new Set(variations.map(v => v.color.code)));
+    console.log('размеры', sizes);
 
+    // Группируем вариации по цветам
+    const colors = Array.from(new Set(variations.map(v => v.color.code)));
+    console.log('цвета', colors);
     const [selectedSize, setSelectedSize] = useState(sizes[0] || null);
     const [selectedColor, setSelectedColor] = useState(colors[0] || null);
 
@@ -19,6 +23,7 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
         : 0;
 
     const editPrice = String(price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+
     useEffect(() => {
         // Если нет вариации с текущими size + color, то пробуем поменять один из них
         const variationExists = variations.some(
@@ -62,9 +67,6 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
         .filter(v => v.color.code === selectedColor)
         .map(v => v.size.size);
 
-
-
-
     useEffect(() => {
         console.log("Обновленное состояние корзины:", useCartStore.getState().items);
     }, [useCartStore().items]);
@@ -89,20 +91,15 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
             selectedColor,
         };
 
-
-
         addItem(product);
         message.success('Товар добавлен в корзину');
     };
 
     return (
         <div className=' mx-auto pt-5'>
-
             <div className='flex px-24 justify-around mb-[5%]'>
                 <div className='flex'>
-
                     <ImageThumb images={selectedVariation?.images || []} />
-
                 </div>
 
                 <div className='flex flex-col'>
@@ -127,7 +124,6 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
                                 {sizeOption}
                             </button>
                         ))}
-
                     </div>
 
                     <label className='text-gray-400 mb-2'>Цвет</label>
@@ -145,7 +141,6 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
                                 />
                             );
                         })}
-
                     </div>
 
                     <div className='flex mt-5'>

@@ -4,11 +4,30 @@ import { useForm } from "react-hook-form"
 
 export default function CallbackForm() {
     const { register, handleSubmit } = useForm()
-    const onSubmit = (data) => console.log(data)
+    const onSubmit = async (data) => {
+        try {
+            await fetch("/api/callback", {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                console.log('Сообщение отправлено');
+            } else {
+                console.error('Ошибка при отправке данных в телеграмме');
+            }
+        } catch (error) {
+            console.error("Ошибка при отправке данных в телеграмме", error)
+        }
+    }
+
 
 
     return (
-        <form className="callback_form flex flex-col " onSubmit={handleSubmit(onSubmit)}>
+        <form className="callback_form flex items-center flex-col " onSubmit={handleSubmit(onSubmit)}>
             <label className="callback_form-label">Ваше имя</label>
             <input className="formFields" placeholder="Иван Иванов" {...register("firstName", { required: true, maxLength: 50 })} />
 
@@ -29,3 +48,5 @@ export default function CallbackForm() {
         </form>
     )
 }
+
+
