@@ -48,11 +48,11 @@ export default function ContactPage() {
     return (
         <div>
             <div className='container'>
-                <div className='relative'>
-                    <Breadcrumb className='breadcrumb mb-5 text-[18px] absolute top-[60%] left-[45.5%] z-40' items={breadcrumbItems}
+                <div className='container relative h-full w-full object-cover object-left'>
+                    <Breadcrumb className='breadcrumb mb-5 text-[18px] absolute top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2  z-10' items={breadcrumbItems}
                     />
                     <Image className='opacity-50 mx-auto' width={1536} height={316} src={banner} alt='banner' />
-                    <span className='breadcrumb_title breadcrumb_title_contact absolute top-[45%] left-[46%] title'>Контакты</span>
+                    <span className='breadcrumb_title breadcrumb_title_catalog absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 title'>Контакты</span>
                 </div>
                 <section className="section">
                     <div className="flex flex-col text-center mb-[5%]">

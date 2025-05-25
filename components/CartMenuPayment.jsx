@@ -2,11 +2,13 @@
 import useCartStore from '@/app/store/useCartStore'
 import { message } from 'antd';
 import React, { useEffect, useState } from 'react'
+import CheckoutButton from './CheckoutButton';
 
 export default function CartMenuPayment() {
     const { items, discountedPrice, updateDiscountedPrice, setPromoCodeUsed } = useCartStore()
     const [hydrated, setHydrated] = useState(false);
     const [promoCode, setPromoCode] = useState('');
+
 
     const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const secretWord = 'qwerty';
@@ -62,7 +64,7 @@ export default function CartMenuPayment() {
                 </button>
             </div>
             <div className='flex justify-center mt-8'>
-                <button className="payment_window-btn w-fit py-3 px-8 text-[12px] border border-black font-semibold rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" type="text">ОПЛАТИТЬ</button>
+                <CheckoutButton />
             </div>
         </div>
     )

@@ -35,9 +35,10 @@ export default function FurnitureCard({ id, name, tags, price, image }) {
     };
 
     return (
-        <div className="flex transformCard flex-col">
-            <button className="relative" onClick={handleClick}>
-                <div className={`qw absolute top-5 right-5 bg-white p-2 rounded-3xl ${active ? '!bg-darkRed' : ''}`}>
+        <div className="transformCard flex flex-col items-start relative max-w-[225px] w-full">
+            {/* Лайк — абсолют внутри карточки */}
+            <button className="absolute top-4 right-4 z-10" onClick={handleClick}>
+                <div className={`bg-white p-2 rounded-3xl ${active ? '!bg-darkRed' : ''}`}>
                     <svg
                         className="heart-icon"
                         width="23"
@@ -58,11 +59,21 @@ export default function FurnitureCard({ id, name, tags, price, image }) {
                 </div>
             </button>
 
-            <Link href={`/catalog/${id}`} className="furniture_card  flex flex-col">
-                <Image className="furniture_card-image rounded-lg" width={285} height={300} src={image} alt="furniture" />
-                <span className="furniture_card-title font-bold text-[#484848">{name}</span>
-                <span className="furniture_card-price">{editPrice} ₽</span>
+            <Link href={`/catalog/${id}`} className="flex flex-col w-full">
+                <div className='xl:min-h-[250px] w-full'>
+                    <Image
+                        className="rounded-lg w-full h-full object-cover"
+                        width={225}
+                        height={250}
+                        src={image}
+                        alt="furniture"
+                    />
+                </div>
+
+                <span className="mt-2 font-bold text-[#484848]">{name}</span>
+                <span className="text-sm">{editPrice} ₽</span>
             </Link>
         </div>
+
     );
 }

@@ -4,7 +4,7 @@ import FurnitureCard from "./FurnitureCard";
 import { useState } from "react";
 
 export default function MainCatalog({ furnitures }) {
-    const [visibleCount, setVisibleCount] = useState(8); // Сколько товаров показываем
+    const [visibleCount, setVisibleCount] = useState(10); // Сколько товаров показываем
     const itemsToShow = furnitures.slice(0, visibleCount); // Показываем только первые 10 товаров
 
     const loadMore = () => {
@@ -12,8 +12,8 @@ export default function MainCatalog({ furnitures }) {
     };
 
     return (
-        <div className="mt-[5%]">
-            <div className="container flex flex-wrap gap-x-[40px] gap-y-[40px] justify-center">
+        <div className="mt-[5%] ">
+            <div className="container  grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {itemsToShow.length > 0 ? (
                     itemsToShow.map((furniture) => {
                         const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;

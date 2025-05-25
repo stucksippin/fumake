@@ -4,12 +4,11 @@ import Link from "next/link";
 
 export default function BreefCatalog({ furnitures }) {
 
-
     return (
         <div className="">
             <h2 className="title text-center mt-[5%] mb-[35px]">Наша продукция</h2>
 
-            <div className="container flex flex-wrap gap-x-[40px] gap-y-[40px] justify-center">
+            <div className="container  grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {furnitures.map((furniture) => {
                     const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;
                     return (
