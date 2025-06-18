@@ -20,7 +20,7 @@ const geistMono = localFont({
 
 export const metadata = {
   title: "FUMAKE",
-  description: "Магазин мебели",
+  description: "Интернет-магазин мебели",
 };
 
 export default function RootLayout({ children }) {

@@ -2,80 +2,88 @@
 import { useState } from "react";
 import { InputNumber, Select } from "antd";
 import { useRouter } from "next/navigation";
-import { optionsCategory, optionsColor, optionsPrice } from '@/utils/constants'
+import { optionsCategory, optionsColor, optionsPrice } from '@/utils/constants';
+
 export default function FilterAccordion() {
-    const [category, setCategory] = useState('all')
-    const [color, setColor] = useState('all')
-    const [priceSort, setPriceSort] = useState('all')
-    const [priceMin, setPriceMin] = useState(1000)
-    const [priceMax, setPriceMax] = useState(100000)
-    const router = useRouter()
+    const [category, setCategory] = useState('all');
+    const [color, setColor] = useState('all');
+    const [priceSort, setPriceSort] = useState('all');
+    const [priceMin, setPriceMin] = useState(1000);
+    const [priceMax, setPriceMax] = useState(100000);
+    const router = useRouter();
 
     function applyFilters() {
-        const params = new URLSearchParams()
-        category !== 'all' ? params.set("category", category) : params.delete("category")
-        color !== 'all' ? params.set("color", color) : params.delete("color")
-        priceSort !== 'all' ? params.set("priceSort", priceSort) : params.delete("priceSort")
-        if (priceMin) params.set("priceMin", String(priceMin))
-        if (priceMax) params.set("priceMax", String(priceMax))
-        console.log('category: ', category);
-        console.log('color: ', color);
+        const params = new URLSearchParams();
+        category !== 'all' && params.set("category", category);
+        color !== 'all' && params.set("color", color);
+        priceSort !== 'all' && params.set("priceSort", priceSort);
+        if (priceMin) params.set("priceMin", String(priceMin));
+        if (priceMax) params.set("priceMax", String(priceMax));
         router.push(`?${params.toString()}`, { scroll: false });
-        console.log(params);
     }
 
     function resetFilters() {
-        setCategory('all')
-        setColor('all')
-        setPriceMin(1000)
-        setPriceMax(100000)
-        setPriceSort('all')
-        router.push("/catalog")
+        setCategory('all');
+        setColor('all');
+        setPriceMin(1000);
+        setPriceMax(100000);
+        setPriceSort('all');
+        router.push("/catalog");
     }
+
     return (
-        <div className="filter_accordion flex">
-            <div className="filter_accordion-items flex flex-wrap gap-x-5 gap-y-5 ">
+        <div className="w-full px-4">
+            <div className="flex flex-wrap gap-4 items-center">
                 <Select
-                    className="filter_accordion-item w-[150px] text-center"
+                    className="min-w-[150px] max-w-[150px]"
                     options={optionsCategory}
                     value={category}
-                    onChange={(value) => setCategory(value)}
+                    onChange={setCategory}
                 />
                 <Select
-                    className="filter_accordion-item w-[150px] text-center"
+                    className="min-w-[150px] max-w-[150px]"
                     options={optionsColor}
                     value={color}
-                    onChange={(value) => setColor(value)}
+                    onChange={setColor}
                 />
                 <Select
-                    className="filter_accordion-item w-[150px] text-center"
+                    className="min-w-[150px] max-w-[150px]"
                     options={optionsPrice}
                     value={priceSort}
-
-                    onChange={(value) => setPriceSort(value)}
+                    onChange={setPriceSort}
                 />
-                <div className="flex items-center">
-                    <span className="mr-2">от</span>
+                <div className="flex items-center gap-2">
+                    <span>от</span>
                     <InputNumber
-                        className="filter_accordion-item "
                         min={1000}
                         max={100000}
                         value={priceMin}
-                        onChange={(value) => setPriceMin(value)}
+                        onChange={setPriceMin}
                         step={500}
+                        className="w-[100px]"
                     />
-                    <span className="mr-2 ml-2">до</span>
+                    <span>до</span>
                     <InputNumber
-                        className="filter_accordion-item "
                         min={1000}
                         max={100000}
                         value={priceMax}
-                        onChange={(value) => setPriceMax(value)}
+                        onChange={setPriceMax}
                         step={500}
+                        className="w-[100px]"
                     />
                 </div>
-                <button className="filter_accordion-button border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={applyFilters}>Применить</button>
-                <button className="filter_accordion-button border border-gray-300 py-[3px] px-4 text-[14px] bg-white rounded-md" onClick={resetFilters}>Сбросить</button>
+                <button
+                    onClick={applyFilters}
+                    className="bg-white border border-gray-300 text-sm rounded-md h-[35px]  px-4 hover:bg-gray-50 transition"
+                >
+                    Применить
+                </button>
+                <button
+                    onClick={resetFilters}
+                    className="bg-white border border-gray-300 text-sm rounded-md h-[35px] px-4 hover:bg-gray-50 transition"
+                >
+                    Сбросить
+                </button>
             </div>
         </div>
     );

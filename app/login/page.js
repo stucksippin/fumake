@@ -3,6 +3,6 @@ import Form from './Form'
 
 export default function Login() {
     return (
-        <div><Form /></div>
+        <div className='min-h-screen flex items-center'><Form /></div>
     )
 }

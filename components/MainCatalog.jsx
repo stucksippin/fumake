@@ -13,7 +13,7 @@ export default function MainCatalog({ furnitures }) {
 
     return (
         <div className="mt-[5%] ">
-            <div className="container  grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="container grid gap-4 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {itemsToShow.length > 0 ? (
                     itemsToShow.map((furniture) => {
                         const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;

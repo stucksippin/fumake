@@ -1,8 +1,7 @@
 'use client';
 import { Button, Input, Select, Upload, message } from 'antd';
 import { useState, useEffect } from 'react';
-import { uploadImage } from '@/utils/upload';
-import { getTagsOptions, getColorsOptions, getSizesOptions, createFurniture } from '@/libs/serverActions';
+import { getTagsOptions, createFurniture } from '@/libs/serverActions';
 import { UploadOutlined } from '@ant-design/icons';
 
 export default function CreateForm() {
@@ -10,26 +9,17 @@ export default function CreateForm() {
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
     const [tags, setTags] = useState([]);
-    const [colors, setColors] = useState([]);
-    const [sizes, setSizes] = useState([]);
     const [file, setFile] = useState(null);
     const [discription, setDiscription] = useState('');
-
     const [tagsOptions, setTagsOptions] = useState([]);
-    const [colorsOptions, setColorsOptions] = useState([]);
-    const [sizesOptions, setSizesOptions] = useState([]);
 
     useEffect(() => {
         async function loadOptions() {
             try {
-                const [tagsData, colorsData, sizesData] = await Promise.all([
+                const [tagsData] = await Promise.all([
                     getTagsOptions(),
-                    getColorsOptions(),
-                    getSizesOptions()
                 ]);
                 setTagsOptions(tagsData.map(tag => ({ value: tag.id, label: tag.name })));
-                setColorsOptions(colorsData.map(color => ({ value: color.id, label: color.name })));
-                setSizesOptions(sizesData.map(size => ({ value: size.size, label: size.size })));
             } catch (error) {
                 console.error("Ошибка загрузки данных:", error);
             }
@@ -40,34 +30,28 @@ export default function CreateForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let imageName = '';
-        if (file && category) {
-            const uploadResp = await uploadImage(file, category);
-            if (uploadResp.success) {
-                imageName = uploadResp.filename;
-            } else {
-                message.error('Ошибка при загрузке изображения');
-                return;
-            }
-        }
+        const formData = new FormData();
+        if (file) formData.append('file', file);
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('category', category);
+        formData.append('discription', discription);
+        formData.append('tags', JSON.stringify(tags)); // tags: [{ value: 1 }, ...]
 
-        const formData = {
-            name,
-            price,
-            category,
-            tags,
-            image: imageName,
-            discription,
-        };
+        const res = await fetch('/api/furniture/create', {
+            method: 'POST',
+            body: formData,
+        });
 
+        const result = await res.json();
 
-        const resp = await createFurniture(formData);
-        if (resp.success) {
+        if (result.success) {
             message.success('Товар создан');
         } else {
-            message.error('Ошибка при создании товара');
+            message.error(result.error || 'Ошибка при создании товара');
         }
     };
+
 
     return (
         <form className="flex flex-col gap-y-5 w-[600px] bg-white p-10 mx-auto " onSubmit={handleSubmit}>

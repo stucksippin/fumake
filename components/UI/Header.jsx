@@ -25,7 +25,7 @@ export default function Header() {
                     <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'/catalog'}>Каталог</Link>
                     <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'/contact'}>Контакты</Link>
                     <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'#'}>О нас</Link>
-                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'#'}>Конструктор мебели</Link>
+                    <Link className="hover:bg-[#FFF3E3] p-2 rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-150 " href={'/constructor'}>Конструктор мебели</Link>
                 </ul>
                 <ul className="header_container-icons flex gap-x-5">
                     <Link className="hover:scale-110 duration-300" href={'/profile'}> <Image className="header-icons" src={user} width={23} alt="user ico" /> </Link>

@@ -24,7 +24,7 @@ export default function Footer() {
                 </ul>
             </div>
             <hr className='mb-5' />
-            <span className='container flex mx-auto '>2024 fucraft. All rights reverved</span>
+            <span className='container flex mx-auto '>2024 danivelin. All rights reverved</span>
         </div>
     )
 }

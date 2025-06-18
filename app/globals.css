@@ -2,12 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* body {
-    -ms-user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-} */
+body {
+    /* -webkit-touch-callout: none;
+    /* iOS Safari */
+    /* -webkit-user-select: none; */
+    /* Safari */
+    /* -khtml-user-select: none; */
+    /* Konqueror HTML */
+    /* -moz-user-select: none; */
+    /* Old versions of Firefox */
+    /* -ms-user-select: none; */
+    /* Internet Explorer/Edge */
+    /* user-select: none; */
+}
 
 
 .container {
@@ -162,6 +169,14 @@
 }
 
 
+
+.glass {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
 
 /* adaptive */
 @media screen and (max-width: 1920px) {}

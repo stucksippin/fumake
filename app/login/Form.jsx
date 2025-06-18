@@ -25,13 +25,14 @@ export default function Form() {
     }
 
     return (
-        <form className='border p-5 w-1/2 flex flex-col mx-auto mt-[30px]' onSubmit={submitHandler}>
+        <form className='border p-5 w-1/2 flex flex-col mx-auto mt-[30px] rounded-md' onSubmit={submitHandler}>
+            <span className='text-center'> Административная панель</span>
             <input
                 className='border p-3 my-3 rounded-md'
                 required
                 type="text"
                 name="initials"
-                placeholder="Инициалы"
+                placeholder="Логин"
             />
             <input
                 className='border p-3 my-3 rounded-md'
