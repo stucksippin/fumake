@@ -5,10 +5,9 @@ import React, { useEffect, useState } from 'react'
 import CheckoutButton from './CheckoutButton';
 
 export default function CartMenuPayment() {
-    const { items, discountedPrice, updateDiscountedPrice, setPromoCodeUsed } = useCartStore()
+    const { items, discountedPrice, updateDiscountedPrice, promoCodeUsed, setPromoCodeUsed } = useCartStore()
     const [hydrated, setHydrated] = useState(false);
     const [promoCode, setPromoCode] = useState('');
-
 
     const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const secretWord = 'qwerty';
@@ -17,12 +16,12 @@ export default function CartMenuPayment() {
     function handleApplyPromoCode() {
         if (promoCode === secretWord) {
             const newPrice = totalPrice - (totalPrice * (perOfDiscount / 100));
-            setPromoCodeUsed(true);  // Устанавливаем, что промокод был применён
-            updateDiscountedPrice(newPrice);  // Обновляем скидочную цену
+            setPromoCodeUsed(true);
+            updateDiscountedPrice(newPrice);
             message.success("Промокод успешно активирован");
         } else {
-            setPromoCodeUsed(false);  // Промокод не применён
-            updateDiscountedPrice(totalPrice);  // Сбрасываем цену до обычной
+            setPromoCodeUsed(false);
+            updateDiscountedPrice(totalPrice);
             message.error("Промокод неверен!");
         }
     }
@@ -41,13 +40,21 @@ export default function CartMenuPayment() {
 
             <div className='payment_window-block flex justify-between mb-3'>
                 <span className='font-semibold payment_window-text'>К оплате</span>
-                <span className=' payment_window-text'>{formatPrice(totalPrice)} ₽</span>
+                <div className='payment_window-text flex flex-col items-end'>
+                    {promoCodeUsed ? (
+                        <>
+                            <span className='line-through text-gray-500'>{formatPrice(totalPrice)} ₽</span>
+                            <span className='text-green-600 font-bold'>{formatPrice(discountedPrice)} ₽</span>
+                        </>
+                    ) : (
+                        <span>{formatPrice(totalPrice)} ₽</span>
+                    )}
+                </div>
             </div>
 
-            <div className='payment_window-block flex justify-between mb-3'>
-                <span className='font-semibold payment_window-text'>Итого</span>
-                <span className=' payment_window-text'>{formatPrice(discountedPrice)} ₽</span>
-            </div>
+            {promoCodeUsed && (
+                <div className='text-green-700 font-medium text-[12px] mb-3 text-right'>Промокод применён: -{perOfDiscount}%</div>
+            )}
 
             <div className='flex flex-col items-end'>
                 <input

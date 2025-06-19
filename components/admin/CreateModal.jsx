@@ -54,7 +54,7 @@ export default function CreateForm() {
 
 
     return (
-        <form className="flex flex-col gap-y-5 w-[600px] bg-white p-10 mx-auto " onSubmit={handleSubmit}>
+        <form className="flex flex-col  gap-y-5 w-[600px] bg-white p-10 mx-auto rounded-md" onSubmit={handleSubmit}>
             <span className='text-center text-2xl'>Форма создания товара</span>
             <Input placeholder="Название товара" value={name} onChange={(e) => setName(e.target.value)} />
             <Input placeholder="Цена товара" value={price} onChange={(e) => setPrice(e.target.value)} />
@@ -88,7 +88,7 @@ export default function CreateForm() {
             </Upload>
 
 
-            <button className="w-[300px] border border-black p-1 hover:bg-slate-300 mx-auto" type="submit">
+            <button className="w-[300px] border rounded-md border-black p-1 hover:bg-slate-300 mx-auto" type="submit">
                 Создать
             </button>
         </form>

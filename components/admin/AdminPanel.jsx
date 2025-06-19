@@ -39,17 +39,24 @@ export default function AdminPanel({ furnitures }) {
         }
     }
     return (
-        <Layout style={{ minHeight: '100vh', }} >
+        <Layout style={{ minHeight: '100vh' }}>
             <Sider width={220} collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
                 <Menu theme="dark" mode="inline" items={items} onClick={(e) => setActiveKey(e.key)} />
             </Sider>
 
             <Layout>
-                <Content style={{ margin: '10px 16px', }}>
-                    {renderContent()}
+                <Content style={{ margin: '10px 16px' }}>
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        minHeight: 'calc(100vh - 20px)', // 20px это запас с учётом margin
+                    }}>
+                        {renderContent()}
+                    </div>
                 </Content>
             </Layout>
-
         </Layout>
     );
+
 };

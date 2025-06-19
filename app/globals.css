@@ -260,6 +260,13 @@ body {
     }
 
 
+    .breadcrumb {
+        font-size: 14px;
+    }
+
+    .breadcrumb_title {
+        font-size: 26px;
+    }
 
     /* button */
     .button {
@@ -523,6 +530,7 @@ body {
 
     .header-links {
         font-size: 10px;
+
     }
 
     .header-logo {
@@ -537,6 +545,12 @@ body {
     /* welcome-block */
     .welcome_block-text {
         font-size: 10px;
+    }
+
+    .header_container-links {
+        font-size: 10px;
+        gap: 4px 0;
+
     }
 
     .welcome_block-title {
@@ -713,6 +727,15 @@ body {
 
     .footer-col {
         gap: 14px 0px;
+    }
+
+    .breadcrumb {
+        font-size: 10px;
+    }
+
+    .breadcrumb_title {
+        font-size: 16px;
+        padding-bottom: 15px;
     }
 }
 
@@ -1025,6 +1048,14 @@ body {
         font-size: 18px;
     }
 
+    .breadcrumb {
+        font-size: 10px;
+    }
+
+    .breadcrumb_title {
+        font-size: 14px;
+        padding-bottom: 10px;
+    }
 
     /* button */
     .button {
@@ -1328,6 +1359,14 @@ body {
         font-size: 18px;
     }
 
+    .breadcrumb {
+        display: none;
+    }
+
+    .breadcrumb_title {
+        font-size: 16px;
+        padding-bottom: 10px;
+    }
 
     /* button */
     .button {
