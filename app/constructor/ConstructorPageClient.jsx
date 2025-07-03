@@ -1,11 +1,13 @@
-// app/constructor/ConstructorPageClient.tsx
 'use client';
 
-import loadable from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import { Interface } from './components/Interface';
 import { Experience } from './components/Experience';
 
-const Canvas = loadable(() => import('./components/CanvasWrapper'), { ssr: false });
+const Canvas = dynamic(() => import('./components/CanvasWrapper'), {
+    ssr: false,
+    loading: () => <div>Loading canvas...</div>,
+});
 
 export default function ConstructorPageClient() {
     return (

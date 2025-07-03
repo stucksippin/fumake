@@ -1,7 +1,7 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function CanvasWrapper(props) {
     const [mounted, setMounted] = useState(false);
