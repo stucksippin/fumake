@@ -1,5 +1,6 @@
 // app/constructor/page.tsx
-export const dynamic = 'force-dynamic'; // теперь работает!
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 import ConstructorPageClient from './ConstructorPageClient';
 
