@@ -1,5 +1,4 @@
 'use client';
-
 import dynamic from 'next/dynamic';
 import { Experience } from './components/Experience';
 import { Interface } from './components/Interface';
@@ -20,6 +19,7 @@ export default function ConstructorPage() {
                     <Experience />
                 </Canvas>
             </div>
+
             <div className="w-80 p-4 overflow-auto bg-white/80 backdrop-blur-sm">
                 <Interface />
             </div>
