@@ -1,9 +1,12 @@
 'use client';
-import dynamic from 'next/dynamic';
+
+export const dynamic = 'force-dynamic';
+
+import loadable from 'next/dynamic';
 import { Experience } from './components/Experience';
 import { Interface } from './components/Interface';
 
-const Canvas = dynamic(() => import('./components/CanvasWrapper'), {
+const Canvas = loadable(() => import('./components/CanvasWrapper'), {
     ssr: false,
 });
 
