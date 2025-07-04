@@ -1,6 +1,26 @@
 'use server';
 import prisma from '@/libs/prisma';
 
+// Приводим объекты к сериализуемому виду
+function serializeFurniture(f) {
+    return {
+        ...f,
+        price: Number(f.price),
+        createdAt: f.createdAt?.toISOString?.() ?? null,
+        updatedAt: f.updatedAt?.toISOString?.() ?? null,
+        tags: f.tags || [],
+        variations: f.variations?.map((v) => ({
+            ...v,
+            price: v.price ? Number(v.price) : 0,
+            createdAt: v.createdAt?.toISOString?.() ?? null,
+            updatedAt: v.updatedAt?.toISOString?.() ?? null,
+            color: v.color ? {
+                ...v.color
+            } : null
+        })) || []
+    };
+}
+
 export default async function getFurniture(searchParams = {}) {
     try {
         const furnitures = await prisma.furniture.findMany({
@@ -59,7 +79,8 @@ export default async function getFurniture(searchParams = {}) {
             },
         });
 
-        return furnitures;
+        // Сериализуем результат
+        return furnitures.map(serializeFurniture);
     } catch (error) {
         console.error('Ошибка загрузки мебели:', error);
         return [];
