@@ -22,8 +22,11 @@ export function Table(props) {
     const rightLegs = useRef();
 
     useEffect(() => {
-        materials.Metal.color = new Three.Color(legsColor);
-    }, [legsColor]);
+        if (materials?.Metal) {
+            materials.Metal.color = new Three.Color(legsColor);
+        }
+    }, [legsColor, materials?.Metal]);
+
 
     useFrame((_state, delta) => {
         const tableWidthScale = tableWidth / 100;
