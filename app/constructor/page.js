@@ -1,10 +1,12 @@
 'use client';
 
-import dynamic from 'next/dynamic';
+export const dynamic = 'force-dynamic';
+
+import dynamicImport from 'next/dynamic';
 import { Interface } from './components/Interface';
 import { Experience } from './components/Experience';
 
-const Canvas = dynamic(() => import('./components/CanvasWrapper'), {
+const Canvas = dynamicImport(() => import('./components/CanvasWrapper'), {
     ssr: false,
     loading: () => <div>Loading canvas...</div>,
 });
