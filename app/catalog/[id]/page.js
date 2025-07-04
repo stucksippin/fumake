@@ -1,4 +1,4 @@
-// app/catalog/[id]/page.tsx
+// app/catalog/[id]/page.jsx
 export const dynamic = 'auto'
 export const revalidate = 60
 

@@ -3,7 +3,7 @@
 import FurnitureCard from "./FurnitureCard";
 import { useState } from "react";
 
-export default function MainCatalog({ furnitures }) {
+export default function MainCatalog({ furnitures = [] }) {
     const [visibleCount, setVisibleCount] = useState(10); // Сколько товаров показываем
     const itemsToShow = furnitures.slice(0, visibleCount); // Показываем только первые 10 товаров
 
