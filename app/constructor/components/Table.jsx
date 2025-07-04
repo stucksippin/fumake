@@ -107,4 +107,4 @@ export function Table(props) {
     );
 }
 
-useGLTF.preload("./models/Table.gltf");
+useGLTF.preload("/models/Table.gltf");
