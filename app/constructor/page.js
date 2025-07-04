@@ -1,7 +1,5 @@
 'use client';
 
-export const dynamic = 'force-dynamic';
-
 import dynamicImport from 'next/dynamic';
 import { Interface } from './components/Interface';
 import { Experience } from './components/Experience';
