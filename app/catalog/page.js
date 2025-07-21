@@ -1,4 +1,5 @@
 export const dynamic = 'force-dynamic' // разобраться 
+export const runtime = 'nodejs';
 
 import Image from 'next/image'
 import React from 'react'
@@ -9,7 +10,7 @@ import MainCatalog from '@/components/MainCatalog'
 import { Breadcrumb } from 'antd'
 import Link from 'next/link'
 
-export default async function CatalogPage({ searchParams }) {
+export default async function CatalogPage({ searchParams = {} }) {
     const furnitures = await getFurniture(searchParams);
 
     const breadcrumbItems = [
