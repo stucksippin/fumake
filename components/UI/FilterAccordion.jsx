@@ -32,7 +32,7 @@ export default function FilterAccordion() {
     }
 
     return (
-        <div className="w-full px-4">
+        <div className="py-[10px] w-full box-border">
             <div className="flex flex-wrap gap-4 items-center">
                 <Select
                     className="min-w-[150px] max-w-[150px]"

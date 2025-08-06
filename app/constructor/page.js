@@ -14,7 +14,7 @@ export default function ConstructorPage() {
             {/* Левая часть — трёхмерка */}
             <div className="flex-1 flex">
                 <Canvas
-                    className="flex-1 h-full"        // <-- здесь растягиваем canvas
+                    className="flex-1 h-full"
                     camera={{ position: [3, 3, -9], fov: 25 }}
                     shadows
                 >
