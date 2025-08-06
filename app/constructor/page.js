@@ -1,25 +1,22 @@
-// pages/constructor/page.js
 'use client';
 import dynamic from 'next/dynamic';
-import { Experience } from './components/Experience';
 import { Interface } from './components/Interface';
 
-export default function ConstructorPage() {
-    const Canvas = dynamic(() => import('@react-three/fiber').then(m => m.Canvas), {
-        ssr: false
-    });
+// Динамический импорт ВСЕГО 3D-окружения
+const Scene = dynamic(
+    () => import('./SceneWrapper').then((mod) => mod.SceneWrapper),
+    {
+        ssr: false,
+        loading: () => <div className="flex-1 flex items-center justify-center">Загрузка 3D...</div>
+    }
+);
 
+export default function ConstructorPage() {
     return (
         <div className="min-h-screen flex">
             {/* Левая часть — трёхмерка */}
             <div className="flex-1 flex">
-                <Canvas
-                    className="flex-1 h-full"
-                    camera={{ position: [3, 3, -9], fov: 25 }}
-                    shadows
-                >
-                    <Experience />
-                </Canvas>
+                <Scene />
             </div>
 
             {/* Правая панель */}
