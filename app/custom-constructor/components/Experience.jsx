@@ -19,7 +19,6 @@ export const Experience = () => {
                 }}
                 adjustCamera={2}
             >
-                {/* Оборачиваем в Suspense для асинхронной загрузки */}
                 <Suspense fallback={null}>
                     <EnvironmentWrapper />
                 </Suspense>
@@ -35,7 +34,6 @@ export const Experience = () => {
     )
 }
 
-// Выносим в отдельный компонент для обработки ошибок
 function EnvironmentWrapper() {
     try {
         return (
