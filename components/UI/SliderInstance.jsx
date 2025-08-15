@@ -1,7 +1,7 @@
 'use client'
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
-import { Navigation } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import "swiper/css";
 import "swiper/css/pagination";
 import 'swiper/css/navigation';
@@ -53,10 +53,15 @@ export default function SliderInstance() {
     return (
         <div className="swiper flex justify-center">
             <Swiper
+                autoplay={{
+                    delay: 2000,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                }}
                 spaceBetween={50}
                 slidesPerView={4}
                 pagination={{ clickable: true }}
-                modules={[Pagination]}
+                modules={[Pagination, Autoplay]}
                 className="!pb-10"
                 breakpoints={{
                     320: {
