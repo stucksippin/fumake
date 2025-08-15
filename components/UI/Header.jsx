@@ -1,6 +1,5 @@
 'use client'
 import Image from "next/image";
-
 import cart from "@/public/image/header/cart.png"
 import like from "@/public/image/header/like.png"
 import Link from "next/link";
