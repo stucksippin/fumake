@@ -3,10 +3,10 @@ import { Modal, Select, Upload, Button, message } from 'antd';
 import { UploadOutlined, DeleteOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { editVariation, getColorsOptions, getSizesOptions } from '@/libs/serverActions';
+import { getColorsOptions, getSizesOptions } from '@/libs/serverActions';
 
 export default function EditVariationModal({ isOpen, onClose, variation }) {
-    const [sizeId, setSizeId] = useState(null); // Теперь храним ID размера
+    const [sizeId, setSizeId] = useState(null);
     const [colorId, setColorId] = useState(null);
     const [removedImageIds, setRemovedImageIds] = useState([]);
     const [newImages, setNewImages] = useState([]);
@@ -17,7 +17,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
 
     useEffect(() => {
         if (variation) {
-            setSizeId(variation.size?.id); // Теперь сохраняем ID размера
+            setSizeId(variation.size?.id);
             setColorId(variation.color.id);
             setExistingImages(variation.images || []);
             setRemovedImageIds([]);
@@ -36,7 +36,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                     label: color.name
                 })));
                 setSizesOptions(sizesData.map(size => ({
-                    value: size.id, // Теперь используем ID размера как значение
+                    value: size.id,
                     label: size.size
                 })));
             } catch (error) {
@@ -74,7 +74,9 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                 }
             });
 
-            const res = await fetch('/api/upload', {
+            formData.append('variationId', variation.id);
+
+            const res = await fetch('/api/images/upload-variation', {
                 method: 'POST',
                 body: formData
             });
@@ -86,18 +88,28 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                 return;
             }
 
-            uploadedImageNames = result.filenames;
+            uploadedImageNames = result.images.map(img => img.name);
         }
 
-        const res = await editVariation({
-            id: variation.id,
-            sizeId, // Теперь передаем ID размера
-            colorId,
-            deletedImages: removedImageIds,
-            newImages: uploadedImageNames,
+
+        const res = await fetch('/api/variations/edit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: variation.id,
+                sizeId,
+                colorId,
+                deletedImages: removedImageIds,
+                newImages: uploadedImageNames,
+            }),
+
         });
 
-        if (res.success) {
+        const result = await res.json();
+
+        if (result.success) {
             message.success('Вариация обновлена');
             onClose();
             location.reload();
@@ -114,13 +126,23 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                     value={sizeId}
                     onChange={(value) => setSizeId(value)}
                     options={sizesOptions}
+                    showSearch
+                    filterOption={(input, option) =>
+                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                 />
+
                 <Select
                     placeholder="Выберите цвет"
                     value={colorId}
                     onChange={(value) => setColorId(value)}
                     options={colorsOptions}
+                    showSearch
+                    filterOption={(input, option) =>
+                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                    }
                 />
+
 
                 {/* Существующие изображения */}
                 {existingImages.length > 0 && (
@@ -130,7 +152,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                             {existingImages.map(img => (
                                 <div key={img.id} className="relative w-24 h-24 rounded overflow-hidden">
                                     <Image
-                                        src={`/image/furniture/uploads/${img.name}.webp`}
+                                        src={`https://s3.mir-komfortarnd.ru/furniture/${img.name}.webp`}
                                         alt="variation"
                                         fill
                                         className="object-cover"

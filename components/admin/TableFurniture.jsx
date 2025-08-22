@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Tag, Button, Badge, Space } from 'antd';
-import { deleteVariation, deleteFurniture } from '@/libs/serverActions';
+import { Table, Tag, Button, Space } from 'antd';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 
@@ -33,7 +32,7 @@ export default function TableFurniture({ furnitures }) {
                     <Image
                         width={100}
                         height={100}
-                        src={`/image/furniture/${record.category}/${record.image}.webp`}
+                        src={record.image}
                         alt={record.name}
                         className="cart_item-image w-16 h-16 object-cover rounded"
                     />
@@ -45,6 +44,7 @@ export default function TableFurniture({ furnitures }) {
             title: 'Цена',
             dataIndex: 'price',
             key: 'price',
+            width: '90px',
             render: (price) => `${price} ₽`,
         },
         {
@@ -52,21 +52,12 @@ export default function TableFurniture({ furnitures }) {
             dataIndex: 'category',
             key: 'category',
         },
-        {
-            title: 'Рейтинг',
-            dataIndex: 'reviews',
-            key: 'rate',
-            render: (reviews) => {
-                if (!reviews || reviews.length === 0) return <span>Нет оценки</span>;
-                const averageRating = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
-                return <span>{averageRating.toFixed(1)} ★</span>;
-            }
-        },
+
         {
             title: 'Теги',
             dataIndex: 'tags',
             key: 'tags',
-            width: '250px',
+            width: '200px',
             render: (tags) => (
                 <div>
                     {tags?.length ? tags.map((tag, index) => <Tag key={index}>{tag.name}</Tag>) : <span>Нет тегов</span>}
@@ -109,17 +100,28 @@ export default function TableFurniture({ furnitures }) {
                             const confirmed = window.confirm("Удалить товар?");
                             if (!confirmed) return;
 
-                            const resp = await deleteFurniture(record.id);
-                            if (resp.success) {
-                                location.reload();
-                            } else {
-                                console.error(resp.error);
-                                alert("Ошибка при удалении товара");
+                            try {
+                                const res = await fetch(`/api/furniture/delete?id=${record.id}`, {
+                                    method: 'DELETE',
+                                });
+
+                                const data = await res.json();
+
+                                if (data.success) {
+                                    location.reload(); // или обнови локальное состояние
+                                } else {
+                                    console.error(data.error);
+                                    alert("Ошибка при удалении");
+                                }
+                            } catch (err) {
+                                console.error(err);
+                                alert("Произошла ошибка при удалении");
                             }
                         }}
                     >
                         Удалить
                     </Button>
+
 
                 </div>
             ),
@@ -166,13 +168,22 @@ export default function TableFurniture({ furnitures }) {
                             const confirmed = window.confirm("Удалить эту вариацию?");
                             if (!confirmed) return;
 
-                            const resp = await deleteVariation(record.id);
-                            if (resp.success) {
-                                // можно вызывать обновление, если нужно перерендерить
-                                location.reload(); // простейший способ обновить таблицу
-                            } else {
-                                console.error(resp.error);
-                                alert("Ошибка при удалении вариации");
+                            try {
+                                const res = await fetch(`/api/variations/delete?id=${record.id}`, {
+                                    method: 'DELETE',
+                                });
+
+                                const data = await res.json();
+
+                                if (data.success) {
+                                    location.reload(); // или локальный рефетч списка
+                                } else {
+                                    console.error(data.error);
+                                    alert("Ошибка при удалении вариации");
+                                }
+                            } catch (err) {
+                                console.error(err);
+                                alert("Ошибка соединения с сервером");
                             }
                         }}
                     >
