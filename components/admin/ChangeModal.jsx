@@ -46,12 +46,12 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        let imageName = furniture.image;
+        let imageName = furniture.image; // по умолчанию старое изображение
 
         if (newImage) {
             const formData = new FormData();
             formData.append('file', newImage);
-            formData.append('furnitureId', furniture.id);
+            formData.append('furnitureId', furniture.id); // <--- ОБЯЗАТЕЛЬНО
 
             const res = await fetch('/api/images/upload-furniture', {
                 method: 'POST',
@@ -61,7 +61,7 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
             const result = await res.json();
 
             if (result.success) {
-                imageName = result.imageUrl;
+                imageName = result.imageUrl; // если сервер возвращает полный URL
             } else {
                 message.error('Ошибка загрузки изображения');
                 return;
@@ -72,7 +72,7 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
             name,
             price,
             category,
-            description,
+            discription: description,
             image: imageName,
             tags: tags.map(({ value, label }) => ({ value, label })),
             id: furniture.id,

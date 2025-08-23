@@ -65,6 +65,7 @@ model FurnitureVariations {
 model Images {
   id                   Int                  @id @default(autoincrement())
   name                 String
+  url                  String?
   FurnitureVariation   FurnitureVariations? @relation(fields: [furnitureVariationId], references: [id])
   furnitureVariationId Int?
 }

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { getColorsOptions, getSizesOptions } from '@/libs/serverActions';
 
 export default function EditVariationModal({ isOpen, onClose, variation }) {
-    const [sizeId, setSizeId] = useState(null);
+    const [sizeId, setSizeId] = useState(null); // Теперь храним ID размера
     const [colorId, setColorId] = useState(null);
     const [removedImageIds, setRemovedImageIds] = useState([]);
     const [newImages, setNewImages] = useState([]);
@@ -17,7 +17,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
 
     useEffect(() => {
         if (variation) {
-            setSizeId(variation.size?.id);
+            setSizeId(variation.size?.id); // Теперь сохраняем ID размера
             setColorId(variation.color.id);
             setExistingImages(variation.images || []);
             setRemovedImageIds([]);
@@ -36,7 +36,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                     label: color.name
                 })));
                 setSizesOptions(sizesData.map(size => ({
-                    value: size.id,
+                    value: size.id, // Теперь используем ID размера как значение
                     label: size.size
                 })));
             } catch (error) {
@@ -70,7 +70,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
             const formData = new FormData();
             newImages.forEach(file => {
                 if (file.originFileObj) {
-                    formData.append('file', file.originFileObj);
+                    formData.append('file', file.originFileObj); // ключ должен совпадать
                 }
             });
 
@@ -88,7 +88,7 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                 return;
             }
 
-            uploadedImageNames = result.images.map(img => img.name);
+            uploadedImageNames = result.images.map(img => img.name); // или url, если нужно
         }
 
 
@@ -152,11 +152,12 @@ export default function EditVariationModal({ isOpen, onClose, variation }) {
                             {existingImages.map(img => (
                                 <div key={img.id} className="relative w-24 h-24 rounded overflow-hidden">
                                     <Image
-                                        src={`https://s3.mir-komfortarnd.ru/furniture/${img.name}.webp`}
+                                        src={`${process.env.NEXT_PUBLIC_MINIO_PUBLIC_URL}/${img.name}.webp`}
                                         alt="variation"
                                         fill
                                         className="object-cover"
                                     />
+
                                     <Button
                                         icon={<DeleteOutlined />}
                                         onClick={() => handleRemoveExistingImage(img.id)}

@@ -16,16 +16,17 @@ export async function DELETE(req) {
             return NextResponse.json({ success: false, error: 'Некорректный ID' }, { status: 400 });
         }
 
-        // Получаем URL изображения, чтобы позже удалить из MinIO
+        // Получаем товар вместе с тегами (чтобы потом их отвязать)
         const furniture = await prisma.furniture.findUnique({
             where: { id },
-            select: { image: true },
+            include: { tags: true },
         });
 
         if (!furniture) {
             return NextResponse.json({ success: false, error: 'Товар не найден' }, { status: 404 });
         }
 
+        // Получаем все вариации для удаления картинок
         const variations = await prisma.furnitureVariations.findMany({
             where: { furnitureId: id },
             select: { id: true },
@@ -34,11 +35,13 @@ export async function DELETE(req) {
         const variationIds = variations.map(v => v.id);
 
         // Удаляем изображения вариаций
-        await prisma.images.deleteMany({
-            where: {
-                furnitureVariationId: { in: variationIds },
-            },
-        });
+        if (variationIds.length > 0) {
+            await prisma.images.deleteMany({
+                where: {
+                    furnitureVariationId: { in: variationIds },
+                },
+            });
+        }
 
         // Удаляем вариации
         await prisma.furnitureVariations.deleteMany({
@@ -50,15 +53,17 @@ export async function DELETE(req) {
             where: { furnitureId: id },
         });
 
-        // Удаляем связи с тегами
-        await prisma.furniture.update({
-            where: { id },
-            data: {
-                tags: {
-                    set: [],
+        // Снимаем связи с тегами через disconnect
+        if (furniture.tags.length > 0) {
+            await prisma.furniture.update({
+                where: { id },
+                data: {
+                    tags: {
+                        disconnect: furniture.tags.map(tag => ({ id: tag.id })),
+                    },
                 },
-            },
-        });
+            });
+        }
 
         // Удаляем сам товар
         await prisma.furniture.delete({
@@ -80,6 +85,6 @@ export async function DELETE(req) {
         return NextResponse.json({ success: true });
     } catch (error) {
         console.error('Ошибка при удалении товара:', error);
-        return NextResponse.json({ success: false, error: 'Ошибка сервера' }, { status: 500 });
+        return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 }

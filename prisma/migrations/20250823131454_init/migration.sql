@@ -62,6 +62,7 @@ CREATE TABLE "FurnitureVariations" (
 CREATE TABLE "Images" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "url" TEXT,
     "furnitureVariationId" INTEGER,
 
     CONSTRAINT "Images_pkey" PRIMARY KEY ("id")
