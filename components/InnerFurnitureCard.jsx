@@ -25,7 +25,7 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
         ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
         : 0;
 
-    const editPrice = String(price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+    const editPrice = String(price).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
 
     useEffect(() => {
         // Если нет вариации с текущими size + color, то пробуем поменять один из них
