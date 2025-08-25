@@ -6,24 +6,39 @@ import path from 'path';
 import fs from 'fs/promises';
 
 export async function editFurniture(data) {
-    const { id, name, price, category, tags, image } = data;
+    const { id, name, price, category, tags, image, discription } = data;
 
     try {
+        const existing = await prisma.furniture.findUnique({
+            where: { id: Number(id) },
+            include: { tags: true }
+        });
+
+        const newTagIds = tags.map(tag => tag.value);
+        const oldTagIds = existing.tags.map(tag => tag.id);
+
+        const toConnect = newTagIds
+            .filter(tagId => !oldTagIds.includes(tagId))
+            .map(id => ({ id }));
+
+        const toDisconnect = oldTagIds
+            .filter(tagId => !newTagIds.includes(tagId))
+            .map(id => ({ id }));
+
         const updated = await prisma.furniture.update({
             where: { id: Number(id) },
             data: {
                 name,
                 price: Number(price),
                 category,
+                discription,   // 👈 теперь описание обновляется
                 image,
                 tags: {
-                    set: [],
-                    connect: tags.map(tag => ({ id: tag.value }))
+                    connect: toConnect,
+                    disconnect: toDisconnect
                 }
             },
-            include: {
-                tags: true
-            }
+            include: { tags: true }
         });
 
         return { success: true, data: updated };
@@ -49,7 +64,7 @@ export async function deleteVariation(id) {
 
 export async function deleteFurniture(id) {
     try {
-        // Удаление изображений → через вариации
+        // 1. Найдём все вариации, чтобы удалить картинки и вариации
         const variations = await prisma.furnitureVariations.findMany({
             where: { furnitureId: id },
             select: { id: true },
@@ -57,34 +72,41 @@ export async function deleteFurniture(id) {
 
         const variationIds = variations.map(v => v.id);
 
-        // Удаляем изображения
+        // 2. Удаляем изображения вариаций
         await prisma.images.deleteMany({
             where: {
                 furnitureVariationId: { in: variationIds },
             },
         });
 
-        // Удаляем вариации
+        // 3. Удаляем сами вариации
         await prisma.furnitureVariations.deleteMany({
             where: { furnitureId: id },
         });
 
-        // Удаляем отзывы
+        // 4. Удаляем отзывы
         await prisma.review.deleteMany({
             where: { furnitureId: id },
         });
 
-        // Удаляем связи с тегами
-        await prisma.furniture.update({
+        // 5. Снимаем связи с тегами (через disconnect)
+        const furniture = await prisma.furniture.findUnique({
             where: { id },
-            data: {
-                tags: {
-                    set: [],
-                },
-            },
+            include: { tags: true },
         });
 
-        // Удаляем сам товар
+        if (furniture && furniture.tags.length > 0) {
+            await prisma.furniture.update({
+                where: { id },
+                data: {
+                    tags: {
+                        disconnect: furniture.tags.map(tag => ({ id: tag.id })),
+                    },
+                },
+            });
+        }
+
+        // 6. Удаляем сам товар
         await prisma.furniture.delete({
             where: { id },
         });
@@ -95,6 +117,7 @@ export async function deleteFurniture(id) {
         return { success: false, error: error.message };
     }
 }
+
 
 export async function createFurniture(data) {
     const { name, price, category, tags, image, discription } = data;

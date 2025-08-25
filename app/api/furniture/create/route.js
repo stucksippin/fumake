@@ -1,73 +1,80 @@
-// app/api/furniture/route.ts или pages/api/furniture/index.ts
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+// /app/api/create-furniture/route.js (или .ts)
 import { NextResponse } from 'next/server';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
 import sharp from 'sharp';
-import { PrismaClient } from '@prisma/client';
+import { v4 as uuidv4 } from 'uuid';
+import prisma from '@/libs/prisma';
+import s3Client from '@/libs/s3Client';
 
-const prisma = new PrismaClient();
+const BUCKET_NAME = process.env.MINIO_BUCKET_NAME;
+const PUBLIC_URL = process.env.MINIO_PUBLIC_URL;
 
 export async function POST(req) {
     try {
-        const data = await req.formData();
-        const file = data.get('file');
-        const category = data.get('category')?.toString();
-        const name = data.get('name')?.toString();
-        const discription = data.get('discription')?.toString();
-        const priceStr = data.get('price')?.toString();
+        const formData = await req.formData();
 
-        if (!file || !category || !name || !discription || !priceStr) {
-            return NextResponse.json(
-                { success: false, error: 'Не все поля заполнены' },
-                { status: 400 }
-            );
+        const file = formData.get('file');
+        const name = formData.get('name');
+        const price = formData.get('price');
+        const category = formData.get('category');
+        const discription = formData.get('discription');
+        const rawTags = formData.get('tags');
+
+        if (!name || !price || !category) {
+            return NextResponse.json({ success: false, error: 'Обязательные поля отсутствуют' }, { status: 400 });
         }
 
-        const price = parseInt(priceStr, 10);
-        if (isNaN(price)) {
-            return NextResponse.json(
-                { success: false, error: 'Некорректная цена' },
-                { status: 400 }
-            );
+        let imageUrl = '';
+
+        if (file && typeof file === 'object') {
+            const arrayBuffer = await file.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
+
+            const webpBuffer = await sharp(buffer)
+                .webp({ quality: 80 })
+                .toBuffer();
+
+            const filename = `${uuidv4()}.webp`;
+
+            const uploadCommand = new PutObjectCommand({
+                Bucket: BUCKET_NAME,
+                Key: filename,
+                Body: webpBuffer,
+                ContentType: 'image/webp',
+            });
+
+            await s3Client.send(uploadCommand);
+            imageUrl = `${PUBLIC_URL}/${filename}`;
         }
 
-        // 1) Сохраняем изображение
-        const arrayBuffer = await (file).arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
+        let tagsArray = [];
+        try {
+            if (rawTags) {
+                const parsedTags = JSON.parse(rawTags);
+                if (Array.isArray(parsedTags)) {
+                    tagsArray = parsedTags;
+                }
+            }
+        } catch (e) {
+            console.warn('Ошибка парсинга тегов:', e);
+        }
 
-        const basename = `${Date.now()}`;       // уникальное имя без расширения
-        const filename = `${basename}.webp`;    // реальное имя файла на диске
-        const targetDir = path.join(
-            process.cwd(),
-            'public',
-            'image',
-            'furniture',
-            category
-        );
-        const targetPath = path.join(targetDir, filename);
-
-        await mkdir(targetDir, { recursive: true });
-        await sharp(buffer).webp({ quality: 80 }).toFile(targetPath);
-
-        // 2) Создаём запись в БД
-        const newFurniture = await prisma.furniture.create({
+        const created = await prisma.furniture.create({
             data: {
                 name,
-                discription,
-                price,
+                price: Number(price),
                 category,
-                image: basename,
+                image: imageUrl,
+                discription,
+                tags: {
+                    connect: tagsArray.map(tag => ({ id: tag.value })),
+                },
             }
         });
 
-        return NextResponse.json({ success: true, furniture: newFurniture });
+        return NextResponse.json({ success: true, data: created });
     } catch (err) {
-        console.error('Ошибка при загрузке изображения или в БД:', err);
-        return NextResponse.json(
-            { success: false, error: 'Ошибка сервера' },
-            { status: 500 }
-        );
-    } finally {
-        await prisma.$disconnect();
+        console.error('Ошибка при создании товара:', err);
+        return NextResponse.json({ success: false, error: 'Ошибка сервера' }, { status: 500 });
     }
 }

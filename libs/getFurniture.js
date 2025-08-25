@@ -48,41 +48,44 @@ export default async function getFurniture(searchParams = {}) {
                         ? {
                             price: { lte: Number(searchParams.priceMax) || 0 },
                         }
-                        : {},
-
-                    searchParams.name
-                        ? { name: { contains: searchParams.name } }
-                        : {},
-
-                    searchParams.color
-                        ? {
-                            variations: {
-                                some: { color: { name: searchParams.color } },
-                            },
-                        }
-                        : {},
-                ],
-            },
-
-            orderBy:
-                searchParams.priceSort === 'asc'
-                    ? { price: 'asc' }
-                    : searchParams.priceSort === 'desc'
-                        ? { price: 'desc' }
-                        : undefined,
-
-            include: {
-                tags: true,
+                    } : {},
+            searchParams.name ? {
+                name: {
+                    contains: searchParams.name,
+                    mode: 'insensitive',
+                }
+            } : {},
+            searchParams.color ? {
                 variations: {
-                    include: { color: true },
-                },
-            },
-        });
+                    some: {
+                        color: {
+                            name: searchParams.color
+                        }
+                    }
+                }
+            } : {},
+                ]
+    },
 
-        // Сериализуем результат
-        return furnitures.map(serializeFurniture);
+    orderBy:
+    searchParams.priceSort === 'asc'
+        ? { price: 'asc' }
+        : searchParams.priceSort === 'desc'
+            ? { price: 'desc' }
+            : undefined,
+
+        include: {
+        tags: true,
+            variations: {
+            include: { color: true },
+        },
+    },
+});
+
+// Сериализуем результат
+return furnitures.map(serializeFurniture);
     } catch (error) {
-        console.error('Ошибка загрузки мебели:', error);
-        return [];
-    }
+    console.error('Ошибка загрузки мебели:', error);
+    return [];
+}
 }

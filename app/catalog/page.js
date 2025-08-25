@@ -1,6 +1,4 @@
-export const dynamic = 'force-dynamic' // разобраться 
-export const runtime = 'nodejs';
-
+export const dynamic = 'force-dynamic'
 import Image from 'next/image'
 import React from 'react'
 import catalog from '/public/image/catalogBanner.png'
@@ -23,19 +21,28 @@ export default async function CatalogPage({ searchParams = {} }) {
     ]
 
     return (
-        <div>
-
-            <div className='container relative h-full w-full object-cover object-left'>
+        <div className="min-h-screen">
+            <div className='relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] overflow-hidden'>
                 <Breadcrumb
-                    className='breadcrumb mb-5 text-[18px] absolute top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2  z-10'
+                    className='absolute z-10 text-sm sm:text-base md:text-lg lg:text-xl top-[60%] sm:top-[65%] left-1/2 -translate-x-1/2 -translate-y-1/2'
                     items={breadcrumbItems}
                 />
-                <Image className='opacity-50 mx-auto' width={1536} height={316} src={catalog} alt='catalog banner' />
-                <span className='breadcrumb_title breadcrumb_title_catalog absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 title'>Каталог</span>
+                <Image
+                    className='w-full h-full object-cover opacity-50'
+                    src={catalog}
+                    alt='catalog banner'
+                    fill
+                    priority
+                />
+
+                <h1 className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center'>
+                    Каталог
+                </h1>
             </div>
-            <Filter searchParams={searchParams} />
-            <MainCatalog furnitures={furnitures} />
+            <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10">
+                <Filter searchParams={searchParams} />
+                <MainCatalog furnitures={furnitures} />
+            </div>
         </div>
     )
 }
-

@@ -1,4 +1,3 @@
-// app/catalog/[id]/page.jsx
 export const dynamic = 'auto'
 export const revalidate = 60
 
@@ -15,11 +14,6 @@ export default async function InnerCardPage({ params: { id } }) {
         notFound();
     }
 
-    const imagePath = `/image/furniture/${furniture.category}/${furniture.image}.webp`;
-    console.log(imagePath);
-
-
-
     const breadcrumbItems = [
         { title: <Link href="/">Главная</Link> },
         { title: <Link href="/catalog">Каталог</Link> },
@@ -31,7 +25,7 @@ export default async function InnerCardPage({ params: { id } }) {
             <Breadcrumb className='mb-5 text-[18px]' items={breadcrumbItems} />
             <InnerFurnitureCard
                 id={furniture.id}
-                image={imagePath}
+                image={furniture.image}
                 name={furniture.name}
                 discription={furniture.discription}
                 price={furniture.price}

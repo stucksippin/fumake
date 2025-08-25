@@ -1,33 +1,29 @@
 'use client';
 
-import { editFurniture, getTagsOptions, getColorsOptions } from '@/libs/serverActions';
+import { editFurniture, getTagsOptions } from '@/libs/serverActions';
 import { Input, message, Modal, Select, Upload, Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import TextArea from 'antd/es/input/TextArea';
 
 export default function ChangeModal({ furniture, isOpen, onClose }) {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('');
     const [category, setCategory] = useState('');
     const [tags, setTags] = useState([]);
-    const [colors, setColors] = useState([]);
-
+    const [description, setDescription] = useState('');
     const [tagsOptions, setTagsOptions] = useState([]);
-    const [colorsOptions, setColorsOptions] = useState([]);
-
     const [newImage, setNewImage] = useState(null);
+
 
     useEffect(() => {
         if (furniture) {
             setName(furniture.name || '');
             setPrice(furniture.price || '');
             setCategory(furniture.category || '');
+            setDescription(furniture.discription || '');
             setTags(furniture.tags?.map(tag => ({ value: tag.id, label: tag.name })) || []);
-
-            setColors([...new Map(furniture.variations.map(item =>
-                [item.color.id, { value: item.color.id, label: item.color.name }])).values()
-            ]);
         }
     }, [furniture]);
 
@@ -35,11 +31,7 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
         async function loadOptions() {
             try {
                 const tagsData = await getTagsOptions();
-                const colorsData = await getColorsOptions();
-
                 setTagsOptions(tagsData.map(tag => ({ value: tag.id, label: tag.name })));
-                setColorsOptions(colorsData.map(color => ({ value: color.id, label: color.name })));
-
             } catch (error) {
                 console.error("Ошибка загрузки данных:", error);
             }
@@ -59,9 +51,9 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
         if (newImage) {
             const formData = new FormData();
             formData.append('file', newImage);
-            formData.append('category', category);
+            formData.append('furnitureId', furniture.id); // <--- ОБЯЗАТЕЛЬНО
 
-            const res = await fetch('/api/upload', {
+            const res = await fetch('/api/images/upload-furniture', {
                 method: 'POST',
                 body: formData
             });
@@ -69,7 +61,7 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
             const result = await res.json();
 
             if (result.success) {
-                imageName = result.filename;
+                imageName = result.imageUrl; // если сервер возвращает полный URL
             } else {
                 message.error('Ошибка загрузки изображения');
                 return;
@@ -80,9 +72,10 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
             name,
             price,
             category,
+            discription: description,
+            image: imageName,
             tags: tags.map(({ value, label }) => ({ value, label })),
             id: furniture.id,
-            image: imageName
         };
 
         const resp = await editFurniture(newForm);
@@ -103,7 +96,7 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
                         <Image
                             width={160}
                             height={160}
-                            src={`/image/furniture/${furniture.category}/${furniture.image}.webp`}
+                            src={furniture.image}
                             alt={furniture.name}
                             className="rounded object-cover"
                         />
@@ -113,6 +106,15 @@ export default function ChangeModal({ furniture, isOpen, onClose }) {
                 <Input name='title' placeholder="Название товара" value={name} onChange={(e) => setName(e.target.value)} />
                 <Input name='price' placeholder="Цена товара" value={price} onChange={(e) => setPrice(e.target.value)} />
                 <Input name='category' placeholder="Категория" value={category} onChange={(e) => setCategory(e.target.value)} />
+
+
+                <TextArea
+                    name='description'
+                    placeholder="Описание товара"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={4}
+                />
 
                 <Select
                     name='tags'

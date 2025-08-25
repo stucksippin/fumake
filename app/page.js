@@ -1,14 +1,16 @@
+export const dynamic = 'force-dynamic';
 import Image from "next/image";
 import welcome_pic from "../public/image/welcome_pic.png"
 import BreefCatalog from "@/components/BreefCatalog";
 import getBreefFurniture from "@/libs/getBreefFurniture";
 import Link from "next/link";
 import SliderInstance from "@/components/UI/SliderInstance";
-import Loader from "@/components/UI/Loader";
-import FavouriteModal from "@/components/FavouriteModal";
+import { unstable_noStore as noStore } from 'next/cache';
 
 export default async function MainPage() {
+    noStore()
     const furnitures = await getBreefFurniture()
+
     return (
         <div className="mainPage">
 

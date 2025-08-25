@@ -1,7 +1,7 @@
 'use client';
 import { Button, Input, Select, Upload, message } from 'antd';
 import { useState, useEffect } from 'react';
-import { getTagsOptions, createFurniture } from '@/libs/serverActions';
+import { getTagsOptions } from '@/libs/serverActions';
 import { UploadOutlined } from '@ant-design/icons';
 
 export default function CreateForm() {
@@ -36,7 +36,7 @@ export default function CreateForm() {
         formData.append('price', price);
         formData.append('category', category);
         formData.append('discription', discription);
-        formData.append('tags', JSON.stringify(tags)); // tags: [{ value: 1 }, ...]
+        formData.append('tags', JSON.stringify(tags));
 
         const res = await fetch('/api/furniture/create', {
             method: 'POST',
@@ -79,7 +79,7 @@ export default function CreateForm() {
                 accept="image/*"
                 beforeUpload={(file) => {
                     setFile(file);
-                    return false; // предотвратить авто-загрузку
+                    return false;
                 }}
                 maxCount={1}
                 showUploadList={{ showRemoveIcon: true }}

@@ -1,11 +1,14 @@
 'use client';
 
-import { Rate, message } from 'antd';;
+import { Rate, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import useCartStore from '@/app/store/useCartStore';
 import ImageThumb from './UI/ImageThumb';
 
 export default function InnerFurnitureCard({ id, image, name, discription, price, variations, reviews }) {
+
+    console.log("Вариации", variations);
+
     // Группируем вариации по размерам
     const sizes = Array.from(new Set(variations.map(v => v.size.size)));
     console.log('размеры', sizes);
@@ -96,57 +99,127 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
     };
 
     return (
-        <div className=' mx-auto pt-5'>
-            <div className='flex px-24 justify-around mb-[5%]'>
-                <div className='flex'>
+        <div className='mx-auto pt-5 px-4 sm:px-6 lg:px-8'>
+            {/* Основная секция продукта */}
+            <div className='flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16 mb-12 lg:mb-16'>
+                {/* Галерея изображений */}
+                <div className='flex-1 lg:max-w-2xl'>
                     <ImageThumb images={selectedVariation?.images || []} />
                 </div>
 
-                <div className='flex flex-col'>
-                    <span className='text-3xl mb-2'>{name}</span>
-                    <span className='text-2xl mb-2'>{editPrice} ₽</span>
-
-                    <div className='flex items-center'>
-                        <Rate allowHalf value={averageRating} disabled />
-                        <span className='ml-2'>Отзывов | {reviews.length}</span>
+                {/* Информация о продукте */}
+                <div className='flex-1 lg:max-w-xl space-y-6'>
+                    {/* Заголовок и цена */}
+                    <div className='space-y-3'>
+                        <h1 className='text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight'>
+                            {name}
+                        </h1>
+                        <div className='text-2xl sm:text-3xl lg:text-4xl font-bold text-[#BAA898]'>
+                            {editPrice} ₽
+                        </div>
                     </div>
 
-                    <p className='mt-5 mb-5'>{discription}</p>
-
-                    <label className='text-gray-400 mb-2'>Размер</label>
-                    <div className="flex flex-wrap">
-                        {sizes.map((sizeOption, index) => (
-                            <button
-                                key={index}
-                                className={`border p-1 rounded-md mr-2 mb-2 ${selectedSize === sizeOption ? 'border-orange-400 border-[2.5px]' : 'border-gray-400'}`}
-                                onClick={() => setSelectedSize(sizeOption)}
-                            >
-                                {sizeOption}
-                            </button>
-                        ))}
+                    {/* Рейтинг и отзывы */}
+                    <div className='flex items-center gap-3 py-2'>
+                        <Rate allowHalf value={averageRating} disabled className='text-sm' />
+                        <span className='text-gray-600 text-sm sm:text-base'>
+                            Отзывов: {reviews.length}
+                        </span>
                     </div>
 
-                    <label className='text-gray-400 mb-2'>Цвет</label>
-                    <div className='flex flex-wrap'>
-                        {colors.map((code, index) => {
-                            const isAvailable = availableColors.includes(code);
-                            return (
-                                <button
-                                    key={index}
-                                    disabled={!isAvailable}
-                                    className={`border rounded-full w-[30px] h-[30px] mr-2 mb-2 ${selectedColor === code ? 'border-orange-400 border-[2.5px]' : 'border-gray-400'
-                                        } ${!isAvailable ? 'opacity-30 cursor-not-allowed' : ''}`}
-                                    style={{ backgroundColor: code }}
-                                    onClick={() => isAvailable && setSelectedColor(code)}
-                                />
-                            );
-                        })}
+                    {/* Описание */}
+                    <div className='bg-gray-50 rounded-xl p-4 sm:p-6'>
+                        <p className='text-gray-700 leading-relaxed text-sm sm:text-base'>
+                            {discription}
+                        </p>
                     </div>
 
-                    <div className='flex mt-5'>
+                    {/* Выбор размера */}
+                    <div className='space-y-3'>
+                        <label className='block text-gray-700 font-semibold text-sm sm:text-base'>
+                            Размер
+                        </label>
+                        <div className="flex flex-wrap gap-2">
+                            {sizes.map((sizeOption, index) => {
+                                const isSelected = selectedSize === sizeOption;
+                                return (
+                                    <button
+                                        key={index}
+                                        className={`
+                px-4 py-2 sm:px-5 sm:py-3 rounded-lg font-medium text-sm sm:text-base
+                transition-all duration-200 min-w-[50px]
+                ${isSelected
+                                                ? 'bg-[#BAA898] text-white shadow-lg'
+                                                : 'bg-white border-2 border-gray-200 text-gray-700 hover:border-[#BAA898] hover:bg-orange-50'
+                                            }
+            `}
+                                        onClick={() => setSelectedSize(sizeOption)}
+                                    >
+                                        {sizeOption}
+                                    </button>
+                                );
+                            })}
+
+
+                        </div>
+                    </div>
+
+                    {/* Выбор цвета */}
+                    <div className='space-y-3'>
+                        <label className='block text-gray-700 font-semibold text-sm sm:text-base'>
+                            Цвет
+                        </label>
+                        <div className='flex flex-wrap gap-3'>
+                            {colors.map((code, index) => {
+                                const isAvailable = availableColors.includes(code);
+                                const isSelected = selectedColor === code;
+                                return (
+                                    <button
+                                        key={index}
+                                        disabled={!isAvailable}
+                                        className={`
+                                            relative w-10 h-10 sm:w-12 sm:h-12 rounded-full
+                                            transition-all duration-200 hover:scale-110
+                                            ${isSelected
+                                                ? 'shadow-lg ring-2 ring-[#BAA898]'
+                                                : isAvailable
+                                                    ? 'ring-2 ring-gray-200 hover:ring-gray-300 shadow-md'
+                                                    : 'ring-2 ring-gray-200 opacity-30 cursor-not-allowed'
+                                            }
+                                        `}
+                                        style={{ backgroundColor: code }}
+                                        onClick={() => isAvailable && setSelectedColor(code)}
+                                    >
+                                        {isSelected && (
+                                            <div className='absolute inset-0 flex items-center justify-center'>
+                                                <div className='w-3 h-3 bg-white rounded-full shadow-sm'></div>
+                                            </div>
+                                        )}
+                                        {!isAvailable && (
+                                            <div className='absolute inset-0 flex items-center justify-center'>
+                                                <div className='w-8 h-0.5 bg-gray-400 rotate-45'></div>
+                                            </div>
+                                        )}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Кнопка добавления в корзину */}
+                    <div className='pt-6'>
                         <button
-                            className='px-5 py-3 text-[12px] border bg-white hover:bg-[#FFF3E3] border-black font-semibold rounded-lg transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300'
+                            className={`
+                                w-full sm:w-auto px-8 py-4 text-base sm:text-lg font-semibold
+                                bg-gradient-to-r from-[#BAA898] to-[#a1968c] text-white
+                                rounded-xl shadow-lg hover:shadow-xl
+                                transform transition-all duration-300
+                                hover:-translate-y-1 hover:scale-105
+                                active:scale-95 focus:outline-none focus:ring-4 focus:ring-orange-200
+                                disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none
+                            `}
                             onClick={handleAddToCart}
+                            disabled={!selectedSize || !selectedColor}
                         >
                             Добавить в корзину
                         </button>
@@ -154,20 +227,33 @@ export default function InnerFurnitureCard({ id, image, name, discription, price
                 </div>
             </div>
 
-            {/* Отзывы */}
-            <div className='container flex flex-col pt-10'>
-                <span className='text-3xl text-center mb-5'>Отзывы</span>
-                <div className='flex flex-wrap gap-10 justify-center'>
+            {/* Секция отзывов */}
+            <div className='space-y-8'>
+                <div className='text-center'>
+                    <h2 className='text-2xl sm:text-3xl font-bold text-gray-900'>Отзывы</h2>
+                    <div className='w-20 h-1 bg-[#BAA898] mx-auto mt-4 rounded-full'></div>
+                </div>
+
+                <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6'>
                     {reviews.length > 0 ? (
                         reviews.map((review) => (
-                            <div key={review.id} className="w-[250px] border rounded-lg p-5">
-                                <p className='text-right'>John Doe</p>
-                                <Rate allowHalf value={review.rating} disabled />
-                                <p className='mt-1'>{review.content}</p>
+                            <div key={review.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 p-6 border border-gray-100">
+                                <div className='flex items-center justify-between mb-3'>
+                                    <span className='font-semibold text-gray-800'>
+                                        {review.author || 'John Doe'}
+                                    </span>
+                                    <Rate allowHalf value={review.rating} disabled size="small" />
+                                </div>
+                                <p className='text-gray-600 leading-relaxed text-sm sm:text-base'>
+                                    {review.content}
+                                </p>
                             </div>
                         ))
                     ) : (
-                        <p>Нет отзывов</p>
+                        <div className='col-span-full text-center py-12'>
+                            <div className='text-gray-400 text-lg'>Пока нет отзывов</div>
+                            <p className='text-gray-500 mt-2'>Будьте первым, кто оставит отзыв!</p>
+                        </div>
                     )}
                 </div>
             </div>

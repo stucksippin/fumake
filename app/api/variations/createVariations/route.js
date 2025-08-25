@@ -1,10 +1,10 @@
-import { writeFile, mkdir } from 'fs/promises';
-import path from 'path';
+import { PutObjectCommand } from '@aws-sdk/client-s3';
+import s3Client from '@/libs/s3Client';
 import sharp from 'sharp';
 import { NextResponse } from 'next/server';
 import prisma from '@/libs/prisma';
 
-export const runtime = 'nodejs'; // обязательно
+export const runtime = 'nodejs';
 
 export async function POST(req) {
     try {
@@ -18,16 +18,12 @@ export async function POST(req) {
             return NextResponse.json({ success: false, error: 'Неверные данные' }, { status: 400 });
         }
 
-        // Найти или создать размер
         const sizeRecord = await prisma.sizes.upsert({
             where: { size: sizeValue },
             update: {},
             create: { size: sizeValue },
         });
 
-
-
-        // Создать вариацию
         const variation = await prisma.furnitureVariations.create({
             data: {
                 sizeId: sizeRecord.id,
@@ -35,10 +31,7 @@ export async function POST(req) {
                 furnitureId,
             }
         });
-
-        // Загрузка изображений
-        const uploadDir = path.join(process.cwd(), 'public', 'image', 'furniture', 'uploads');
-        await mkdir(uploadDir, { recursive: true });
+        const BUCKET_NAME = process.env.MINIO_BUCKET_NAME;
 
         const imageRecords = [];
 
@@ -48,14 +41,23 @@ export async function POST(req) {
 
             const basename = `${Date.now()}-${Math.round(Math.random() * 1e5)}`;
             const filename = `${basename}.webp`;
-            const fullPath = path.join(uploadDir, filename);
 
-            await sharp(buffer)
-                .webp({ quality: 80 })
-                .toFile(fullPath);
+            const webpBuffer = await sharp(buffer).webp({ quality: 80 }).toBuffer();
+
+            await s3Client.send(new PutObjectCommand({
+                Bucket: BUCKET_NAME,
+                Key: filename,
+                Body: webpBuffer,
+                ContentType: 'image/webp',
+            }));
+
+            const publicUrl = process.env.MINIO_PUBLIC_URL || `https://s3.event-hub.space/${bucketName}`;
+            const url = `${publicUrl}/${filename}`;
+
 
             imageRecords.push({
                 name: basename,
+                url,
                 furnitureVariationId: variation.id,
             });
         }
@@ -65,7 +67,6 @@ export async function POST(req) {
         return NextResponse.json({ success: true, variationId: variation.id });
     } catch (err) {
         console.error('Ошибка при создании вариации:', err);
-        return NextResponse.json({ success: false, error: 'Ошибка сервера' }, { status: 500 });
+        return NextResponse.json({ success: false, error: err.message || 'Ошибка сервера' }, { status: 500 });
     }
 }
-
