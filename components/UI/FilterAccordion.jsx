@@ -1,23 +1,44 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InputNumber, Select, Drawer } from "antd";
 import { useRouter } from "next/navigation";
-import { optionsCategory, optionsColor, optionsPrice } from '@/utils/constants';
+import { getCategoryOptions, getColorsOptions } from "@/libs/serverActions";
+import { optionsPrice } from "@/utils/constants"; // сортировка можно оставить захардкоженной
 
 export default function FilterAccordion() {
-    const [category, setCategory] = useState('all');
-    const [color, setColor] = useState('all');
-    const [priceSort, setPriceSort] = useState('all');
+    const [category, setCategory] = useState("Все");
+    const [color, setColor] = useState("Все");
+    const [priceSort, setPriceSort] = useState("all");
     const [priceMin, setPriceMin] = useState(1000);
     const [priceMax, setPriceMax] = useState(100000);
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
     const router = useRouter();
 
+    const [categoryOptions, setCategoryOptions] = useState([]);
+    const [colorOptions, setColorOptions] = useState([]);
+
+    useEffect(() => {
+        async function loadFilters() {
+            const categories = await getCategoryOptions();
+            setCategoryOptions([
+                { label: "Все", value: "Все" },
+                ...categories.map((c) => ({ label: c, value: c })),
+            ]);
+
+            const colors = await getColorsOptions();
+            setColorOptions([
+                { label: "Все", value: "Все" },
+                ...colors.map((c) => ({ label: c.name, value: c.name })),
+            ]);
+        }
+        loadFilters();
+    }, []);
+
     function applyFilters() {
         const params = new URLSearchParams();
-        category !== 'all' && params.set("category", category);
-        color !== 'all' && params.set("color", color);
-        priceSort !== 'all' && params.set("priceSort", priceSort);
+        category !== "Все" && params.set("category", category);
+        color !== "Все" && params.set("color", color);
+        priceSort !== "all" && params.set("priceSort", priceSort);
         if (priceMin) params.set("priceMin", String(priceMin));
         if (priceMax) params.set("priceMax", String(priceMax));
         router.push(`?${params.toString()}`, { scroll: false });
@@ -25,23 +46,26 @@ export default function FilterAccordion() {
     }
 
     function resetFilters() {
-        setCategory('all');
-        setColor('all');
+        setCategory("Все");
+        setColor("Все");
+        setPriceSort("all");
         setPriceMin(1000);
         setPriceMax(100000);
-        setPriceSort('all');
         router.push("/catalog");
         setMobileDrawerOpen(false);
     }
 
-    // Подсчет активных фильтров
+    // считаем сколько активных фильтров
     const activeFiltersCount = [
-        category !== 'all',
-        color !== 'all',
-        priceSort !== 'all',
+        category !== "Все",
+        color !== "Все",
+        priceSort !== "all",
         priceMin !== 1000,
-        priceMax !== 100000
+        priceMax !== 100000,
     ].filter(Boolean).length;
+
+    const filterOption = (input, option) =>
+        (option?.label ?? "").toLowerCase().includes(input.toLowerCase());
 
     const FilterContent = () => (
         <div className="space-y-6">
@@ -51,10 +75,12 @@ export default function FilterAccordion() {
                 <Select
                     className="w-full"
                     size="large"
-                    options={optionsCategory}
+                    showSearch
+                    filterOption={filterOption}
+                    options={categoryOptions}
                     value={category}
                     onChange={setCategory}
-                    style={{ borderRadius: '12px' }}
+                    style={{ borderRadius: "12px" }}
                 />
             </div>
 
@@ -64,14 +90,16 @@ export default function FilterAccordion() {
                 <Select
                     className="w-full"
                     size="large"
-                    options={optionsColor}
+                    showSearch
+                    filterOption={filterOption}
+                    options={colorOptions}
                     value={color}
                     onChange={setColor}
-                    style={{ borderRadius: '12px' }}
+                    style={{ borderRadius: "12px" }}
                 />
             </div>
 
-            {/* Сортировка по цене */}
+            {/* Сортировка */}
             <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-700">Сортировка</label>
                 <Select
@@ -80,7 +108,7 @@ export default function FilterAccordion() {
                     options={optionsPrice}
                     value={priceSort}
                     onChange={setPriceSort}
-                    style={{ borderRadius: '12px' }}
+                    style={{ borderRadius: "12px" }}
                 />
             </div>
 
@@ -98,9 +126,11 @@ export default function FilterAccordion() {
                             step={500}
                             className="w-full"
                             size="large"
-                            formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-                            parser={value => value.replace(/\./g, '')}
-                            style={{ borderRadius: '12px' }}
+                            formatter={(value) =>
+                                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                            }
+                            parser={(value) => value.replace(/\./g, "")}
+                            style={{ borderRadius: "12px" }}
                         />
                     </div>
                     <div className="space-y-2">
@@ -113,21 +143,23 @@ export default function FilterAccordion() {
                             step={500}
                             className="w-full"
                             size="large"
-                            formatter={value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-                            parser={value => value.replace(/\./g, '')}
-                            style={{ borderRadius: '12px' }}
+                            formatter={(value) =>
+                                `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                            }
+                            parser={(value) => value.replace(/\./g, "")}
+                            style={{ borderRadius: "12px" }}
                         />
                     </div>
                 </div>
             </div>
 
-            {/* Кнопки действий */}
+            {/* Кнопки */}
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                     onClick={applyFilters}
                     className="flex-1 bg-[#BAA898] text-white font-medium py-3 px-6 rounded-xl hover:bg-[#a89886] transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 active:scale-95"
                 >
-                    Применить фильтры
+                    Применить
                 </button>
                 <button
                     onClick={resetFilters}
@@ -146,10 +178,22 @@ export default function FilterAccordion() {
                 className="w-full bg-white border-2 border-gray-200 rounded-xl px-6 py-3 flex items-center justify-between gap-4 hover:border-[#BAA898] hover:bg-stone-50 transition-all duration-300 shadow-sm hover:shadow-md"
             >
                 <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+                    <svg
+                        className="w-5 h-5 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"
+                        />
                     </svg>
-                    <span className="font-medium text-gray-700 text-sm sm:text-base">Фильтры</span>
+                    <span className="font-medium text-gray-700 text-sm sm:text-base">
+                        Фильтры
+                    </span>
                 </div>
                 <div className="flex items-center gap-3">
                     {activeFiltersCount > 0 && (
@@ -157,8 +201,18 @@ export default function FilterAccordion() {
                             {activeFiltersCount}
                         </span>
                     )}
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    <svg
+                        className="w-5 h-5 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                        />
                     </svg>
                 </div>
             </button>
@@ -166,8 +220,18 @@ export default function FilterAccordion() {
             <Drawer
                 title={
                     <div className="flex items-center gap-3">
-                        <svg className="w-6 h-6 text-[#BAA898]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+                        <svg
+                            className="w-6 h-6 text-[#BAA898]"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"
+                            />
                         </svg>
                         <span className="font-semibold text-lg">Фильтры товаров</span>
                         {activeFiltersCount > 0 && (
@@ -178,12 +242,14 @@ export default function FilterAccordion() {
                     </div>
                 }
                 placement="right"
-                width={typeof window !== 'undefined' && window.innerWidth < 768 ? '90%' : 480}
+                width={
+                    typeof window !== "undefined" && window.innerWidth < 768 ? "90%" : 480
+                }
                 onClose={() => setMobileDrawerOpen(false)}
                 open={mobileDrawerOpen}
                 styles={{
-                    body: { padding: '24px' },
-                    header: { borderBottom: '1px solid #f0f0f0', paddingBottom: '16px' }
+                    body: { padding: "24px" },
+                    header: { borderBottom: "1px solid #f0f0f0", paddingBottom: "16px" },
                 }}
             >
                 <FilterContent />

@@ -241,8 +241,14 @@ export async function editVariation({
 
 
 export async function getColorsOptions() {
-    const tags = await prisma.colors.findMany()
-    return tags
+    const colors = await prisma.colors.findMany({
+        select: {
+            id: true,
+            name: true,  // Предполагаем, что есть поле name
+            code: true  // И поле value (или hex для цветов)
+        }
+    });
+    return colors;
 }
 export async function getSizesOptions() {
     const sizes = await prisma.sizes.findMany();
@@ -252,4 +258,18 @@ export async function getSizesOptions() {
 export async function getTagsOptions() {
     const tags = await prisma.tag.findMany()
     return tags
+}
+
+
+export async function getCategoryOptions() {
+    const category = await prisma.furniture.findMany({
+        select: {
+            category: true
+        },
+        distinct: ['category'],
+        orderBy: {
+            category: 'asc'
+        }
+    })
+    return category.map(item => item.category)
 }
