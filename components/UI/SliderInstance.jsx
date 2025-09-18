@@ -21,32 +21,32 @@ export default function SliderInstance() {
         {
             name: "Кухня",
             image: dinning,
-            link: 'http://localhost:3000/catalog?tags=Кухня'
+            link: 'https://fumake.vercel.app//catalog?tags=Кухня'
         },
         {
             name: "Гостиная",
             image: living,
-            link: 'http://localhost:3000/catalog?tags=Гостиная'
+            link: 'https://fumake.vercel.app//catalog?tags=Гостиная'
         },
         {
             name: "Спальня",
             image: bedroom,
-            link: 'http://localhost:3000/catalog?tags=Спальня'
+            link: 'https://fumake.vercel.app//catalog?tags=Спальня'
         },
         {
             name: "Ванна",
             image: bathroom,
-            link: 'http://localhost:3000/catalog?tags=Ванна'
+            link: 'https://fumake.vercel.app//catalog?tags=Ванна'
         },
         {
             name: "Детская",
             image: kidsroom,
-            link: 'http://localhost:3000/catalog?tags=Детская'
+            link: 'https://fumake.vercel.app/catalog?tags=Детская'
         },
         {
             name: "Холл",
             image: hall,
-            link: 'http://localhost:3000/catalog?tags=Холл'
+            link: 'https://fumake.vercel.app//catalog?tags=Холл'
         },
 
     ]
