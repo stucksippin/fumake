@@ -192,14 +192,7 @@ body {
     }
 
     /* welcome-block */
-    .welcome_block-text {
-        font-size: 16px;
-    }
 
-    .welcome_block-title {
-        font-size: 33px;
-        margin-bottom: 5px;
-    }
 
     /* cards */
     .furniture_card-image {
@@ -315,18 +308,7 @@ body {
     }
 
     /* welcome-block */
-    .welcome_block-text {
-        font-size: 14px;
-    }
 
-    .welcome_block-title {
-        font-size: 28px;
-        margin-bottom: 5px;
-    }
-
-    .welcome_block-button {
-        font-size: 10px;
-    }
 
     /* swiper */
     .swiper-title {
@@ -543,25 +525,7 @@ body {
     }
 
     /* welcome-block */
-    .welcome_block-text {
-        font-size: 10px;
-    }
 
-    .header_container-links {
-        font-size: 10px;
-        gap: 4px 0;
-
-    }
-
-    .welcome_block-title {
-        font-size: 18px;
-        margin-bottom: 5px;
-    }
-
-    .welcome_block-button {
-        font-size: 8px;
-        padding: 8px 30px;
-    }
 
     /* swiper */
     .swiper-title {
@@ -816,27 +780,7 @@ body {
         height: 14px;
     }
 
-    /* welcome-block */
-    .welcome_block-text {
-        font-size: 10px;
-        margin-bottom: 5px;
-    }
 
-    .welcome_block-title {
-        font-size: 14px;
-        margin-bottom: 3px;
-    }
-
-    .welcome_block-button {
-        font-size: 8px;
-        padding: 4px 20px;
-    }
-
-    .welcome_block-info {
-        height: 135px;
-        padding: 12px;
-        top: 6%;
-    }
 
     /* swiper */
     .swiper-title {
@@ -1127,26 +1071,6 @@ body {
     }
 
     /* welcome-block */
-    .welcome_block-text {
-        font-size: 9px;
-        margin-bottom: 5px;
-    }
-
-    .welcome_block-title {
-        font-size: 12px;
-        margin-bottom: 3px;
-    }
-
-    .welcome_block-button {
-        font-size: 8px;
-        padding: 4px 20px;
-    }
-
-    .welcome_block-info {
-        height: 125px;
-        padding: 10px;
-        top: 4%;
-    }
 
     /* swiper */
     .swiper-title {
@@ -1438,26 +1362,7 @@ body {
     }
 
     /* welcome-block */
-    .welcome_block-text {
-        font-size: 9px;
-        margin-bottom: 5px;
-    }
 
-    .welcome_block-title {
-        font-size: 12px;
-        margin-bottom: 3px;
-    }
-
-    .welcome_block-button {
-        font-size: 8px;
-        padding: 4px 20px;
-    }
-
-    .welcome_block-info {
-        height: 125px;
-        padding: 10px;
-        top: 4%;
-    }
 
     /* swiper */
     .swiper-title {

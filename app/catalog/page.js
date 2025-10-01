@@ -22,6 +22,8 @@ export default async function CatalogPage({ searchParams = {} }) {
 
     return (
         <div className="min-h-screen">
+
+
             <div className='relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] overflow-hidden'>
                 <Breadcrumb
                     className='absolute z-10 text-sm sm:text-base md:text-lg lg:text-xl top-[60%] sm:top-[65%] left-1/2 -translate-x-1/2 -translate-y-1/2'
@@ -39,6 +41,8 @@ export default async function CatalogPage({ searchParams = {} }) {
                     Каталог
                 </h1>
             </div>
+
+
             <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 md:py-10">
                 <Filter searchParams={searchParams} />
                 <MainCatalog furnitures={furnitures} />

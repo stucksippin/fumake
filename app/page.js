@@ -14,17 +14,30 @@ export default async function MainPage() {
     return (
         <div className="mainPage">
 
-            <div className="mainPage_welcome_block relative" >
 
-                <Image className="welcome_block-image mx-auto" src={welcome_pic} alt="welcome picture with furniture" />
-
-                <div className="welcome_block-info absolute left-[50%] bottom-[20%] flex flex-col bg-[#FFF3E3] p-8">
-                    <span className="welcome_block-title text-[45px] text-[#BAA898] font-semibold mb-5">Изучите Нашу <br /> Новую Коллекцию</span>
-                    <span className="welcome_block-text mb-5 text-[18px]">Magna ad nulla proident exercitation incididunt duis occaecat est cillum non eu amet sint. Duis officia </span>
-                    <button className="welcome_block-button w-fit py-3 px-8 text-[12px] bg-[#BAA898] text-white hover:bg-[#FFF3E3] hover:text-black hover:border border-black font-semibold  rounded-lg transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-100" type="text">ПОСМОТРЕТЬ</button>
+            <div className="mainPage_welcome_block relative">
+                <Image
+                    className="welcome_block-image w-full h-[350px] sm:h-[450px] md:h-[550px] lg:h-[650px] object-cover"
+                    src={welcome_pic}
+                    alt="welcome picture with furniture"
+                />
+                <div className="welcome_block-info absolute left-[55%] md:left-[60%] -translate-x-1/2 bottom-[10%] md:bottom-[20%] flex flex-col bg-[#FFF3E3] p-4 md:p-8 max-w-[90%] md:max-w-none rounded-md">
+                    <h1 className="welcome_block-title text-xl sm:text-2xl md:text-3xl lg:text-[45px] text-[#BAA898] font-semibold mb-3 md:mb-5" style={{ lineHeight: '1.2' }}>
+                        Изучите Нашу <br /> Новую Коллекцию
+                    </h1>
+                    <h2 className="welcome_block-text hidden md:block mb-5 text-base lg:text-[18px] text-gray-700">
+                        Стильные и функциональные решения для вашего дома. Качество, которое прослужит годами.
+                    </h2>
+                    <button
+                        className="welcome_block-button w-fit py-2 md:py-3 px-6 md:px-8 text-xs md:text-[12px] bg-[#BAA898] text-white hover:bg-[#FFF3E3] hover:text-black hover:border border-black font-semibold rounded-lg transition ease-in-out delay-100 hover:-translate-y-1 hover:scale-110 duration-100"
+                        type="button"
+                    >
+                        СМОТРЕТЬ КАТАЛОГ
+                    </button>
                 </div>
-
             </div>
+
+
 
             <div className="mainPage_range container mt-[100px]">
                 <div className="range_title text-center pt-[10%] pb-10">

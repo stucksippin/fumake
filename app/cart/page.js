@@ -19,16 +19,19 @@ export default function CartPage() {
         },
     ]
     return (
-        <div className='section_cart container'>
-            <div className='relative'>
-                <Breadcrumb className='breadcrumb mb-5 text-[18px] absolute top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2  z-10' items={breadcrumbItems} />
-                <Image className='opacity-50 mx-auto' width={1536} height={316} src={cart_image} alt='cart banner' />
-                <span className='breadcrumb_title breadcrumb_title_catalog absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 title'>Корзина</span>
+        <div>
+            <div className='relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] xl:h-[400px] overflow-hidden'>
+                <Breadcrumb className='absolute z-10 text-sm sm:text-base md:text-lg lg:text-xl top-[60%] sm:top-[65%] left-1/2 -translate-x-1/2 -translate-y-1/2' items={breadcrumbItems} />
+                <Image className='w-full h-full object-cover opacity-50' width={1536} height={316} src={cart_image} alt='cart banner' />
+                <h1 className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center'>Корзина</h1>
             </div>
-            <div className='cart_items flex justify-between mt-10'>
+            <div className='section_cart container'>
 
-                <CartTable />
-                <CartMenuPayment />
+                <div className='cart_items flex justify-between mt-10'>
+
+                    <CartTable />
+                    <CartMenuPayment />
+                </div>
             </div>
         </div>
     )
